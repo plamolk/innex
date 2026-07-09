@@ -56,6 +56,23 @@ async function loadTranslations(lang) {
                     "or": "Or sign in with email", "email": "Email", "emailPlaceholder": "name@company.com",
                     "password": "Password", "passwordPlaceholder": "••••••••", "forgot": "Forgot?", "submit": "Sign In",
                     "noAccount": "Don't have an account?", "signup": "Sign up"
+                },
+                "signup": {
+                    "title": "Create Account", "subtitle": "Join us today.", "google": "Sign up with Google",
+                    "or": "Or sign up with email", "firstName": "First Name", "firstNamePlaceholder": "John",
+                    "lastName": "Last Name", "lastNamePlaceholder": "Doe", "dob": "Date of Birth",
+                    "email": "Email Address", "emailPlaceholder": "name@company.com", "password": "Password",
+                    "passwordPlaceholder": "••••••••", "confirmPassword": "Confirm Password",
+                    "otp": "Enter the 6-digit code", "otpPlaceholder": "000000", "btnBack": "Back",
+                    "btnNext": "Next", "btnVerify": "Verify & Sign Up", "haveAccount": "Already have an account?",
+                    "signin": "Sign in",
+                    "steps": {
+                        "title0": "What's your name?", "subtitle0": "Please enter your real name.",
+                        "title1": "When were you born?", "subtitle1": "We need this to verify your age.",
+                        "title2": "What's your email?", "subtitle2": "You'll use this to log in.",
+                        "title3": "Create a password", "subtitle3": "Make sure it's secure and unique.",
+                        "title4": "Verify your email", "subtitle4": "We sent a 6-digit code to your email."
+                    }
                 }
             },
             'th': {
@@ -67,6 +84,23 @@ async function loadTranslations(lang) {
                     "or": "หรือ เข้าสู่ระบบด้วยอีเมล", "email": "อีเมล", "emailPlaceholder": "name@company.com",
                     "password": "รหัสผ่าน", "passwordPlaceholder": "••••••••", "forgot": "ลืมรหัสผ่าน?", "submit": "เข้าสู่ระบบ",
                     "noAccount": "ยังไม่มีบัญชีใช่หรือไม่?", "signup": "สมัครสมาชิก"
+                },
+                "signup": {
+                    "title": "สร้างบัญชีผู้ใช้", "subtitle": "เข้าร่วมกับเราวันนี้", "google": "สมัครสมาชิกด้วย Google",
+                    "or": "หรือ สมัครด้วยอีเมล", "firstName": "ชื่อ", "firstNamePlaceholder": "สมชาย",
+                    "lastName": "นามสกุล", "lastNamePlaceholder": "ใจดี", "dob": "วัน/เดือน/ปี เกิด",
+                    "email": "อีเมล", "emailPlaceholder": "name@company.com", "password": "รหัสผ่าน",
+                    "passwordPlaceholder": "••••••••", "confirmPassword": "ยืนยันรหัสผ่าน",
+                    "otp": "ยืนยันรหัส OTP 6 หลัก", "otpPlaceholder": "000000", "btnBack": "ย้อนกลับ",
+                    "btnNext": "ต่อไป", "btnVerify": "ยืนยันและสมัครสมาชิก", "haveAccount": "มีบัญชีอยู่แล้วใช่หรือไม่?",
+                    "signin": "เข้าสู่ระบบ",
+                    "steps": {
+                        "title0": "คุณชื่ออะไร?", "subtitle0": "โปรดระบุชื่อ-นามสกุลจริงของคุณ",
+                        "title1": "คุณเกิดวันที่เท่าไหร่?", "subtitle1": "เราจำเป็นต้องใช้ข้อมูลนี้เพื่อยืนยันอายุของคุณ",
+                        "title2": "อีเมลของคุณคืออะไร?", "subtitle2": "คุณจะใช้อีเมลนี้ในการเข้าสู่ระบบ",
+                        "title3": "สร้างรหัสผ่าน", "subtitle3": "โปรดตั้งรหัสผ่านที่ปลอดภัยและไม่ซ้ำใคร",
+                        "title4": "ยืนยันอีเมลของคุณ", "subtitle4": "เราได้ส่งรหัส 6 หลักไปยังอีเมลของคุณแล้ว"
+                    }
                 }
             }
         };
@@ -96,6 +130,9 @@ function updateDOM() {
     
     // Update the document language for accessibility/SEO
     document.documentElement.lang = currentLang;
+
+    // Dispatch custom event to notify other scripts that translation is updated
+    window.dispatchEvent(new Event('i18n-updated'));
 }
 
 /**
@@ -114,6 +151,7 @@ async function switchLanguage(newLang) {
 
 // Ensure it's globally available
 window.switchLanguage = switchLanguage;
+window.t = (key) => key.split('.').reduce((obj, k) => (obj || {})[k], translations) || key;
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', initI18n);

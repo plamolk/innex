@@ -23,5 +23,40 @@
     "submit": "Sign In",
     "noAccount": "Don't have an account?",
     "signup": "Sign up"
+  },
+  "signup": {
+    "title": "Create Account",
+    "subtitle": "Join us today.",
+    "google": "Sign up with Google",
+    "or": "Or sign up with email",
+    "firstName": "First Name",
+    "firstNamePlaceholder": "John",
+    "lastName": "Last Name",
+    "lastNamePlaceholder": "Doe",
+    "dob": "Date of Birth",
+    "email": "Email Address",
+    "emailPlaceholder": "name@company.com",
+    "password": "Password",
+    "passwordPlaceholder": "••••••••",
+    "confirmPassword": "Confirm Password",
+    "otp": "Enter the 6-digit code",
+    "otpPlaceholder": "000000",
+    "btnBack": "Back",
+    "btnNext": "Next",
+    "btnVerify": "Verify & Sign Up",
+    "haveAccount": "Already have an account?",
+    "signin": "Sign in",
+    "steps": {
+      "title0": "What's your name?",
+      "subtitle0": "Please enter your real name.",
+      "title1": "When were you born?",
+      "subtitle1": "We need this to verify your age.",
+      "title2": "What's your email?",
+      "subtitle2": "You'll use this to log in.",
+      "title3": "Create a password",
+      "subtitle3": "Make sure it's secure and unique.",
+      "title4": "Verify your email",
+      "subtitle4": "We sent a 6-digit code to your email."
+    }
   }
 }

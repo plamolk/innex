@@ -43,7 +43,7 @@
                         darkblue: '#293681',
                         royalblue: '#4274D9',
                         lightblue: '#95CCDD',
-                        accent: '#D07E66', /* Adjusted from D07E6 to a soft warm color to fit the palette */
+                        accent: '#D07E66',
                         bglight: '#f6f9fc'
                     },
                     fontFamily: {
@@ -72,7 +72,7 @@
         }
     </script>
 
-    <title>Login</title>
+    <title>Sign Up</title>
 
     <style>
         body {
@@ -224,10 +224,10 @@
 
     </header>
 
-    <!-- Main Login Content -->
+    <!-- Main Sign Up Content -->
     <main class="flex-grow flex items-center justify-center relative z-10 lg:px-4 px-8 py-8">
 
-        <!-- Login Card -->
+        <!-- Sign Up Card -->
         <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl p-8 md:p-12 rounded-[2.5rem] shadow-2xl shadow-darkblue/10 w-full max-w-[480px] border border-white dark:border-gray-700 relative overflow-hidden group transition-colors duration-300"
             data-aos="zoom-in-up" data-aos-duration="1200">
 
@@ -236,74 +236,121 @@
                 class="absolute top-0 right-0 w-40 h-40 bg-lightblue/10 rounded-bl-[4rem] -z-10 group-hover:scale-110 group-hover:bg-lightblue/20 transition-all duration-700">
             </div>
 
-            <div class="text-center mb-10 relative">
-                <h1 class="text-3xl md:text-[2.5rem] font-extrabold mb-4 text-darkblue dark:text-white tracking-tight"
-                    data-i18n="login.title">Sign In</h1>
-                <p class="text-gray-500 dark:text-gray-400 text-sm md:text-base font-medium" data-i18n="login.subtitle">
-                    Please sign in to continue to your account</p>
+            <div class="text-center mb-8 relative">
+                <h1 class="text-3xl md:text-[2.5rem] font-extrabold mb-3 text-darkblue dark:text-white tracking-tight" data-i18n="signup.title">Create Account</h1>
+                <p class="text-gray-500 dark:text-gray-400 text-sm md:text-base font-medium" data-i18n="signup.subtitle">Join us today.</p>
             </div>
 
-            <form>
-                <!-- Google Sign In Button -->
-                <button type="button"
-                    class="w-full bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 border-2 border-gray-100 dark:border-gray-600 py-3 md:py-3.5 rounded-2xl font-bold text-base transition-all duration-300 shadow-sm flex justify-center items-center gap-3 mb-6 hover:-translate-y-1">
-                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                            fill="#4285F4" />
-                        <path
-                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                            fill="#34A853" />
-                        <path
-                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                            fill="#FBBC05" />
-                        <path
-                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                            fill="#EA4335" />
-                    </svg>
-                    <span data-i18n="login.google">Sign in with Google</span>
-                </button>
+            <!-- Google Sign In Button (Step 1 only) -->
+            <button type="button" id="google-btn"
+                class="w-full bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 border-2 border-gray-100 dark:border-gray-600 py-3 md:py-3.5 rounded-2xl font-bold text-base transition-all duration-300 shadow-sm flex justify-center items-center gap-3 mb-6 hover:-translate-y-1">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                        fill="#4285F4" />
+                    <path
+                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                        fill="#34A853" />
+                    <path
+                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                        fill="#FBBC05" />
+                    <path
+                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                        fill="#EA4335" />
+                </svg>
+                <span data-i18n="signup.google">Sign up with Google</span>
+            </button>
 
-                <!-- Divider -->
-                <div class="flex items-center justify-center mb-6 space-x-4">
-                    <div class="flex-grow border-t-2 border-gray-100 dark:border-gray-600 transition-colors duration-300"></div>
-                    <div class="text-xs text-gray-400 font-bold uppercase tracking-wider" data-i18n="login.or">
-                        Or sign in with email
+            <!-- Divider -->
+            <div id="google-divider" class="flex items-center justify-center mb-6 space-x-4">
+                <div class="flex-grow border-t-2 border-gray-100 dark:border-gray-600 transition-colors duration-300"></div>
+                <div class="text-xs text-gray-400 font-bold uppercase tracking-wider" data-i18n="signup.or">Or sign up with email</div>
+                <div class="flex-grow border-t-2 border-gray-100 dark:border-gray-600 transition-colors duration-300"></div>
+            </div>
+
+            <form id="signup-form">
+                <!-- Progress Indicators -->
+                <div class="flex justify-center mb-8 space-x-2" id="progress-indicators">
+                    <div class="w-2.5 h-2.5 rounded-full bg-royalblue transition-all duration-300 indicator"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-gray-200 dark:bg-gray-600 transition-all duration-300 indicator"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-gray-200 dark:bg-gray-600 transition-all duration-300 indicator"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-gray-200 dark:bg-gray-600 transition-all duration-300 indicator"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-gray-200 dark:bg-gray-600 transition-all duration-300 indicator"></div>
+                </div>
+
+                <!-- Dynamic Step Header -->
+                <div class="text-center mb-6">
+                    <h2 id="step-title" class="text-xl md:text-2xl font-bold mb-2 text-darkblue dark:text-white"></h2>
+                    <p id="step-subtitle" class="text-gray-500 dark:text-gray-400 text-sm font-medium"></p>
+                </div>
+
+                <!-- Multi-step Container -->
+                <div class="overflow-hidden relative w-full">
+                    <div class="flex transition-transform duration-500 ease-in-out w-full" id="steps-wrapper">
+                        
+                        <!-- Step 1: Name -->
+                        <div class="w-full flex-shrink-0 px-1 step-content">
+                            <div class="mb-5">
+                                <label class="block text-sm font-bold mb-2 text-darkblue dark:text-white" data-i18n="signup.firstName">First Name</label>
+                                <input type="text" data-i18n="signup.firstNamePlaceholder" placeholder="John" class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-sm font-bold mb-2 text-darkblue dark:text-white" data-i18n="signup.lastName">Last Name</label>
+                                <input type="text" data-i18n="signup.lastNamePlaceholder" placeholder="Doe" class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Date of Birth -->
+                        <div class="w-full flex-shrink-0 px-1 step-content">
+                            <div class="mb-2">
+                                <label class="block text-sm font-bold mb-2 text-darkblue dark:text-white" data-i18n="signup.dob">Date of Birth</label>
+                                <input type="date" class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Email -->
+                        <div class="w-full flex-shrink-0 px-1 step-content">
+                            <div class="mb-2">
+                                <label class="block text-sm font-bold mb-2 text-darkblue dark:text-white" data-i18n="signup.email">Email Address</label>
+                                <input type="email" data-i18n="signup.emailPlaceholder" placeholder="name@company.com" class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Password -->
+                        <div class="w-full flex-shrink-0 px-1 step-content">
+                            <div class="mb-5">
+                                <label class="block text-sm font-bold mb-2 text-darkblue dark:text-white" data-i18n="signup.password">Password</label>
+                                <input type="password" data-i18n="signup.passwordPlaceholder" placeholder="••••••••" class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-sm font-bold mb-2 text-darkblue dark:text-white" data-i18n="signup.confirmPassword">Confirm Password</label>
+                                <input type="password" data-i18n="signup.passwordPlaceholder" placeholder="••••••••" class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
+                            </div>
+                        </div>
+
+                        <!-- Step 5: OTP -->
+                        <div class="w-full flex-shrink-0 px-1 step-content">
+                            <div class="mb-2 text-center">
+                                <label class="block text-sm font-bold mb-4 text-darkblue dark:text-white" data-i18n="signup.otp">Enter the 6-digit code</label>
+                                <input type="text" maxlength="6" data-i18n="signup.otpPlaceholder" placeholder="000000" class="w-full text-center tracking-[1em] text-2xl px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="flex-grow border-t-2 border-gray-100 dark:border-gray-600 transition-colors duration-300"></div>
                 </div>
 
-                <div class="mb-5 md:mb-6">
-                    <label class="block text-sm font-bold mb-2 text-darkblue dark:text-white" for="email"
-                        data-i18n="login.email">Email</label>
-                    <input type="email" id="email" data-i18n="login.emailPlaceholder" placeholder="name@company.com"
-                        class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
-                </div>
-
-                <div class="mb-6 md:mb-8">
-                    <div class="flex justify-between mb-2">
-                        <label class="block text-sm font-bold text-darkblue dark:text-white" for="password"
-                            data-i18n="login.password">Password</label>
-                        <a href="#"
-                            class="text-sm font-bold text-royalblue hover:text-darkblue dark:hover:text-lightblue transition-colors"
-                            data-i18n="login.forgot">Forgot?</a>
-                    </div>
-                    <input type="password" id="password" data-i18n="login.passwordPlaceholder" placeholder="••••••••"
-                        class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
-                </div>
-
-                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6">
-                    <button type="submit"
-                        class="w-full bg-royalblue hover:bg-darkblue text-white py-3.5 md:py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-xl shadow-royalblue/30 flex justify-center items-center hover:-translate-y-1"
-                        data-i18n="login.submit">
-                        Sign In
+                <!-- Controls -->
+                <div class="flex gap-3 sm:gap-4 mt-8">
+                    <button type="button" id="prev-btn" data-i18n="signup.btnBack" class="hidden justify-center items-center w-1/2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-darkblue dark:text-white py-3.5 md:py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-sm hover:-translate-y-1">
+                        Back
+                    </button>
+                    <button type="button" id="next-btn" class="flex justify-center items-center w-full bg-royalblue hover:bg-darkblue text-white py-3.5 md:py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-xl shadow-royalblue/30 hover:-translate-y-1">
+                        Next
                     </button>
                 </div>
-
-                <p class="text-[13px] text-gray-500 dark:text-gray-400 text-center font-medium">
-                    <span data-i18n="login.noAccount">Don't have an account?</span> <a href="regis.html"
-                        class="font-bold text-darkblue dark:text-white hover:text-royalblue hover:underline transition-colors"
-                        data-i18n="login.signup">Sign up</a>
+                
+                <p class="text-[13px] text-gray-500 dark:text-gray-400 text-center font-medium mt-6">
+                    <span data-i18n="signup.haveAccount">Already have an account?</span> <a href="login.html" class="font-bold text-darkblue dark:text-white hover:text-royalblue hover:underline transition-colors" data-i18n="signup.signin">Sign in</a>
                 </p>
             </form>
         </div>
@@ -325,6 +372,8 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <!-- UI Initialization -->
     <script src="src/js/ui.js"></script>
+    <!-- Signup Logic -->
+    <script src="src/js/signup.js"></script>
 </body>
 
 </html>
