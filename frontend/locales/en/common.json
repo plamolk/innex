@@ -1,0 +1,27 @@
+{
+  "header": {
+    "title": "Welcome to our Web App",
+    "subtitle": "A scalable boilerplate for your large-scale application"
+  },
+  "controls": {
+    "toggleTheme": "Toggle Theme",
+    "selectLanguage": "Select Language:"
+  },
+  "content": {
+    "description": "This setup features an optimized dark/light mode system and a robust internationalization strategy, completely written in Vanilla JS to serve as a strong foundation for your project."
+  },
+  "login": {
+    "title": "Sign In",
+    "subtitle": "Please sign in to continue to your account",
+    "google": "Sign in with Google",
+    "or": "Or sign in with email",
+    "email": "Email",
+    "emailPlaceholder": "name@company.com",
+    "password": "Password",
+    "passwordPlaceholder": "••••••••",
+    "forgot": "Forgot?",
+    "submit": "Sign In",
+    "noAccount": "Don't have an account?",
+    "signup": "Sign up"
+  }
+}

@@ -1,23 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Original CSS (kept for compatibility) -->
-    <link rel="stylesheet" href="style/output.css">
-    
-    <!-- Google Fonts: Outfit -->
+    <link rel="stylesheet" href="css/output.css">
+
+    <!-- Google Fonts: Outfit & Prompt -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- AOS CSS for Animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+
+    <!-- FOUC Prevention Script -->
+    <script>
+        (function () {
+            try {
+                const storedTheme = localStorage.getItem('theme');
+                if (storedTheme === 'dark' || (!storedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            } catch (e) {
+                console.error('Theme setting failed', e);
+            }
+        })();
+    </script>
+
     <!-- Tailwind CDN for the custom colors and animations to work immediately -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -52,15 +71,19 @@
             }
         }
     </script>
-    
+
     <title>Login</title>
-    
+
     <style>
         body {
             font-family: 'Outfit', sans-serif;
             background-color: #f6f9fc;
         }
-        
+
+        body:lang(th) {
+            font-family: 'Prompt', 'Outfit', sans-serif;
+        }
+
         /* Wavy pattern background */
         .wave-bg {
             position: fixed;
@@ -72,147 +95,231 @@
             opacity: 0.7;
             background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='wave' x='0' y='0' width='120' height='24' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 12 Q 30 24 60 12 T 120 12' fill='none' stroke='%2395CCDD' stroke-width='1.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='url(%23wave)'/%3E%3C/svg%3E");
         }
-        
+
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
+
         ::-webkit-scrollbar-track {
-            background: #f1f1f1; 
+            background: #f1f1f1;
         }
+
         ::-webkit-scrollbar-thumb {
-            background: #95CCDD; 
+            background: #95CCDD;
             border-radius: 4px;
         }
+
         ::-webkit-scrollbar-thumb:hover {
-            background: #4274D9; 
+            background: #4274D9;
         }
     </style>
 </head>
-<body class="relative min-h-screen flex flex-col text-darkblue overflow-x-hidden selection:bg-royalblue selection:text-white">
-    
+
+<body
+    class="relative min-h-screen flex flex-col text-darkblue dark:bg-gray-900 overflow-x-hidden selection:bg-royalblue selection:text-white transition-colors duration-300">
+
     <!-- Wavy Background Pattern -->
     <div class="wave-bg"></div>
 
     <!-- Animated Floating Background Elements -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        
+
         <!-- Top Left Shape -->
-        <div class="hidden sm:flex absolute top-16 left-8 md:top-32 md:left-24 animate-float" data-aos="fade-right" data-aos-delay="300" data-aos-duration="1500">
-            <div class="w-16 h-16 md:w-24 md:h-24 bg-darkblue rounded-[2rem] rotate-12 opacity-95 shadow-2xl flex items-center justify-center border-4 border-white">
+        <div class="hidden sm:flex absolute top-22 left-8 md:top-32 md:left-24 animate-float" data-aos="fade-right"
+            data-aos-delay="300" data-aos-duration="1500">
+            <div
+                class="w-16 h-16 md:w-24 md:h-24 bg-darkblue rounded-[2rem] rotate-12 opacity-95 shadow-2xl flex items-center justify-center border-4 border-white">
                 <div class="w-8 h-8 rounded-full border-4 border-white border-t-transparent"></div>
             </div>
         </div>
-        
+
         <!-- Top Right Shape (Paper Plane) -->
-        <div class="hidden sm:block absolute top-24 right-8 md:top-40 md:right-32 animate-float-delayed" data-aos="fade-left" data-aos-delay="500" data-aos-duration="1500">
-            <svg class="w-16 h-16 md:w-24 md:h-24 text-accent rotate-[-15deg] drop-shadow-2xl" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+        <div class="hidden sm:block absolute top-24 right-8 md:top-40 md:right-32 animate-float-delayed"
+            data-aos="fade-left" data-aos-delay="500" data-aos-duration="1500">
+            <svg class="w-16 h-16 md:w-24 md:h-24 text-accent rotate-[-15deg] drop-shadow-2xl" viewBox="0 0 24 24"
+                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
             </svg>
         </div>
-        
+
         <!-- Bottom Left Shape -->
-        <div class="absolute bottom-20 left-4 md:bottom-32 md:left-32 animate-float-delayed" data-aos="fade-up-right" data-aos-delay="700" data-aos-duration="1500">
-            <div class="w-20 h-20 md:w-32 md:h-32 bg-royalblue rounded-full opacity-95 shadow-2xl overflow-hidden relative border-4 border-white">
+        <div class="absolute bottom-20 left-4 md:bottom-32 md:left-32 animate-float-delayed" data-aos="fade-up-right"
+            data-aos-delay="700" data-aos-duration="1500">
+            <div
+                class="w-20 h-20 md:w-32 md:h-32 bg-royalblue rounded-full opacity-95 shadow-2xl overflow-hidden relative border-4 border-white">
                 <div class="absolute bottom-0 w-full h-1/2 bg-lightblue mix-blend-overlay"></div>
                 <div class="absolute top-4 left-4 w-4 h-4 bg-white rounded-full"></div>
             </div>
         </div>
-        
+
         <!-- Bottom Right Shape -->
-        <div class="hidden sm:flex absolute bottom-10 right-8 md:bottom-24 md:right-40 animate-float-fast" data-aos="fade-up-left" data-aos-delay="900" data-aos-duration="1500">
-            <div class="w-16 h-16 md:w-24 md:h-24 bg-lightblue border-4 border-white rounded-tl-full rounded-br-full rounded-tr-2xl rounded-bl-2xl shadow-xl flex items-center justify-center">
+        <div class="hidden sm:flex absolute bottom-10 right-8 md:bottom-24 md:right-40 animate-float-fast"
+            data-aos="fade-up-left" data-aos-delay="900" data-aos-duration="1500">
+            <div
+                class="w-16 h-16 md:w-24 md:h-24 bg-lightblue border-4 border-white rounded-tl-full rounded-br-full rounded-tr-2xl rounded-bl-2xl shadow-xl flex items-center justify-center">
                 <div class="w-6 h-6 bg-darkblue rounded-full"></div>
             </div>
         </div>
 
         <!-- Glowing Blobs -->
-        <div class="absolute top-0 -left-10 w-96 h-96 bg-lightblue rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-        <div class="absolute top-0 -right-10 w-96 h-96 bg-accent rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" style="animation-delay: 2s;"></div>
-        <div class="absolute -bottom-8 left-20 w-96 h-96 bg-royalblue rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" style="animation-delay: 4s;"></div>
+        <div
+            class="absolute top-0 -left-10 w-96 h-96 bg-lightblue rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob">
+        </div>
+        <div class="absolute top-0 -right-10 w-96 h-96 bg-accent rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"
+            style="animation-delay: 2s;"></div>
+        <div class="absolute -bottom-8 left-20 w-96 h-96 bg-royalblue rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"
+            style="animation-delay: 4s;"></div>
     </div>
 
     <!-- Header Section -->
-    <header class="w-full px-6 md:px-12 py-8 flex justify-between items-center z-10" data-aos="fade-down" data-aos-duration="1000">
+    <header class="w-full px-6 md:px-12 py-8 flex justify-between items-center z-50 relative" data-aos="fade-down"
+        data-aos-duration="1000">
         <!-- Logo -->
         <div class="flex items-center space-x-3 cursor-pointer group">
-            <div class="w-10 h-10 bg-darkblue rounded-tl-full rounded-bl-full rounded-tr-lg rounded-br-sm group-hover:bg-royalblue transition-colors duration-300 shadow-lg"></div>
-            <span class="font-bold text-lg tracking-wide group-hover:text-royalblue transition-colors duration-300">/ Sales@lancerjob.au</span>
-        </div>
-        
-        <!-- Desktop Nav -->
-        <div class="hidden md:flex items-center space-x-8">
-            <div class="flex items-center space-x-1 cursor-pointer hover:text-royalblue transition-colors bg-white/50 px-3 py-1.5 rounded-full backdrop-blur-sm border border-white">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
-                <span class="text-sm font-bold">En</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+            <div
+                class="w-10 h-10 bg-darkblue dark:bg-white rounded-tl-full rounded-bl-full rounded-tr-lg rounded-br-sm group-hover:bg-royalblue dark:group-hover:bg-lightblue transition-colors duration-300 shadow-lg">
             </div>
-            <a href="#" class="font-bold hover:text-royalblue transition-colors">Signup</a>
-            <button class="bg-darkblue text-white px-8 py-3 rounded-xl font-bold hover:bg-royalblue hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-darkblue/30">Request Demo</button>
+            <span
+                class="font-bold text-lg tracking-wide text-darkblue dark:text-white group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors duration-300">/
+                INNEX.COM</span>
         </div>
-        
-        <!-- Mobile Menu Icon -->
-        <button id="mobile-menu-btn" class="md:hidden text-darkblue cursor-pointer bg-white/80 hover:bg-white p-2 rounded-lg backdrop-blur-sm transition-colors border border-gray-100 shadow-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-        </button>
+
+        <!-- Nav Controls -->
+        <div class="flex items-center space-x-2 md:space-x-4">
+            <!-- Theme Toggle Button -->
+            <button id="theme-toggle"
+                class="p-2.5 rounded-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all text-darkblue dark:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            </button>
+
+            <!-- Custom Language Switcher -->
+            <div class="relative" id="language-switcher-container">
+                <button type="button" id="language-dropdown-btn"
+                    class="flex items-center space-x-1.5 cursor-pointer bg-white/90 dark:bg-gray-800/90 px-4 py-2 rounded-full backdrop-blur-md border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all text-darkblue dark:text-white font-bold">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                    </svg>
+                    <span class="text-sm tracking-wide" id="current-lang-display">EN</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <!-- Dropdown Menu -->
+                <div id="language-dropdown-menu"
+                    class="absolute right-0 mt-2 w-24 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden opacity-0 invisible scale-95 transition-all duration-200 transform origin-top-right z-50">
+                    <button type="button" onclick="setLang('en')" id="lang-btn-en"
+                        class="w-full text-left px-4 py-2.5 text-sm font-bold text-darkblue dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">EN</button>
+                    <button type="button" onclick="setLang('th')" id="lang-btn-th"
+                        class="w-full text-left px-4 py-2.5 text-sm font-bold text-darkblue dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700">TH</button>
+                </div>
+            </div>
+        </div>
+
     </header>
 
-    <!-- Mobile Dropdown Menu -->
-    <div id="mobile-menu" class="hidden md:hidden absolute top-24 left-4 right-4 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-100 z-50 p-6 flex-col space-y-4">
-        <a href="#" class="font-bold text-darkblue hover:text-royalblue transition-colors block text-lg">Signup</a>
-        <div class="flex items-center space-x-2 text-darkblue py-2 border-y border-gray-100">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
-            <span class="text-sm font-bold">Language: EN</span>
-        </div>
-        <button class="w-full bg-darkblue text-white px-8 py-3 rounded-xl font-bold hover:bg-royalblue transition-colors shadow-lg shadow-darkblue/20">Request Demo</button>
-    </div>
-
     <!-- Main Login Content -->
-    <main class="flex-grow flex items-center justify-center relative z-10 px-4 py-8">
-        
+    <main class="flex-grow flex items-center justify-center relative z-10 lg:px-4 px-8 py-8">
+
         <!-- Login Card -->
-        <div class="bg-white/90 backdrop-blur-xl p-8 md:p-12 rounded-[2.5rem] shadow-2xl shadow-darkblue/10 w-full max-w-[480px] border border-white relative overflow-hidden group" data-aos="zoom-in-up" data-aos-duration="1200">
-            
+        <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl p-8 md:p-12 rounded-[2.5rem] shadow-2xl shadow-darkblue/10 w-full max-w-[480px] border border-white dark:border-gray-700 relative overflow-hidden group transition-colors duration-300"
+            data-aos="zoom-in-up" data-aos-duration="1200">
+
             <!-- Subtle gradient inside card -->
-            <div class="absolute top-0 right-0 w-40 h-40 bg-lightblue/10 rounded-bl-[4rem] -z-10 group-hover:scale-110 group-hover:bg-lightblue/20 transition-all duration-700"></div>
+            <div
+                class="absolute top-0 right-0 w-40 h-40 bg-lightblue/10 rounded-bl-[4rem] -z-10 group-hover:scale-110 group-hover:bg-lightblue/20 transition-all duration-700">
+            </div>
 
             <div class="text-center mb-10 relative">
-                <h1 class="text-3xl md:text-[2.5rem] font-extrabold mb-4 text-darkblue tracking-tight">Login</h1>
-                <p class="text-gray-500 text-sm md:text-base font-medium">Enter your details to get sign in<br>to your account</p>
+                <h1 class="text-3xl md:text-[2.5rem] font-extrabold mb-4 text-darkblue dark:text-white tracking-tight"
+                    data-i18n="login.title">Sign In</h1>
+                <p class="text-gray-500 dark:text-gray-400 text-sm md:text-base font-medium" data-i18n="login.subtitle">
+                    Please sign in to continue to your account</p>
             </div>
 
             <form>
+                <!-- Google Sign In Button -->
+                <button type="button"
+                    class="w-full bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 border-2 border-gray-100 dark:border-gray-600 py-3 md:py-3.5 rounded-2xl font-bold text-base transition-all duration-300 shadow-sm flex justify-center items-center gap-3 mb-6 hover:-translate-y-1">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                            fill="#4285F4" />
+                        <path
+                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                            fill="#34A853" />
+                        <path
+                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                            fill="#FBBC05" />
+                        <path
+                            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                            fill="#EA4335" />
+                    </svg>
+                    <span data-i18n="login.google">Sign in with Google</span>
+                </button>
+
+                <!-- Divider -->
+                <div class="flex items-center justify-center mb-6 space-x-4">
+                    <div class="flex-grow border-t-2 border-gray-100 dark:border-gray-600 transition-colors duration-300"></div>
+                    <div class="text-xs text-gray-400 font-bold uppercase tracking-wider" data-i18n="login.or">
+                        Or sign in with email
+                    </div>
+                    <div class="flex-grow border-t-2 border-gray-100 dark:border-gray-600 transition-colors duration-300"></div>
+                </div>
+
                 <div class="mb-5 md:mb-6">
-                    <label class="block text-sm font-bold mb-2 text-darkblue" for="agency">Agency Name*</label>
-                    <input type="text" id="agency" placeholder="Dstudio Agency Pvt Ltd." class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue" />
+                    <label class="block text-sm font-bold mb-2 text-darkblue dark:text-white" for="email"
+                        data-i18n="login.email">Email</label>
+                    <input type="email" id="email" data-i18n="login.emailPlaceholder" placeholder="name@company.com"
+                        class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
                 </div>
-                
+
                 <div class="mb-6 md:mb-8">
-                    <label class="block text-sm font-bold mb-2 text-darkblue" for="email">Business Email*</label>
-                    <input type="email" id="email" placeholder="hello@dstudio.digital" class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue" />
+                    <div class="flex justify-between mb-2">
+                        <label class="block text-sm font-bold text-darkblue dark:text-white" for="password"
+                            data-i18n="login.password">Password</label>
+                        <a href="#"
+                            class="text-sm font-bold text-royalblue hover:text-darkblue dark:hover:text-lightblue transition-colors"
+                            data-i18n="login.forgot">Forgot?</a>
+                    </div>
+                    <input type="password" id="password" data-i18n="login.passwordPlaceholder" placeholder="••••••••"
+                        class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
                 </div>
 
-                <div class="mb-8">
-                    <p class="text-[13px] text-gray-500 leading-relaxed font-medium">
-                        This information will be securely saved as per the <a href="#" class="font-bold text-darkblue hover:text-royalblue hover:underline transition-colors">Terms of Service</a> & <a href="#" class="font-bold text-darkblue hover:text-royalblue hover:underline transition-colors">Privacy Policy</a>
-                    </p>
-                </div>
-
-                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                    <button type="button" class="w-full sm:w-1/3 px-4 md:px-8 py-3.5 md:py-4 border-2 border-gray-200 rounded-2xl font-bold text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-darkblue transition-all duration-300 text-center">Help?</button>
-                    <button type="submit" class="w-full sm:flex-grow bg-royalblue hover:bg-darkblue text-white py-3.5 md:py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-xl shadow-royalblue/30 flex justify-center items-center hover:-translate-y-1">
-                        Next Step
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6">
+                    <button type="submit"
+                        class="w-full bg-royalblue hover:bg-darkblue text-white py-3.5 md:py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-xl shadow-royalblue/30 flex justify-center items-center hover:-translate-y-1"
+                        data-i18n="login.submit">
+                        Sign In
                     </button>
                 </div>
+
+                <p class="text-[13px] text-gray-500 dark:text-gray-400 text-center font-medium">
+                    <span data-i18n="login.noAccount">Don't have an account?</span> <a href="#"
+                        class="font-bold text-darkblue dark:text-white hover:text-royalblue hover:underline transition-colors"
+                        data-i18n="login.signup">Sign up</a>
+                </p>
             </form>
         </div>
 
     </main>
 
     <!-- Footer -->
-    <footer class="w-full py-8 text-center text-sm font-semibold z-10 text-gray-500" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-        Copyright @lancerwork | <a href="#" class="hover:text-royalblue transition-colors">Privacy Policy</a>
+    <footer class="w-full py-8 text-center text-sm font-semibold z-10 text-darkblue/80 dark:text-white/80 "
+        data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+        Copyright @lancerwork | <a href="#"
+            class="font-bold hover:text-royalblue dark:hover:text-lightblue">Privacy Policy</a>
     </footer>
+
+    <!-- Application Logic Scripts -->
+    <script src="src/js/theme.js"></script>
+    <script src="src/js/i18n.js"></script>
 
     <!-- AOS JS Initialization -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -225,19 +332,86 @@
             easing: 'ease-out-cubic',
         });
 
-        // Mobile Menu Toggle Logic
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
+        // Custom Language Dropdown Logic
+        function setLang(lang) {
+            try {
+                // Update display text
+                const display = document.getElementById('current-lang-display');
+                if (display) display.innerText = lang.toUpperCase();
 
-        mobileMenuBtn.addEventListener('click', () => {
-            if (mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.remove('hidden');
-                mobileMenu.classList.add('flex');
-            } else {
-                mobileMenu.classList.add('hidden');
-                mobileMenu.classList.remove('flex');
+                // Reset styles
+                const enBtn = document.getElementById('lang-btn-en');
+                const thBtn = document.getElementById('lang-btn-th');
+
+                if (enBtn && thBtn) {
+                    enBtn.className = "w-full text-left px-4 py-2.5 text-sm font-bold text-darkblue dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors";
+                    thBtn.className = "w-full text-left px-4 py-2.5 text-sm font-bold text-darkblue dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700";
+                }
+
+                // Set active styles
+                const activeBtn = document.getElementById('lang-btn-' + lang);
+                if (activeBtn) {
+                    activeBtn.classList.remove('text-darkblue', 'dark:text-white', 'hover:bg-gray-50', 'dark:hover:bg-gray-700');
+                    activeBtn.classList.add('bg-royalblue', 'text-white', 'hover:bg-darkblue');
+                }
+
+                // Trigger actual language switch
+                if (typeof window.switchLanguage === 'function') {
+                    window.switchLanguage(lang);
+                } else if (typeof switchLanguage === 'function') {
+                    switchLanguage(lang);
+                } else {
+                    console.error("switchLanguage function not found");
+                }
+            } catch (e) {
+                console.error("Error setting language: ", e);
+            } finally {
+                // Close dropdown after selection
+                closeLangDropdown();
             }
+        }
+
+        // Dropdown toggle logic
+        const langBtn = document.getElementById('language-dropdown-btn');
+        const langMenu = document.getElementById('language-dropdown-menu');
+
+        function toggleLangDropdown(e) {
+            if (langMenu.classList.contains('opacity-0')) {
+                // Open
+                langMenu.classList.remove('opacity-0', 'invisible', 'scale-95');
+                langMenu.classList.add('opacity-100', 'visible', 'scale-100');
+            } else {
+                closeLangDropdown();
+            }
+            e.stopPropagation();
+        }
+
+        function closeLangDropdown() {
+            if (langMenu) {
+                langMenu.classList.add('opacity-0', 'invisible', 'scale-95');
+                langMenu.classList.remove('opacity-100', 'visible', 'scale-100');
+            }
+        }
+
+        if (langBtn) {
+            langBtn.addEventListener('click', toggleLangDropdown);
+        }
+
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+            if (langMenu && !langMenu.classList.contains('opacity-0') && !langMenu.contains(e.target) && !langBtn.contains(e.target)) {
+                closeLangDropdown();
+            }
+        })
+
+        // Initialize active state on load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => { // slight delay to let i18n logic pick up first
+                const lang = localStorage.getItem('language') || 'en';
+                setLang(lang);
+            }, 50);
         });
     </script>
 </body>
+
 </html>
