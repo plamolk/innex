@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/output.css">
+
+    <!-- Google Fonts: Outfit & Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- AOS CSS for Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- FOUC Prevention Script -->
+    <script>
+        (function () {
+            try {
+                const storedTheme = localStorage.getItem('theme');
+                if (storedTheme === 'dark' || (!storedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            } catch (e) {
+                console.error('Theme setting failed', e);
+            }
+        })();
+    </script>
+
+    <!-- Tailwind CDN for the custom colors and animations to work immediately -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkblue: '#293681',
+                        royalblue: '#4274D9',
+                        lightblue: '#95CCDD',
+                        accent: '#D07E66',
+                        bglight: '#f6f9fc'
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'float-fast': 'float 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <title>Sign Up</title>
+
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f6f9fc;
+        }
+
+        body:lang(th) {
+            font-family: 'Prompt', 'Outfit', sans-serif;
+        }
+
+        /* Wavy pattern background */
+        .wave-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            opacity: 0.7;
+            background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='wave' x='0' y='0' width='120' height='24' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 12 Q 30 24 60 12 T 120 12' fill='none' stroke='%2395CCDD' stroke-width='1.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='url(%23wave)'/%3E%3C/svg%3E");
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #95CCDD;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4274D9;
+        }
+    </style>
+</head>
+
+<body
+    class="relative min-h-screen flex flex-col text-darkblue dark:bg-gray-900 overflow-x-hidden selection:bg-royalblue selection:text-white transition-colors duration-300">
+
+    <!-- Wavy Background Pattern -->
+    <div class="wave-bg"></div>
+
+    <!-- Animated Floating Background Elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+
+        <!-- Top Left Shape -->
+        <div class="hidden sm:flex absolute top-22 left-8 md:top-32 md:left-24 animate-float" data-aos="fade-right"
+            data-aos-delay="300" data-aos-duration="1500">
+            <div
+                class="w-16 h-16 md:w-24 md:h-24 bg-darkblue rounded-[2rem] rotate-12 opacity-95 shadow-2xl flex items-center justify-center border-4 border-white">
+                <div class="w-8 h-8 rounded-full border-4 border-white border-t-transparent"></div>
+            </div>
+        </div>
+
+        <!-- Top Right Shape (Paper Plane) -->
+        <div class="hidden sm:block absolute top-24 right-8 md:top-40 md:right-32 animate-float-delayed"
+            data-aos="fade-left" data-aos-delay="500" data-aos-duration="1500">
+            <svg class="w-16 h-16 md:w-24 md:h-24 text-accent rotate-[-15deg] drop-shadow-2xl" viewBox="0 0 24 24"
+                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+            </svg>
+        </div>
+
+        <!-- Bottom Left Shape -->
+        <div class="absolute bottom-20 left-4 md:bottom-32 md:left-32 animate-float-delayed" data-aos="fade-up-right"
+            data-aos-delay="700" data-aos-duration="1500">
+            <div
+                class="w-20 h-20 md:w-32 md:h-32 bg-royalblue rounded-full opacity-95 shadow-2xl overflow-hidden relative border-4 border-white">
+                <div class="absolute bottom-0 w-full h-1/2 bg-lightblue mix-blend-overlay"></div>
+                <div class="absolute top-4 left-4 w-4 h-4 bg-white rounded-full"></div>
+            </div>
+        </div>
+
+        <!-- Bottom Right Shape -->
+        <div class="hidden sm:flex absolute bottom-10 right-8 md:bottom-24 md:right-40 animate-float-fast"
+            data-aos="fade-up-left" data-aos-delay="900" data-aos-duration="1500">
+            <div
+                class="w-16 h-16 md:w-24 md:h-24 bg-lightblue border-4 border-white rounded-tl-full rounded-br-full rounded-tr-2xl rounded-bl-2xl shadow-xl flex items-center justify-center">
+                <div class="w-6 h-6 bg-darkblue rounded-full"></div>
+            </div>
+        </div>
+
+        <!-- Glowing Blobs -->
+        <div
+            class="absolute top-0 -left-10 w-96 h-96 bg-lightblue rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob">
+        </div>
+        <div class="absolute top-0 -right-10 w-96 h-96 bg-accent rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"
+            style="animation-delay: 2s;"></div>
+        <div class="absolute -bottom-8 left-20 w-96 h-96 bg-royalblue rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"
+            style="animation-delay: 4s;"></div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="w-full px-6 md:px-12 py-8 flex justify-between items-center z-50 relative" data-aos="fade-down"
+        data-aos-duration="1000">
+        <!-- Logo -->
+        <div class="flex items-center space-x-3 cursor-pointer group">
+            <div
+                class="w-10 h-10 bg-darkblue dark:bg-white rounded-tl-full rounded-bl-full rounded-tr-lg rounded-br-sm group-hover:bg-royalblue dark:group-hover:bg-lightblue transition-colors duration-300 shadow-lg">
+            </div>
+            <a href="index.html"><span
+                    class="font-bold text-lg tracking-wide text-darkblue dark:text-white group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors duration-300">/
+                    INNEX.COM</span></a>
+        </div>
+
+        <!-- Nav Controls -->
+        <div class="flex items-center space-x-2 md:space-x-4">
+            <!-- Theme Toggle Button -->
+            <button id="theme-toggle"
+                class="p-2.5 rounded-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all text-darkblue dark:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            </button>
+
+            <!-- Custom Language Switcher -->
+            <div class="relative" id="language-switcher-container">
+                <button type="button" id="language-dropdown-btn"
+                    class="flex items-center space-x-1.5 cursor-pointer bg-white/90 dark:bg-gray-800/90 px-4 py-2 rounded-full backdrop-blur-md border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all text-darkblue dark:text-white font-bold">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                    </svg>
+                    <span class="text-sm tracking-wide" id="current-lang-display">EN</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <!-- Dropdown Menu -->
+                <div id="language-dropdown-menu"
+                    class="absolute right-0 mt-2 w-24 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden opacity-0 invisible scale-95 transition-all duration-200 transform origin-top-right z-50">
+                    <button type="button" onclick="setLang('en')" id="lang-btn-en"
+                        class="w-full text-left px-4 py-2.5 text-sm font-bold text-darkblue dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">EN</button>
+                    <button type="button" onclick="setLang('th')" id="lang-btn-th"
+                        class="w-full text-left px-4 py-2.5 text-sm font-bold text-darkblue dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700">TH</button>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+    <!-- Main Sign Up Content -->
+    <main class="flex-grow flex items-center justify-center relative z-10 lg:px-4 px-8 py-8">
+
+        <!-- Sign Up Card -->
+        <div class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl p-8 md:p-12 rounded-[2.5rem] shadow-2xl shadow-darkblue/10 w-full max-w-[480px] border border-white dark:border-gray-700 relative overflow-hidden group transition-colors duration-300"
+            data-aos="zoom-in-up" data-aos-duration="1200">
+
+            <!-- Subtle gradient inside card -->
+            <div
+                class="absolute top-0 right-0 w-40 h-40 bg-lightblue/10 rounded-bl-[4rem] -z-10 group-hover:scale-110 group-hover:bg-lightblue/20 transition-all duration-700">
+            </div>
+
+            <div class="text-center mb-8 relative">
+                <h1 class="text-3xl md:text-[2.5rem] font-extrabold mb-3 text-darkblue dark:text-white tracking-tight" data-i18n="signup.title">Sign UP</h1>
+                <p class="text-gray-500 dark:text-gray-400 text-sm md:text-base font-medium" data-i18n="signup.subtitle">Join us today.</p>
+            </div>
+
+            <!-- Google Sign In Button (Step 1 only) -->
+            <button type="button" id="google-btn"
+                class="w-full bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 border-2 border-gray-100 dark:border-gray-600 py-3 md:py-3.5 rounded-2xl font-bold text-base transition-all duration-300 shadow-sm flex justify-center items-center gap-3 mb-6 hover:-translate-y-1">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                        fill="#4285F4" />
+                    <path
+                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                        fill="#34A853" />
+                    <path
+                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                        fill="#FBBC05" />
+                    <path
+                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                        fill="#EA4335" />
+                </svg>
+                <span data-i18n="signup.google">Sign up with Google</span>
+            </button>
+
+            <!-- Divider -->
+            <div id="google-divider" class="flex items-center justify-center mb-6 space-x-4">
+                <div class="flex-grow border-t-2 border-gray-100 dark:border-gray-600 transition-colors duration-300"></div>
+                <div class="text-xs text-gray-400 font-bold uppercase tracking-wider" data-i18n="signup.or">Or sign up with email</div>
+                <div class="flex-grow border-t-2 border-gray-100 dark:border-gray-600 transition-colors duration-300"></div>
+            </div>
+
+            <form id="signup-form">
+                <!-- Progress Indicators -->
+                <div class="flex justify-center mb-8 space-x-2" id="progress-indicators">
+                    <div class="w-2.5 h-2.5 rounded-full bg-royalblue transition-all duration-300 indicator"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-gray-200 dark:bg-gray-600 transition-all duration-300 indicator"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-gray-200 dark:bg-gray-600 transition-all duration-300 indicator"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-gray-200 dark:bg-gray-600 transition-all duration-300 indicator"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-gray-200 dark:bg-gray-600 transition-all duration-300 indicator"></div>
+                </div>
+
+                <!-- Dynamic Step Header -->
+                <div class="text-center mb-6">
+                    <h2 id="step-title" class="text-xl md:text-2xl font-bold mb-2 text-darkblue dark:text-white"></h2>
+                    <p id="step-subtitle" class="text-gray-500 dark:text-gray-400 text-sm font-medium"></p>
+                </div>
+
+                <!-- Multi-step Container -->
+                <div class="overflow-hidden relative w-full">
+                    <div class="flex transition-transform duration-500 ease-in-out w-full" id="steps-wrapper">
+                        
+                        <!-- Step 1: Name -->
+                        <div class="w-full flex-shrink-0 px-1 step-content">
+                            <div class="mb-5">
+                                <label class="block text-sm font-bold mb-2 text-darkblue dark:text-white" data-i18n="signup.firstName">First Name</label>
+                                <input type="text" data-i18n="signup.firstNamePlaceholder" placeholder="John" class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-sm font-bold mb-2 text-darkblue dark:text-white" data-i18n="signup.lastName">Last Name</label>
+                                <input type="text" data-i18n="signup.lastNamePlaceholder" placeholder="Doe" class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Date of Birth -->
+                        <div class="w-full flex-shrink-0 px-1 step-content">
+                            <div class="mb-2">
+                                <label class="block text-sm font-bold mb-2 text-darkblue dark:text-white" data-i18n="signup.dob">Date of Birth</label>
+                                <input type="date" class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Email -->
+                        <div class="w-full flex-shrink-0 px-1 step-content">
+                            <div class="mb-2">
+                                <label class="block text-sm font-bold mb-2 text-darkblue dark:text-white" data-i18n="signup.email">Email Address</label>
+                                <input type="email" data-i18n="signup.emailPlaceholder" placeholder="name@company.com" class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Password -->
+                        <div class="w-full flex-shrink-0 px-1 step-content">
+                            <div class="mb-5">
+                                <label class="block text-sm font-bold mb-2 text-darkblue dark:text-white" data-i18n="signup.password">Password</label>
+                                <input type="password" data-i18n="signup.passwordPlaceholder" placeholder="••••••••" class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
+                            </div>
+                            <div class="mb-2">
+                                <label class="block text-sm font-bold mb-2 text-darkblue dark:text-white" data-i18n="signup.confirmPassword">Confirm Password</label>
+                                <input type="password" data-i18n="signup.passwordPlaceholder" placeholder="••••••••" class="w-full px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
+                            </div>
+                        </div>
+
+                        <!-- Step 5: OTP -->
+                        <div class="w-full flex-shrink-0 px-1 step-content">
+                            <div class="mb-2 text-center">
+                                <label class="block text-sm font-bold mb-4 text-darkblue dark:text-white" data-i18n="signup.otp">Enter the 6-digit code</label>
+                                <input type="text" maxlength="6" data-i18n="signup.otpPlaceholder" placeholder="000000" class="w-full text-center tracking-[1em] text-2xl px-5 py-3.5 md:py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-600 bg-gray-50/50 dark:bg-gray-700/50 focus:bg-white dark:focus:bg-gray-800 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 font-medium text-darkblue dark:text-white" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="flex gap-3 sm:gap-4 mt-8">
+                    <button type="button" id="prev-btn" data-i18n="signup.btnBack" class="hidden justify-center items-center w-1/2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-darkblue dark:text-white py-3.5 md:py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-sm hover:-translate-y-1">
+                        Back
+                    </button>
+                    <button type="button" id="next-btn" class="flex justify-center items-center w-full bg-royalblue hover:bg-darkblue text-white py-3.5 md:py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow-xl shadow-royalblue/30 hover:-translate-y-1">
+                        Next
+                    </button>
+                </div>
+                
+                <p class="text-[13px] text-gray-500 dark:text-gray-400 text-center font-medium mt-6">
+                    <span data-i18n="signup.haveAccount">Already have an account?</span> <a href="login.html" class="font-bold text-darkblue dark:text-white hover:text-royalblue hover:underline transition-colors" data-i18n="signup.signin">Sign in</a>
+                </p>
+            </form>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full py-8 text-center text-sm font-semibold z-10 text-darkblue/80 dark:text-white/60 "
+        data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+        Copyright @lancerwork | <a href="#"
+            class="font-bold hover:text-royalblue dark:hover:text-lightblue">Privacy Policy</a>
+    </footer>
+
+    <!-- Application Logic Scripts -->
+    <script src="src/js/theme.js"></script>
+    <script src="src/js/i18n.js"></script>
+
+    <!-- AOS JS Initialization -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- UI Initialization -->
+    <script src="src/js/ui.js"></script>
+    <!-- Signup Logic -->
+    <script src="src/js/signup.js"></script>
+</body>
+
+</html>

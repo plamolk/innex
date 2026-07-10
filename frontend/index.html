@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="INNEX Opportunity Hub — Discover hackathons, ideathons, startup pitches, bootcamps, and tech events for students and youth.">
+
+    <!-- Google Fonts: Outfit & Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- AOS CSS for Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- FOUC Prevention Script -->
+    <script>
+        (function () {
+            try {
+                const storedTheme = localStorage.getItem('theme');
+                if (storedTheme === 'dark' || (!storedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            } catch (e) {
+                console.error('Theme setting failed', e);
+            }
+        })();
+    </script>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkblue: '#293681',
+                        royalblue: '#4274D9',
+                        lightblue: '#95CCDD',
+                        accent: '#D07E66',
+                        bglight: '#f6f9fc',
+                        bgteal: '#D0E7E6',
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'float-fast': 'float 4s ease-in-out infinite',
+                        'pulse-soft': 'pulse-soft 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'pulse-soft': {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.6' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <title>Opportunity Hub — INNEX</title>
+
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f6f9fc;
+        }
+
+        body:lang(th) {
+            font-family: 'Prompt', 'Outfit', sans-serif;
+        }
+
+        /* ============================
+           Wavy Pattern Background
+        ============================ */
+        .wave-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            opacity: 0.5;
+            background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='wave' x='0' y='0' width='120' height='24' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 12 Q 30 24 60 12 T 120 12' fill='none' stroke='%2395CCDD' stroke-width='1.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='url(%23wave)'/%3E%3C/svg%3E");
+        }
+
+        .dark .wave-bg {
+            opacity: 0.15;
+        }
+
+        /* ============================
+           Custom Scrollbar
+        ============================ */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .dark ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #95CCDD;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4274D9;
+        }
+
+        /* ============================
+           Sidebar Filter Styling
+        ============================ */
+        .filter-radio:checked+.filter-label,
+        .filter-check:checked+.filter-label {
+            color: #4274D9;
+            font-weight: 700;
+        }
+
+        .filter-radio:checked+.filter-label .filter-dot {
+            background-color: #4274D9;
+            border-color: #4274D9;
+            box-shadow: 0 0 0 3px rgba(66, 116, 217, 0.2);
+        }
+
+        .filter-check:checked+.filter-label .filter-box {
+            background-color: #4274D9;
+            border-color: #4274D9;
+        }
+
+        .filter-check:checked+.filter-label .filter-box svg {
+            display: block;
+        }
+
+        /* ============================
+           Status Badge Pulse
+        ============================ */
+        .badge-open {
+            animation: pulse-soft 2s ease-in-out infinite;
+        }
+
+        /* ============================
+           Sidebar Scrollbar
+        ============================ */
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background: #95CCDD;
+            border-radius: 2px;
+        }
+
+        /* ============================
+           Mobile Menu Transitions
+        ============================ */
+        .mobile-menu-overlay {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .mobile-sidebar {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+
+<body
+    class="relative min-h-screen flex flex-col text-darkblue dark:bg-gray-900 dark:text-gray-100 overflow-x-hidden selection:bg-royalblue selection:text-white transition-colors duration-300">
+
+    <!-- ============================
+         Wavy Background Pattern
+    ============================ -->
+    <div class="wave-bg"></div>
+
+    <!-- ============================
+         Animated Floating Background
+    ============================ -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <!-- Top-left geometric eye shape -->
+        <div class="hidden lg:flex absolute top-32 left-8 animate-float opacity-40">
+            <div class="w-20 h-20 bg-darkblue dark:bg-royalblue rounded-[2rem] rotate-12 shadow-2xl flex items-center justify-center border-4 border-white/30">
+                <div class="w-8 h-8 rounded-full border-4 border-white/50 border-t-transparent"></div>
+            </div>
+        </div>
+        <!-- Bottom-right capsule shape -->
+        <div class="hidden lg:flex absolute bottom-24 right-16 animate-float-delayed opacity-30">
+            <div class="w-24 h-12 bg-lightblue border-4 border-white/30 rounded-full shadow-xl"></div>
+        </div>
+        <!-- Small circles scattered -->
+        <div class="hidden md:block absolute top-1/4 right-1/3 animate-float-fast opacity-20">
+            <div class="w-8 h-8 bg-accent rounded-full"></div>
+        </div>
+        <div class="hidden md:block absolute bottom-1/3 left-1/4 animate-float opacity-20">
+            <div class="w-6 h-6 bg-royalblue rounded-full"></div>
+        </div>
+        <!-- Glowing Blobs -->
+        <div class="absolute top-0 -left-10 w-96 h-96 bg-lightblue rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-20 animate-blob"></div>
+        <div class="absolute top-1/2 -right-10 w-96 h-96 bg-accent rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-15 animate-blob" style="animation-delay: 2s;"></div>
+        <div class="absolute -bottom-8 left-1/3 w-96 h-96 bg-royalblue rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-15 animate-blob" style="animation-delay: 4s;"></div>
+    </div>
+
+    <!-- ============================
+         HEADER / NAVBAR
+    ============================ -->
+    <header class="w-full px-4 sm:px-6 lg:px-10 py-4 flex justify-between items-center z-50 relative bg-white/70 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0"
+        data-aos="fade-down" data-aos-duration="800">
+
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center space-x-3 cursor-pointer group">
+            <div class="w-10 h-10 bg-darkblue dark:bg-white rounded-tl-full rounded-bl-full rounded-tr-lg rounded-br-sm group-hover:bg-royalblue dark:group-hover:bg-lightblue transition-colors duration-300 shadow-lg"></div>
+            <span class="font-bold text-lg tracking-wide text-darkblue dark:text-white group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors duration-300">/
+                INNEX.COM</span>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-6 text-sm font-semibold">
+            <a href="index.html" class="text-royalblue dark:text-lightblue border-b-2 border-royalblue dark:border-lightblue pb-0.5 transition-colors" data-i18n="hub.navOpportunities">Opportunities</a>
+            <a href="#" class="text-gray-500 dark:text-gray-400 hover:text-royalblue dark:hover:text-lightblue transition-colors" data-i18n="hub.navTeams">Find Teams</a>
+            <a href="#" class="text-gray-500 dark:text-gray-400 hover:text-royalblue dark:hover:text-lightblue transition-colors" data-i18n="hub.navCommunity">Community</a>
+        </nav>
+
+        <!-- Right Controls -->
+        <div class="flex items-center space-x-2 md:space-x-3">
+            <!-- Theme Toggle Button -->
+            <button id="theme-toggle" aria-label="Toggle dark mode"
+                class="p-2.5 rounded-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all text-darkblue dark:text-white">
+                <!-- Moon icon (shown in light mode) -->
+                <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <!-- Sun icon (shown in dark mode) -->
+                <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+            </button>
+
+            <!-- Language Switcher -->
+            <div class="relative" id="language-switcher-container">
+                <button type="button" id="language-dropdown-btn"
+                    class="flex items-center space-x-1.5 cursor-pointer bg-white/90 dark:bg-gray-800/90 px-3.5 py-2 rounded-full backdrop-blur-md border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all text-darkblue dark:text-white font-bold">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                    </svg>
+                    <span class="text-sm tracking-wide" id="current-lang-display">EN</span>
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <!-- Dropdown Menu -->
+                <div id="language-dropdown-menu"
+                    class="absolute right-0 mt-2 w-24 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden opacity-0 invisible scale-95 transition-all duration-200 transform origin-top-right z-50">
+                    <button type="button" onclick="setLang('en')" id="lang-btn-en"
+                        class="w-full text-left px-4 py-2.5 text-sm font-bold text-darkblue dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">EN</button>
+                    <button type="button" onclick="setLang('th')" id="lang-btn-th"
+                        class="w-full text-left px-4 py-2.5 text-sm font-bold text-darkblue dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700">TH</button>
+                </div>
+            </div>
+
+            <!-- User Profile Avatar -->
+            <button class="hidden md:flex items-center space-x-2 pl-2">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-royalblue to-lightblue flex items-center justify-center text-white font-bold text-sm shadow-lg border-2 border-white dark:border-gray-700">
+                    <i class="fa-solid fa-user text-xs"></i>
+                </div>
+            </button>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-btn" class="md:hidden p-2.5 rounded-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all text-darkblue dark:text-white"
+                aria-label="Toggle mobile menu">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- ============================
+         MOBILE MENU OVERLAY
+    ============================ -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] mobile-menu-overlay opacity-0 invisible">
+        <div id="mobile-sidebar" class="mobile-sidebar fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl shadow-2xl p-6 pt-20 transform translate-x-full overflow-y-auto">
+            <!-- Close Button -->
+            <button id="mobile-menu-close" class="absolute top-5 right-5 p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-darkblue dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" aria-label="Close menu">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- Mobile Nav Links -->
+            <nav class="flex flex-col space-y-1 mb-8">
+                <a href="index.html" class="flex items-center space-x-3 px-4 py-3 rounded-xl bg-royalblue/10 dark:bg-royalblue/20 text-royalblue dark:text-lightblue font-bold transition-colors">
+                    <i class="fa-solid fa-compass"></i>
+                    <span data-i18n="hub.navOpportunities">Opportunities</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium transition-colors">
+                    <i class="fa-solid fa-users"></i>
+                    <span data-i18n="hub.navTeams">Find Teams</span>
+                </a>
+                <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium transition-colors">
+                    <i class="fa-solid fa-comments"></i>
+                    <span data-i18n="hub.navCommunity">Community</span>
+                </a>
+            </nav>
+
+            <!-- Mobile Filters (cloned from sidebar for mobile) -->
+            <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4" data-i18n="hub.filterCategory">CATEGORY</h3>
+                <div class="space-y-2 mb-6">
+                    <label class="flex items-center space-x-3 cursor-pointer px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <input type="checkbox" class="filter-check-mobile w-4 h-4 accent-[#4274D9] rounded" value="all" checked>
+                        <span class="text-sm font-medium" data-i18n="hub.catAll">All Categories</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <input type="checkbox" class="filter-check-mobile w-4 h-4 accent-[#4274D9] rounded" value="hackathon">
+                        <span class="text-sm font-medium" data-i18n="hub.catHackathon">Hackathons</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <input type="checkbox" class="filter-check-mobile w-4 h-4 accent-[#4274D9] rounded" value="ideathon">
+                        <span class="text-sm font-medium" data-i18n="hub.catIdeathon">Ideathons</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <input type="checkbox" class="filter-check-mobile w-4 h-4 accent-[#4274D9] rounded" value="startup">
+                        <span class="text-sm font-medium" data-i18n="hub.catStartup">Startup Pitch</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <input type="checkbox" class="filter-check-mobile w-4 h-4 accent-[#4274D9] rounded" value="bootcamp">
+                        <span class="text-sm font-medium" data-i18n="hub.catBootcamp">Bootcamps</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================
+         MAIN CONTENT
+    ============================ -->
+    <main class="flex-grow relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 py-6 lg:py-8">
+
+        <!-- ============================
+             Page Title & Search Bar
+        ============================ -->
+        <div class="mb-6 lg:mb-8" data-aos="fade-up" data-aos-duration="800">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-darkblue dark:text-white tracking-tight" data-i18n="hub.title">
+                        Opportunity Hub
+                    </h1>
+                    <p class="text-gray-500 dark:text-gray-400 mt-1 text-sm md:text-base font-medium" data-i18n="hub.subtitle">
+                        Discover competitions, grants, and tech events curated for you.
+                    </p>
+                </div>
+                <!-- Search Bar -->
+                <div class="relative w-full md:w-80">
+                    <input type="text" id="search-input" data-i18n="hub.searchPlaceholder" placeholder="Search events..."
+                        class="w-full pl-11 pr-4 py-3 rounded-2xl bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 dark:placeholder-gray-500 font-medium text-darkblue dark:text-white text-sm">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                </div>
+            </div>
+
+            <!-- Results Count & View Toggle -->
+            <div class="flex items-center justify-between mt-4">
+                <p class="text-sm text-gray-400 dark:text-gray-500 font-medium">
+                    <span data-i18n="hub.showing">Showing</span>
+                    <span id="results-count" class="font-bold text-darkblue dark:text-white">6</span>
+                    <span data-i18n="hub.of">of</span>
+                    <span id="total-count" class="font-bold text-darkblue dark:text-white">6</span>
+                    <span data-i18n="hub.events">events</span>
+                    &nbsp;|&nbsp;
+                    <button onclick="resetFilters()" class="text-royalblue dark:text-lightblue hover:underline font-bold" data-i18n="hub.resetFilters">Reset Filters</button>
+                </p>
+            </div>
+        </div>
+
+        <!-- ============================
+             Two-Column Layout
+        ============================ -->
+        <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
+
+            <!-- ============================
+                 LEFT SIDEBAR – Filters
+            ============================ -->
+            <aside class="hidden lg:block w-72 flex-shrink-0" data-aos="fade-right" data-aos-duration="800" data-aos-delay="100">
+                <div class="sticky top-24 bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl border border-gray-200/60 dark:border-gray-700/60 shadow-xl shadow-darkblue/5 dark:shadow-black/20 p-6 sidebar-scroll max-h-[calc(100vh-7rem)] overflow-y-auto">
+
+                    <!-- Category Section -->
+                    <div class="mb-8">
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4" data-i18n="hub.filterCategory">
+                            CATEGORY
+                        </h3>
+                        <div class="space-y-1.5" id="filter-category">
+                            <!-- All -->
+                            <label class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                                <input type="radio" name="category" value="all" class="filter-radio hidden" checked>
+                                <span class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                                    <span class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                                    <span data-i18n="hub.catAll">All Categories</span>
+                                </span>
+                            </label>
+                            <!-- Hackathons -->
+                            <label class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                                <input type="radio" name="category" value="hackathon" class="filter-radio hidden">
+                                <span class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                                    <span class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                                    <i class="fa-solid fa-code text-xs text-royalblue/50"></i>
+                                    <span data-i18n="hub.catHackathon">Hackathons</span>
+                                </span>
+                            </label>
+                            <!-- Ideathons -->
+                            <label class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                                <input type="radio" name="category" value="ideathon" class="filter-radio hidden">
+                                <span class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                                    <span class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                                    <i class="fa-solid fa-lightbulb text-xs text-accent/50"></i>
+                                    <span data-i18n="hub.catIdeathon">Ideathons</span>
+                                </span>
+                            </label>
+                            <!-- Startup Pitch -->
+                            <label class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                                <input type="radio" name="category" value="startup" class="filter-radio hidden">
+                                <span class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                                    <span class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                                    <i class="fa-solid fa-rocket text-xs text-green-500/50"></i>
+                                    <span data-i18n="hub.catStartup">Startup Pitch</span>
+                                </span>
+                            </label>
+                            <!-- Bootcamps -->
+                            <label class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                                <input type="radio" name="category" value="bootcamp" class="filter-radio hidden">
+                                <span class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                                    <span class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                                    <i class="fa-solid fa-laptop-code text-xs text-purple-500/50"></i>
+                                    <span data-i18n="hub.catBootcamp">Bootcamps</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="border-t border-gray-100 dark:border-gray-700 mb-8"></div>
+
+                    <!-- Target Audience Section -->
+                    <div class="mb-8">
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4" data-i18n="hub.filterAudience">
+                            TARGET AUDIENCE
+                        </h3>
+                        <div class="space-y-1.5" id="filter-audience">
+                            <!-- High School -->
+                            <label class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                                <input type="checkbox" value="highschool" class="filter-check hidden" checked>
+                                <span class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                                    <span class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center">
+                                        <svg class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </span>
+                                    <span data-i18n="hub.audHighSchool">High School</span>
+                                </span>
+                            </label>
+                            <!-- University -->
+                            <label class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                                <input type="checkbox" value="university" class="filter-check hidden" checked>
+                                <span class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                                    <span class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center">
+                                        <svg class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </span>
+                                    <span data-i18n="hub.audUniversity">University</span>
+                                </span>
+                            </label>
+                            <!-- Public -->
+                            <label class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                                <input type="checkbox" value="public" class="filter-check hidden" checked>
+                                <span class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                                    <span class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center">
+                                        <svg class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </span>
+                                    <span data-i18n="hub.audPublic">Public / Open</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="border-t border-gray-100 dark:border-gray-700 mb-8"></div>
+
+                    <!-- Status Section -->
+                    <div>
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4" data-i18n="hub.filterStatus">
+                            STATUS
+                        </h3>
+                        <div class="space-y-1.5" id="filter-status">
+                            <label class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                                <input type="radio" name="status" value="all" class="filter-radio hidden" checked>
+                                <span class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 transition-colors">
+                                    <span class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                                    <span data-i18n="hub.statusAll">All</span>
+                                </span>
+                            </label>
+                            <label class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                                <input type="radio" name="status" value="open" class="filter-radio hidden">
+                                <span class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 transition-colors">
+                                    <span class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                                    <span class="w-2 h-2 rounded-full bg-green-400"></span>
+                                    <span data-i18n="hub.statusOpen">Open</span>
+                                </span>
+                            </label>
+                            <label class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                                <input type="radio" name="status" value="closing" class="filter-radio hidden">
+                                <span class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 transition-colors">
+                                    <span class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                                    <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                                    <span data-i18n="hub.statusClosing">Closing Soon</span>
+                                </span>
+                            </label>
+                            <label class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                                <input type="radio" name="status" value="closed" class="filter-radio hidden">
+                                <span class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 transition-colors">
+                                    <span class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                                    <span class="w-2 h-2 rounded-full bg-gray-400"></span>
+                                    <span data-i18n="hub.statusClosed">Closed</span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- ============================
+                 RIGHT CONTENT – Event Cards Grid
+            ============================ -->
+            <section class="flex-1 min-w-0">
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5" id="events-grid">
+
+                    <!-- ===== Event Card 1 ===== -->
+                    <article class="event-card group bg-white/80 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-darkblue/5 dark:shadow-black/20 overflow-hidden hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-royalblue/10 transition-all duration-300"
+                        data-category="hackathon" data-audience="university,public" data-status="open"
+                        data-title-en="National Hackathon 2026" data-title-th="แฮกกาธอนแห่งชาติ 2026"
+                        data-aos="fade-up" data-aos-duration="600" data-aos-delay="0">
+                        <!-- Card Image -->
+                        <div class="relative h-44 overflow-hidden">
+                            <img src="assets/images/events/hackathon-1.png" alt="National Hackathon 2026"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <!-- Status Badge -->
+                            <div class="absolute top-3 left-3">
+                                <span class="badge-open inline-flex items-center space-x-1.5 bg-green-500/90 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                                    <span data-i18n="hub.badgeOpen">Open</span>
+                                </span>
+                            </div>
+                            <!-- Category Badge -->
+                            <div class="absolute top-3 right-3">
+                                <span class="bg-darkblue/80 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full" data-i18n="hub.catHackathon">Hackathon</span>
+                            </div>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="p-5">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <i class="fa-regular fa-calendar text-xs text-gray-400"></i>
+                                <span class="text-xs text-gray-400 dark:text-gray-500 font-medium">Aug 15 – 17, 2026</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-darkblue dark:text-white mb-2 line-clamp-1 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors" data-i18n="hub.event1Title">
+                                National Hackathon 2026
+                            </h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4 font-medium leading-relaxed" data-i18n="hub.event1Desc">
+                                Build innovative solutions in 48 hours. Open for university students and professionals.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-1.5">
+                                    <span class="text-xs bg-royalblue/10 dark:bg-royalblue/20 text-royalblue dark:text-lightblue px-2.5 py-1 rounded-full font-semibold" data-i18n="hub.audUniversity">University</span>
+                                    <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2.5 py-1 rounded-full font-semibold" data-i18n="hub.audPublic">Public</span>
+                                </div>
+                                <button class="bg-royalblue hover:bg-darkblue text-white text-xs font-bold px-4 py-2 rounded-xl transition-all duration-300 shadow-md shadow-royalblue/20 hover:shadow-lg hover:shadow-royalblue/30" data-i18n="hub.viewDetails">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- ===== Event Card 2 ===== -->
+                    <article class="event-card group bg-white/80 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-darkblue/5 dark:shadow-black/20 overflow-hidden hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-royalblue/10 transition-all duration-300"
+                        data-category="ideathon" data-audience="highschool,university" data-status="open"
+                        data-title-en="Creative Ideathon Challenge" data-title-th="การแข่งขันไอเดียธอนเชิงสร้างสรรค์"
+                        data-aos="fade-up" data-aos-duration="600" data-aos-delay="100">
+                        <div class="relative h-44 overflow-hidden">
+                            <img src="assets/images/events/ideathon.png" alt="Creative Ideathon"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-3 left-3">
+                                <span class="badge-open inline-flex items-center space-x-1.5 bg-green-500/90 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                                    <span data-i18n="hub.badgeOpen">Open</span>
+                                </span>
+                            </div>
+                            <div class="absolute top-3 right-3">
+                                <span class="bg-accent/80 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full" data-i18n="hub.catIdeathon">Ideathon</span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <i class="fa-regular fa-calendar text-xs text-gray-400"></i>
+                                <span class="text-xs text-gray-400 dark:text-gray-500 font-medium">Sep 5 – 6, 2026</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-darkblue dark:text-white mb-2 line-clamp-1 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors" data-i18n="hub.event2Title">
+                                Creative Ideathon Challenge
+                            </h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4 font-medium leading-relaxed" data-i18n="hub.event2Desc">
+                                Pitch your most creative solutions to real-world problems. Perfect for student innovators.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-1.5">
+                                    <span class="text-xs bg-royalblue/10 dark:bg-royalblue/20 text-royalblue dark:text-lightblue px-2.5 py-1 rounded-full font-semibold" data-i18n="hub.audHighSchool">High School</span>
+                                    <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2.5 py-1 rounded-full font-semibold" data-i18n="hub.audUniversity">University</span>
+                                </div>
+                                <button class="bg-royalblue hover:bg-darkblue text-white text-xs font-bold px-4 py-2 rounded-xl transition-all duration-300 shadow-md shadow-royalblue/20 hover:shadow-lg hover:shadow-royalblue/30" data-i18n="hub.viewDetails">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- ===== Event Card 3 ===== -->
+                    <article class="event-card group bg-white/80 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-darkblue/5 dark:shadow-black/20 overflow-hidden hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-royalblue/10 transition-all duration-300"
+                        data-category="startup" data-audience="university,public" data-status="closing"
+                        data-title-en="Startup Pitch Arena 2026" data-title-th="เวทีสตาร์ทอัพพิทช์ 2026"
+                        data-aos="fade-up" data-aos-duration="600" data-aos-delay="200">
+                        <div class="relative h-44 overflow-hidden">
+                            <img src="assets/images/events/startup-pitch.png" alt="Startup Pitch Arena"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-3 left-3">
+                                <span class="inline-flex items-center space-x-1.5 bg-amber-500/90 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                                    <span data-i18n="hub.badgeClosing">Closing Soon</span>
+                                </span>
+                            </div>
+                            <div class="absolute top-3 right-3">
+                                <span class="bg-green-600/80 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full" data-i18n="hub.catStartup">Startup Pitch</span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <i class="fa-regular fa-calendar text-xs text-gray-400"></i>
+                                <span class="text-xs text-gray-400 dark:text-gray-500 font-medium">Jul 28 – 29, 2026</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-darkblue dark:text-white mb-2 line-clamp-1 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors" data-i18n="hub.event3Title">
+                                Startup Pitch Arena 2026
+                            </h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4 font-medium leading-relaxed" data-i18n="hub.event3Desc">
+                                Present your startup idea to top VCs and angel investors. Win up to ฿500,000 in funding.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-1.5">
+                                    <span class="text-xs bg-royalblue/10 dark:bg-royalblue/20 text-royalblue dark:text-lightblue px-2.5 py-1 rounded-full font-semibold" data-i18n="hub.audUniversity">University</span>
+                                    <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2.5 py-1 rounded-full font-semibold" data-i18n="hub.audPublic">Public</span>
+                                </div>
+                                <button class="bg-royalblue hover:bg-darkblue text-white text-xs font-bold px-4 py-2 rounded-xl transition-all duration-300 shadow-md shadow-royalblue/20 hover:shadow-lg hover:shadow-royalblue/30" data-i18n="hub.viewDetails">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- ===== Event Card 4 ===== -->
+                    <article class="event-card group bg-white/80 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-darkblue/5 dark:shadow-black/20 overflow-hidden hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-royalblue/10 transition-all duration-300"
+                        data-category="bootcamp" data-audience="highschool,university" data-status="open"
+                        data-title-en="Web Dev Bootcamp" data-title-th="บูทแคมป์พัฒนาเว็บ"
+                        data-aos="fade-up" data-aos-duration="600" data-aos-delay="0">
+                        <div class="relative h-44 overflow-hidden">
+                            <img src="assets/images/events/bootcamp.png" alt="Web Dev Bootcamp"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-3 left-3">
+                                <span class="badge-open inline-flex items-center space-x-1.5 bg-green-500/90 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                                    <span data-i18n="hub.badgeOpen">Open</span>
+                                </span>
+                            </div>
+                            <div class="absolute top-3 right-3">
+                                <span class="bg-purple-600/80 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full" data-i18n="hub.catBootcamp">Bootcamp</span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <i class="fa-regular fa-calendar text-xs text-gray-400"></i>
+                                <span class="text-xs text-gray-400 dark:text-gray-500 font-medium">Oct 1 – 14, 2026</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-darkblue dark:text-white mb-2 line-clamp-1 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors" data-i18n="hub.event4Title">
+                                Web Dev Bootcamp
+                            </h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4 font-medium leading-relaxed" data-i18n="hub.event4Desc">
+                                2-week intensive bootcamp covering React, Node.js, and cloud deployment. Free for students.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-1.5">
+                                    <span class="text-xs bg-royalblue/10 dark:bg-royalblue/20 text-royalblue dark:text-lightblue px-2.5 py-1 rounded-full font-semibold" data-i18n="hub.audHighSchool">High School</span>
+                                    <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2.5 py-1 rounded-full font-semibold" data-i18n="hub.audUniversity">University</span>
+                                </div>
+                                <button class="bg-royalblue hover:bg-darkblue text-white text-xs font-bold px-4 py-2 rounded-xl transition-all duration-300 shadow-md shadow-royalblue/20 hover:shadow-lg hover:shadow-royalblue/30" data-i18n="hub.viewDetails">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- ===== Event Card 5 ===== -->
+                    <article class="event-card group bg-white/80 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-darkblue/5 dark:shadow-black/20 overflow-hidden hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-royalblue/10 transition-all duration-300"
+                        data-category="hackathon" data-audience="university" data-status="closing"
+                        data-title-en="AI Innovation Hackathon" data-title-th="แฮกกาธอน AI นวัตกรรม"
+                        data-aos="fade-up" data-aos-duration="600" data-aos-delay="100">
+                        <div class="relative h-44 overflow-hidden">
+                            <img src="assets/images/events/ai-hackathon.png" alt="AI Innovation Hackathon"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-3 left-3">
+                                <span class="inline-flex items-center space-x-1.5 bg-amber-500/90 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                                    <span data-i18n="hub.badgeClosing">Closing Soon</span>
+                                </span>
+                            </div>
+                            <div class="absolute top-3 right-3">
+                                <span class="bg-darkblue/80 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full" data-i18n="hub.catHackathon">Hackathon</span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <i class="fa-regular fa-calendar text-xs text-gray-400"></i>
+                                <span class="text-xs text-gray-400 dark:text-gray-500 font-medium">Jul 20 – 22, 2026</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-darkblue dark:text-white mb-2 line-clamp-1 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors" data-i18n="hub.event5Title">
+                                AI Innovation Hackathon
+                            </h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4 font-medium leading-relaxed" data-i18n="hub.event5Desc">
+                                Develop cutting-edge AI solutions for healthcare and sustainability. ฿300,000 prize pool.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-1.5">
+                                    <span class="text-xs bg-royalblue/10 dark:bg-royalblue/20 text-royalblue dark:text-lightblue px-2.5 py-1 rounded-full font-semibold" data-i18n="hub.audUniversity">University</span>
+                                </div>
+                                <button class="bg-royalblue hover:bg-darkblue text-white text-xs font-bold px-4 py-2 rounded-xl transition-all duration-300 shadow-md shadow-royalblue/20 hover:shadow-lg hover:shadow-royalblue/30" data-i18n="hub.viewDetails">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- ===== Event Card 6 ===== -->
+                    <article class="event-card group bg-white/80 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-darkblue/5 dark:shadow-black/20 overflow-hidden hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-royalblue/10 transition-all duration-300"
+                        data-category="ideathon" data-audience="highschool" data-status="closed"
+                        data-title-en="Young Innovators Ideathon" data-title-th="ไอเดียธอนนักนวัตกรรุ่นเยาว์"
+                        data-aos="fade-up" data-aos-duration="600" data-aos-delay="200">
+                        <div class="relative h-44 overflow-hidden">
+                            <img src="assets/images/events/ideathon.png" alt="Young Innovators Ideathon"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 grayscale-[30%]">
+                            <div class="absolute top-3 left-3">
+                                <span class="inline-flex items-center space-x-1.5 bg-gray-500/90 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                                    <span data-i18n="hub.badgeClosed">Closed</span>
+                                </span>
+                            </div>
+                            <div class="absolute top-3 right-3">
+                                <span class="bg-accent/80 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full" data-i18n="hub.catIdeathon">Ideathon</span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <i class="fa-regular fa-calendar text-xs text-gray-400"></i>
+                                <span class="text-xs text-gray-400 dark:text-gray-500 font-medium">Jun 10 – 11, 2026</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-darkblue dark:text-white mb-2 line-clamp-1 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors" data-i18n="hub.event6Title">
+                                Young Innovators Ideathon
+                            </h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4 font-medium leading-relaxed" data-i18n="hub.event6Desc">
+                                An ideathon exclusively for high school students to solve community challenges using tech.
+                            </p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-1.5">
+                                    <span class="text-xs bg-royalblue/10 dark:bg-royalblue/20 text-royalblue dark:text-lightblue px-2.5 py-1 rounded-full font-semibold" data-i18n="hub.audHighSchool">High School</span>
+                                </div>
+                                <button class="bg-gray-400 text-white text-xs font-bold px-4 py-2 rounded-xl cursor-not-allowed opacity-70" disabled data-i18n="hub.viewClosed">
+                                    Closed
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+
+                <!-- ============================
+                     Empty State
+                ============================ -->
+                <div id="empty-state" class="hidden flex-col items-center justify-center py-20 text-center">
+                    <div class="w-24 h-24 rounded-full bg-lightblue/20 dark:bg-lightblue/10 flex items-center justify-center mb-6">
+                        <i class="fa-solid fa-magnifying-glass text-3xl text-lightblue"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-darkblue dark:text-white mb-2" data-i18n="hub.emptyTitle">No events found</h3>
+                    <p class="text-gray-400 dark:text-gray-500 text-sm font-medium max-w-xs" data-i18n="hub.emptyDesc">Try adjusting your filters or search to find what you're looking for.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ============================
+         FOOTER
+    ============================ -->
+    <footer class="w-full py-8 text-center text-sm font-semibold z-10 text-darkblue/80 dark:text-white/60 border-t border-gray-200/30 dark:border-gray-700/30 relative"
+        data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+        Copyright @lancerwork | <a href="#"
+            class="font-bold hover:text-royalblue dark:hover:text-lightblue transition-colors">Privacy Policy</a>
+    </footer>
+
+    <!-- ============================
+         SCRIPTS
+    ============================ -->
+
+    <!-- Reuse existing theme.js -->
+    <script src="src/js/theme.js"></script>
+    <!-- Reuse existing i18n.js -->
+    <script src="src/js/i18n.js"></script>
+
+    <!-- AOS JS Initialization -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Reuse existing ui.js (AOS init, language dropdown) -->
+    <script src="src/js/ui.js"></script>
+
+    <!-- ============================
+         Opportunity Hub Logic
+    ============================ -->
+    <script>
+    (function () {
+        'use strict';
+
+        /* ============================
+           Theme Icon Sync
+        ============================ */
+        function syncThemeIcons() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const moonIcon = document.getElementById('icon-moon');
+            const sunIcon = document.getElementById('icon-sun');
+            if (moonIcon && sunIcon) {
+                moonIcon.classList.toggle('hidden', isDark);
+                sunIcon.classList.toggle('hidden', !isDark);
+            }
+        }
+
+        // Sync icons on load and after every theme toggle
+        syncThemeIcons();
+        const themeBtn = document.getElementById('theme-toggle');
+        if (themeBtn) {
+            // Observe theme toggles (the existing theme.js handles the toggle; we just sync icons)
+            const observer = new MutationObserver(syncThemeIcons);
+            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        }
+
+        /* ============================
+           Mobile Menu Logic
+        ============================ */
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+        const mobileClose = document.getElementById('mobile-menu-close');
+
+        function openMobileMenu() {
+            mobileOverlay.classList.remove('opacity-0', 'invisible');
+            mobileOverlay.classList.add('opacity-100', 'visible');
+            mobileSidebar.classList.remove('translate-x-full');
+            mobileSidebar.classList.add('translate-x-0');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            mobileOverlay.classList.add('opacity-0', 'invisible');
+            mobileOverlay.classList.remove('opacity-100', 'visible');
+            mobileSidebar.classList.add('translate-x-full');
+            mobileSidebar.classList.remove('translate-x-0');
+            document.body.style.overflow = '';
+        }
+
+        if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
+        if (mobileClose) mobileClose.addEventListener('click', closeMobileMenu);
+        if (mobileOverlay) {
+            mobileOverlay.addEventListener('click', (e) => {
+                if (e.target === mobileOverlay) closeMobileMenu();
+            });
+        }
+
+        /* ============================
+           Filter & Search Logic
+        ============================ */
+        const eventsGrid = document.getElementById('events-grid');
+        const searchInput = document.getElementById('search-input');
+        const resultsCount = document.getElementById('results-count');
+        const totalCount = document.getElementById('total-count');
+        const emptyState = document.getElementById('empty-state');
+
+        function getSelectedCategory() {
+            const checked = document.querySelector('#filter-category input[name="category"]:checked');
+            return checked ? checked.value : 'all';
+        }
+
+        function getSelectedAudiences() {
+            const checked = document.querySelectorAll('#filter-audience .filter-check:checked');
+            return Array.from(checked).map(c => c.value);
+        }
+
+        function getSelectedStatus() {
+            const checked = document.querySelector('#filter-status input[name="status"]:checked');
+            return checked ? checked.value : 'all';
+        }
+
+        function filterEvents() {
+            const cards = document.querySelectorAll('.event-card');
+            const category = getSelectedCategory();
+            const audiences = getSelectedAudiences();
+            const status = getSelectedStatus();
+            const search = (searchInput ? searchInput.value : '').toLowerCase().trim();
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const cardCat = card.dataset.category;
+                const cardAud = card.dataset.audience.split(',');
+                const cardStatus = card.dataset.status;
+                const cardTitleEn = (card.dataset.titleEn || '').toLowerCase();
+                const cardTitleTh = (card.dataset.titleTh || '').toLowerCase();
+
+                let show = true;
+
+                // Category filter
+                if (category !== 'all' && cardCat !== category) show = false;
+
+                // Audience filter
+                if (audiences.length > 0 && !cardAud.some(a => audiences.includes(a))) show = false;
+
+                // Status filter
+                if (status !== 'all' && cardStatus !== status) show = false;
+
+                // Search filter
+                if (search && !cardTitleEn.includes(search) && !cardTitleTh.includes(search)) show = false;
+
+                card.style.display = show ? '' : 'none';
+                if (show) visibleCount++;
+            });
+
+            // Update counts
+            if (resultsCount) resultsCount.textContent = visibleCount;
+            if (totalCount) totalCount.textContent = cards.length;
+
+            // Show/hide empty state
+            if (emptyState) {
+                if (visibleCount === 0) {
+                    emptyState.classList.remove('hidden');
+                    emptyState.classList.add('flex');
+                } else {
+                    emptyState.classList.add('hidden');
+                    emptyState.classList.remove('flex');
+                }
+            }
+        }
+
+        // Attach event listeners to filter inputs
+        document.querySelectorAll('#filter-category input, #filter-audience input, #filter-status input').forEach(input => {
+            input.addEventListener('change', filterEvents);
+        });
+
+        // Search input with debounce
+        let searchTimeout;
+        if (searchInput) {
+            searchInput.addEventListener('input', () => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(filterEvents, 250);
+            });
+        }
+
+        // Reset filters function (globally available)
+        window.resetFilters = function () {
+            // Reset category
+            const allCat = document.querySelector('#filter-category input[value="all"]');
+            if (allCat) allCat.checked = true;
+
+            // Reset audiences (check all)
+            document.querySelectorAll('#filter-audience .filter-check').forEach(cb => cb.checked = true);
+
+            // Reset status
+            const allStatus = document.querySelector('#filter-status input[value="all"]');
+            if (allStatus) allStatus.checked = true;
+
+            // Reset search
+            if (searchInput) searchInput.value = '';
+
+            filterEvents();
+        };
+
+        // Initialize counts
+        filterEvents();
+
+    })();
+    </script>
+</body>
+
+</html>
