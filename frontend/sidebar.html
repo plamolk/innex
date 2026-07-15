@@ -1,0 +1,82 @@
+    <div class="xl:hidden fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none">
+
+        <!-- Popover Menu -->
+        <div id="fab-popover-menu"
+            class="mb-4 pointer-events-auto bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 shadow-2xl rounded-2xl w-56 overflow-visible opacity-0 invisible scale-95 origin-bottom-right transition-all duration-300">
+            <!-- Nav Links -->
+            <nav class="flex flex-col p-2 space-y-1">
+                <a href="index.html"
+                    class="flex items-center space-x-3 px-3 py-2.5 rounded-xl bg-royalblue/10 dark:bg-royalblue/20 text-royalblue dark:text-lightblue font-bold text-sm">
+                    <i class="fa-solid fa-compass"></i><span data-i18n="hub.navOpportunities">Opportunities</span>
+                </a>
+                <a href="#"
+                    class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium transition-colors text-sm">
+                    <i class="fa-solid fa-users"></i><span data-i18n="hub.navTeams">Find Teams</span>
+                </a>
+                <a href="#"
+                    class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium transition-colors text-sm">
+                    <i class="fa-solid fa-comments"></i><span data-i18n="hub.navCommunity">Community</span>
+                </a>
+            </nav>
+
+            <div class="border-t border-gray-100 dark:border-gray-800 my-1"></div>
+
+            <!-- Controls (Theme & Lang) -->
+            <div class="flex flex-col p-2 space-y-1">
+                <!-- Theme Toggle -->
+                <button aria-label="Toggle dark mode"
+                    class="theme-toggle-btn flex items-center justify-between w-full px-3 py-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium transition-colors text-sm cursor-pointer">
+                    <div class="flex items-center space-x-3">
+                        <svg class="icon-moon h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                        <svg class="icon-sun h-4.5 w-4.5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        <span class="font-bold">Theme</span>
+                    </div>
+                </button>
+
+                <!-- Language Switcher -->
+                <div class="relative w-full">
+                    <button type="button" id="mobile-lang-btn"
+                        class="flex items-center justify-between w-full px-3 py-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium transition-colors text-sm cursor-pointer">
+                        <div class="flex items-center space-x-3">
+                            <i class="fa-solid fa-language text-lg"></i>
+                            <span class="font-bold">Language</span>
+                        </div>
+                        <div class="flex items-center space-x-1 text-darkblue dark:text-white">
+                            <span class="text-sm font-bold tracking-wide" id="mobile-lang-display">EN</span>
+                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </button>
+                    <!-- Mobile Lang Menu (Absolute inside popover) -->
+                    <div id="mobile-lang-menu"
+                        class="absolute bottom-full mb-2 right-0 w-36 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden opacity-0 invisible scale-95 transition-all duration-200 origin-bottom z-50">
+                        <button type="button" onclick="setLang('en')"
+                            class="w-full text-left px-4 py-2.5 text-sm font-bold text-darkblue dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">English
+                            (EN)</button>
+                        <button type="button" onclick="setLang('th')"
+                            class="w-full text-left px-4 py-2.5 text-sm font-bold text-darkblue dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700">ภาษาไทย
+                            (TH)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAB Button -->
+        <button id="fab-menu-btn" aria-label="Open menu"
+            class="pointer-events-auto w-14 h-14 rounded-full bg-royalblue text-white shadow-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform">
+            <svg id="fab-icon-menu" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg id="fab-icon-close" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>

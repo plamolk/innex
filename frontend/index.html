@@ -271,194 +271,15 @@
     </div>
 
     <!-- ================================================================
-         ██████  DESKTOP NAVBAR  (xl+ only, PERMANENTLY FIXED, never hides)
+         ██████  NAVBAR PLACEHOLDER
          ================================================================ -->
-    <header id="desktop-navbar"
-        class="hidden xl:flex fixed top-0 left-0 right-0 w-full px-10 py-3.5 justify-between items-center z-50 bg-white/80 dark:bg-gray-900/85 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50">
-
-        <!-- Logo -->
-        <a href="index.html" class="flex items-center space-x-3 group">
-            <div
-                class="w-10 h-10 bg-darkblue dark:bg-white rounded-tl-full rounded-bl-full rounded-tr-lg rounded-br-sm group-hover:bg-royalblue dark:group-hover:bg-lightblue transition-colors duration-300 shadow-lg">
-            </div>
-            <span
-                class="font-bold text-lg tracking-wide text-darkblue dark:text-white group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors duration-300">/
-                INNEX.COM</span>
-        </a>
-
-        <!-- Desktop Nav Links -->
-        <nav class="flex items-center space-x-6 text-sm font-semibold">
-            <a href="index.html"
-                class="text-royalblue dark:text-lightblue border-b-2 border-royalblue dark:border-lightblue pb-0.5"
-                data-i18n="hub.navOpportunities">Opportunities</a>
-            <a href="#"
-                class="text-gray-500 dark:text-gray-400 hover:text-royalblue dark:hover:text-lightblue transition-colors"
-                data-i18n="hub.navTeams">Find Teams</a>
-            <a href="#"
-                class="text-gray-500 dark:text-gray-400 hover:text-royalblue dark:hover:text-lightblue transition-colors"
-                data-i18n="hub.navCommunity">Community</a>
-        </nav>
-
-        <!-- Desktop Right Controls -->
-        <div class="flex items-center space-x-3">
-            <!-- Theme Toggle -->
-            <button id="theme-toggle-desktop" aria-label="Toggle dark mode"
-                class="theme-toggle-btn p-2.5 rounded-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-gray-200 dark:border-gray-700 hover:shadow-md hover:scale-105 transition-all text-darkblue dark:text-white">
-                <svg class="icon-moon h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-                <svg class="icon-sun h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-            </button>
-
-            <!-- Language Switcher -->
-            <div class="relative">
-                <button type="button" id="language-dropdown-btn"
-                    class="flex items-center space-x-1.5 cursor-pointer bg-white/90 dark:bg-gray-800/90 px-3.5 py-2 rounded-full backdrop-blur-md border border-gray-200 dark:border-gray-700 hover:shadow-md hover:scale-105 transition-all text-darkblue dark:text-white font-bold">
-                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                    </svg>
-                    <span class="text-sm tracking-wide" id="current-lang-display">EN</span>
-                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-                <div id="language-dropdown-menu"
-                    class="absolute right-0 mt-2 w-24 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden opacity-0 invisible scale-95 transition-all duration-200 transform origin-top-right z-50">
-                    <button type="button" onclick="setLang('en')" id="lang-btn-en"
-                        class="w-full text-left px-4 py-2.5 text-sm font-bold text-darkblue dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">EN</button>
-                    <button type="button" onclick="setLang('th')" id="lang-btn-th"
-                        class="w-full text-left px-4 py-2.5 text-sm font-bold text-darkblue dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700">TH</button>
-                </div>
-            </div>
-
-            <!-- User Avatar -->
-            <button class="flex items-center pl-1">
-                <div
-                    class="w-9 h-9 rounded-full bg-gradient-to-br from-royalblue to-lightblue flex items-center justify-center text-white font-bold text-sm shadow-lg border-2 border-white dark:border-gray-700">
-                    <i class="fa-solid fa-user text-xs"></i>
-                </div>
-            </button>
-        </div>
-    </header>
-
-    <!-- ================================================================
-         ██████  MOBILE NAVBAR  (< xl only)
-         ================================================================ -->
-    <header id="mobile-navbar"
-        class="xl:hidden fixed top-0 left-0 right-0 w-full px-4 sm:px-6 py-3 flex justify-between items-center z-50 bg-white/80 dark:bg-gray-900/85 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50 transition-transform duration-300">
-
-        <!-- Logo -->
-        <a href="index.html" class="flex items-center space-x-2.5 group">
-            <div
-                class="w-9 h-9 bg-darkblue dark:bg-white rounded-tl-full rounded-bl-full rounded-tr-lg rounded-br-sm group-hover:bg-royalblue dark:group-hover:bg-lightblue transition-colors duration-300 shadow-lg">
-            </div>
-            <span
-                class="font-bold text-base tracking-wide text-darkblue dark:text-white group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors duration-300">INNEX</span>
-        </a>
-
-        <!-- Mobile Right Controls (Only Avatar) -->
-        <div class="flex items-center space-x-2">
-            <!-- User Avatar -->
-            <button class="flex items-center pl-1">
-                <div
-                    class="w-9 h-9 rounded-full bg-gradient-to-br from-royalblue to-lightblue flex items-center justify-center text-white font-bold text-sm shadow-lg border-2 border-white dark:border-gray-700">
-                    <i class="fa-solid fa-user text-xs"></i>
-                </div>
-            </button>
-        </div>
-    </header>
+    <div id="navbar-placeholder"></div>
 
 
     <!-- ================================================================
          ██████  MOBILE FAB & POPOVER MENU (< xl only)
          ================================================================ -->
-    <div class="xl:hidden fixed bottom-6 right-6 z-50 flex flex-col items-end pointer-events-none">
-
-        <!-- Popover Menu -->
-        <div id="fab-popover-menu"
-            class="mb-4 pointer-events-auto bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 shadow-2xl rounded-2xl w-56 overflow-visible opacity-0 invisible scale-95 origin-bottom-right transition-all duration-300">
-            <!-- Nav Links -->
-            <nav class="flex flex-col p-2 space-y-1">
-                <a href="index.html"
-                    class="flex items-center space-x-3 px-3 py-2.5 rounded-xl bg-royalblue/10 dark:bg-royalblue/20 text-royalblue dark:text-lightblue font-bold text-sm">
-                    <i class="fa-solid fa-compass"></i><span data-i18n="hub.navOpportunities">Opportunities</span>
-                </a>
-                <a href="#"
-                    class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium transition-colors text-sm">
-                    <i class="fa-solid fa-users"></i><span data-i18n="hub.navTeams">Find Teams</span>
-                </a>
-                <a href="#"
-                    class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium transition-colors text-sm">
-                    <i class="fa-solid fa-comments"></i><span data-i18n="hub.navCommunity">Community</span>
-                </a>
-            </nav>
-
-            <div class="border-t border-gray-100 dark:border-gray-800 my-1"></div>
-
-            <!-- Controls (Theme & Lang) -->
-            <div class="flex flex-col p-2 space-y-1">
-                <!-- Theme Toggle -->
-                <button aria-label="Toggle dark mode"
-                    class="theme-toggle-btn flex items-center justify-between w-full px-3 py-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium transition-colors text-sm cursor-pointer">
-                    <div class="flex items-center space-x-3">
-                        <svg class="icon-moon h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                        </svg>
-                        <svg class="icon-sun h-4.5 w-4.5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                        </svg>
-                        <span class="font-bold">Theme</span>
-                    </div>
-                </button>
-
-                <!-- Language Switcher -->
-                <div class="relative w-full">
-                    <button type="button" id="mobile-lang-btn"
-                        class="flex items-center justify-between w-full px-3 py-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium transition-colors text-sm cursor-pointer">
-                        <div class="flex items-center space-x-3">
-                            <i class="fa-solid fa-language text-lg"></i>
-                            <span class="font-bold">Language</span>
-                        </div>
-                        <div class="flex items-center space-x-1 text-darkblue dark:text-white">
-                            <span class="text-sm font-bold tracking-wide">EN</span>
-                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </div>
-                    </button>
-                    <!-- Mobile Lang Menu (Absolute inside popover) -->
-                    <div id="mobile-lang-menu"
-                        class="absolute bottom-full mb-2 right-0 w-36 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden opacity-0 invisible scale-95 transition-all duration-200 origin-bottom z-50">
-                        <button type="button" onclick="setLang('en')"
-                            class="w-full text-left px-4 py-2.5 text-sm font-bold text-darkblue dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">English
-                            (EN)</button>
-                        <button type="button" onclick="setLang('th')"
-                            class="w-full text-left px-4 py-2.5 text-sm font-bold text-darkblue dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700">ภาษาไทย
-                            (TH)</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- FAB Button -->
-        <button id="fab-menu-btn" aria-label="Open menu"
-            class="pointer-events-auto w-14 h-14 rounded-full bg-royalblue text-white shadow-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform">
-            <svg id="fab-icon-menu" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-            <svg id="fab-icon-close" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
-    </div>
+    <div id="sidebar-placeholder"></div>
 
     <!-- ================================================================
          ██████  MOBILE FILTER DRAWER (slides from right, z-50 panel, z-40 overlay)
@@ -672,8 +493,7 @@
          pt-24 on mobile (navbar ~60px + breathing room)
          xl:pt-24 on desktop (navbar ~60px + breathing room)
          ================================================================ -->
-    <main
-        class="flex-grow relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 xl:px-10 pt-24 xl:pt-[88px] pb-8">
+    <main class="flex-grow relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 xl:px-10 pt-24 xl:pt-[88px] pb-8">
 
         <!-- ============================
              Page Title & Desktop Search
@@ -688,12 +508,14 @@
             </p>
 
             <!-- Mobile Search & Filter (Visible only < xl) -->
-            <div class="xl:hidden flex items-center justify-end gap-3 w-full max-w-[380px] ml-auto mt-6" data-aos="fade-up" data-aos-duration="600" data-aos-delay="50">
+            <div class="xl:hidden flex items-center justify-end gap-3 w-full max-w-[380px] ml-auto mt-6"
+                data-aos="fade-up" data-aos-duration="600" data-aos-delay="50">
                 <!-- Pill Search -->
                 <div class="relative flex-1">
                     <input type="text" id="mobile-search-input" placeholder="Search events..."
                         class="search-input w-full pl-11 pr-4 py-2.5 rounded-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue transition-all duration-300 placeholder-gray-400 dark:placeholder-gray-500 font-medium text-darkblue dark:text-white text-sm shadow-sm">
-                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    <i
+                        class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
                 </div>
                 <!-- Filter Drawer Toggle -->
                 <button id="filter-drawer-open-btn" aria-label="Open filters"
@@ -723,262 +545,265 @@
         <div class="flex flex-col xl:flex-row gap-6 xl:gap-8">
 
             <!-- ============================
-                 DESKTOP LEFT SIDEBAR (xl+ only)
+                 DESKTOP LEFT SIDEBAR PLACEHOLDER
             ============================ -->
             <aside class="hidden xl:block w-72 flex-shrink-0" data-aos="fade-right" data-aos-duration="600"
-                data-aos-delay="100">
-                <div
-                    class="sticky top-[96px] bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-xl shadow-darkblue/5 dark:shadow-black/20 p-6 sidebar-scroll max-h-[calc(100vh-7.5rem)] overflow-y-auto">
+    data-aos-delay="100">
+    <div
+        class="sticky top-[96px] bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-xl shadow-darkblue/5 dark:shadow-black/20 p-6 sidebar-scroll max-h-[calc(100vh-7.5rem)] overflow-y-auto">
 
-                    <!-- Category (Radio) -->
-                    <div class="mb-7">
-                        <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
-                            CATEGORY</h3>
-                        <div class="space-y-1" id="sidebar-cat">
-                            <label
-                                class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
-                                <input type="radio" name="s-cat" value="all" class="filter-radio hidden" checked>
-                                <span
-                                    class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
-                                    <span
-                                        class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
-                                    <span>All Categories</span>
-                                </span>
-                            </label>
-                            <label
-                                class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
-                                <input type="radio" name="s-cat" value="hackathon" class="filter-radio hidden">
-                                <span
-                                    class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
-                                    <span
-                                        class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
-                                    <i class="fa-solid fa-code text-xs text-royalblue/50"></i>
-                                    <span>Hackathon</span>
-                                </span>
-                            </label>
-                            <label
-                                class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
-                                <input type="radio" name="s-cat" value="ideathon" class="filter-radio hidden">
-                                <span
-                                    class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
-                                    <span
-                                        class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
-                                    <i class="fa-solid fa-lightbulb text-xs text-accent/50"></i>
-                                    <span>Ideathon</span>
-                                </span>
-                            </label>
-                            <label
-                                class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
-                                <input type="radio" name="s-cat" value="pitching" class="filter-radio hidden">
-                                <span
-                                    class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
-                                    <span
-                                        class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
-                                    <i class="fa-solid fa-rocket text-xs text-green-500/50"></i>
-                                    <span>Pitching</span>
-                                </span>
-                            </label>
-                            <label
-                                class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
-                                <input type="radio" name="s-cat" value="bootcamp" class="filter-radio hidden">
-                                <span
-                                    class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
-                                    <span
-                                        class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
-                                    <i class="fa-solid fa-laptop-code text-xs text-purple-500/50"></i>
-                                    <span>Bootcamp</span>
-                                </span>
-                            </label>
-                        </div>
-                    </div>
+        <!-- Category (Radio) -->
+        <div class="mb-7">
+            <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+                CATEGORY</h3>
+            <div class="space-y-1" id="sidebar-cat">
+                <label
+                    class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                    <input type="radio" name="s-cat" value="all" class="filter-radio hidden" checked>
+                    <span
+                        class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                        <span
+                            class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                        <span>All Categories</span>
+                    </span>
+                </label>
+                <label
+                    class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                    <input type="radio" name="s-cat" value="hackathon" class="filter-radio hidden">
+                    <span
+                        class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                        <span
+                            class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                        <i class="fa-solid fa-code text-xs text-royalblue/50"></i>
+                        <span>Hackathon</span>
+                    </span>
+                </label>
+                <label
+                    class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                    <input type="radio" name="s-cat" value="ideathon" class="filter-radio hidden">
+                    <span
+                        class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                        <span
+                            class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                        <i class="fa-solid fa-lightbulb text-xs text-accent/50"></i>
+                        <span>Ideathon</span>
+                    </span>
+                </label>
+                <label
+                    class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                    <input type="radio" name="s-cat" value="pitching" class="filter-radio hidden">
+                    <span
+                        class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                        <span
+                            class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                        <i class="fa-solid fa-rocket text-xs text-green-500/50"></i>
+                        <span>Pitching</span>
+                    </span>
+                </label>
+                <label
+                    class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                    <input type="radio" name="s-cat" value="bootcamp" class="filter-radio hidden">
+                    <span
+                        class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                        <span
+                            class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                        <i class="fa-solid fa-laptop-code text-xs text-purple-500/50"></i>
+                        <span>Bootcamp</span>
+                    </span>
+                </label>
+            </div>
+        </div>
 
-                    <div class="border-t border-gray-100 dark:border-gray-700 mb-7"></div>
+        <div class="border-t border-gray-100 dark:border-gray-700 mb-7"></div>
 
-                    <!-- Location (Checkboxes) -->
-                    <div class="mb-7">
-                        <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
-                            LOCATION</h3>
-                        <div class="space-y-1" id="sidebar-loc">
-                            <label
-                                class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
-                                <input type="checkbox" value="bkk" class="filter-check hidden" checked>
-                                <span
-                                    class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
-                                    <span
-                                        class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center"><svg
-                                            class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor" stroke-width="3">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg></span>
-                                    <span>BKK</span>
-                                </span>
-                            </label>
-                            <label
-                                class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
-                                <input type="checkbox" value="central" class="filter-check hidden" checked>
-                                <span
-                                    class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
-                                    <span
-                                        class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center"><svg
-                                            class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor" stroke-width="3">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg></span>
-                                    <span>Central</span>
-                                </span>
-                            </label>
-                            <label
-                                class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
-                                <input type="checkbox" value="north" class="filter-check hidden" checked>
-                                <span
-                                    class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
-                                    <span
-                                        class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center"><svg
-                                            class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor" stroke-width="3">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg></span>
-                                    <span>North</span>
-                                </span>
-                            </label>
-                            <label
-                                class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
-                                <input type="checkbox" value="south" class="filter-check hidden" checked>
-                                <span
-                                    class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
-                                    <span
-                                        class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center"><svg
-                                            class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor" stroke-width="3">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg></span>
-                                    <span>South</span>
-                                </span>
-                            </label>
-                            <label
-                                class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
-                                <input type="checkbox" value="online" class="filter-check hidden" checked>
-                                <span
-                                    class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
-                                    <span
-                                        class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center"><svg
-                                            class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor" stroke-width="3">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg></span>
-                                    <i class="fa-solid fa-globe text-xs text-lightblue/70"></i>
-                                    <span>Online</span>
-                                </span>
-                            </label>
-                        </div>
-                    </div>
+        <!-- Location (Checkboxes) -->
+        <div class="mb-7">
+            <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+                LOCATION</h3>
+            <div class="space-y-1" id="sidebar-loc">
+                <label
+                    class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                    <input type="checkbox" value="bkk" class="filter-check hidden" checked>
+                    <span
+                        class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                        <span
+                            class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center"><svg
+                                class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg></span>
+                        <span>BKK</span>
+                    </span>
+                </label>
+                <label
+                    class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                    <input type="checkbox" value="central" class="filter-check hidden" checked>
+                    <span
+                        class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                        <span
+                            class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center"><svg
+                                class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg></span>
+                        <span>Central</span>
+                    </span>
+                </label>
+                <label
+                    class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                    <input type="checkbox" value="north" class="filter-check hidden" checked>
+                    <span
+                        class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                        <span
+                            class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center"><svg
+                                class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg></span>
+                        <span>North</span>
+                    </span>
+                </label>
+                <label
+                    class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                    <input type="checkbox" value="south" class="filter-check hidden" checked>
+                    <span
+                        class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                        <span
+                            class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center"><svg
+                                class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg></span>
+                        <span>South</span>
+                    </span>
+                </label>
+                <label
+                    class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                    <input type="checkbox" value="online" class="filter-check hidden" checked>
+                    <span
+                        class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                        <span
+                            class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center"><svg
+                                class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg></span>
+                        <i class="fa-solid fa-globe text-xs text-lightblue/70"></i>
+                        <span>Online</span>
+                    </span>
+                </label>
+            </div>
+        </div>
 
-                    <div class="border-t border-gray-100 dark:border-gray-700 mb-7"></div>
+        <div class="border-t border-gray-100 dark:border-gray-700 mb-7"></div>
 
-                    <!-- Target Audience (Checkboxes) -->
-                    <div class="mb-7">
-                        <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
-                            TARGET AUDIENCE</h3>
-                        <div class="space-y-1" id="sidebar-aud">
-                            <label
-                                class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
-                                <input type="checkbox" value="highschool" class="filter-check hidden" checked>
-                                <span
-                                    class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
-                                    <span
-                                        class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center"><svg
-                                            class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor" stroke-width="3">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg></span>
-                                    <span>High School</span>
-                                </span>
-                            </label>
-                            <label
-                                class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
-                                <input type="checkbox" value="university" class="filter-check hidden" checked>
-                                <span
-                                    class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
-                                    <span
-                                        class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center"><svg
-                                            class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor" stroke-width="3">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg></span>
-                                    <span>University</span>
-                                </span>
-                            </label>
-                            <label
-                                class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
-                                <input type="checkbox" value="public" class="filter-check hidden" checked>
-                                <span
-                                    class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
-                                    <span
-                                        class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center"><svg
-                                            class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor" stroke-width="3">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg></span>
-                                    <span>Public / Open</span>
-                                </span>
-                            </label>
-                        </div>
-                    </div>
+        <!-- Target Audience (Checkboxes) -->
+        <div class="mb-7">
+            <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+                TARGET AUDIENCE</h3>
+            <div class="space-y-1" id="sidebar-aud">
+                <label
+                    class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                    <input type="checkbox" value="highschool" class="filter-check hidden" checked>
+                    <span
+                        class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                        <span
+                            class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center"><svg
+                                class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg></span>
+                        <span>High School</span>
+                    </span>
+                </label>
+                <label
+                    class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                    <input type="checkbox" value="university" class="filter-check hidden" checked>
+                    <span
+                        class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                        <span
+                            class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center"><svg
+                                class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg></span>
+                        <span>University</span>
+                    </span>
+                </label>
+                <label
+                    class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                    <input type="checkbox" value="public" class="filter-check hidden" checked>
+                    <span
+                        class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors">
+                        <span
+                            class="filter-box w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0 flex items-center justify-center"><svg
+                                class="w-3 h-3 text-white hidden" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="3">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg></span>
+                        <span>Public / Open</span>
+                    </span>
+                </label>
+            </div>
+        </div>
 
-                    <div class="border-t border-gray-100 dark:border-gray-700 mb-7"></div>
+        <div class="border-t border-gray-100 dark:border-gray-700 mb-7"></div>
 
-                    <!-- Status (Radio) -->
-                    <div>
-                        <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
-                            STATUS</h3>
-                        <div class="space-y-1" id="sidebar-status">
-                            <label
-                                class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
-                                <input type="radio" name="s-status" value="all" class="filter-radio hidden" checked>
-                                <span
-                                    class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 transition-colors">
-                                    <span
-                                        class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
-                                    <span>All</span>
-                                </span>
-                            </label>
-                            <label
-                                class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
-                                <input type="radio" name="s-status" value="open" class="filter-radio hidden">
-                                <span
-                                    class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 transition-colors">
-                                    <span
-                                        class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
-                                    <span class="w-2 h-2 rounded-full bg-green-400"></span>
-                                    <span>Open</span>
-                                </span>
-                            </label>
-                            <label
-                                class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
-                                <input type="radio" name="s-status" value="closing" class="filter-radio hidden">
-                                <span
-                                    class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 transition-colors">
-                                    <span
-                                        class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
-                                    <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-                                    <span>Closing Soon</span>
-                                </span>
-                            </label>
-                            <label
-                                class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
-                                <input type="radio" name="s-status" value="closed" class="filter-radio hidden">
-                                <span
-                                    class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 transition-colors">
-                                    <span
-                                        class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
-                                    <span class="w-2 h-2 rounded-full bg-gray-400"></span>
-                                    <span>Closed</span>
-                                </span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </aside>
+        <!-- Status (Radio) -->
+        <div class="mb-7">
+            <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+                STATUS</h3>
+            <div class="space-y-1" id="sidebar-status">
+                <label
+                    class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                    <input type="radio" name="s-status" value="all" class="filter-radio hidden" checked>
+                    <span
+                        class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 transition-colors">
+                        <span
+                            class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                        <span>All</span>
+                    </span>
+                </label>
+                <label
+                    class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                    <input type="radio" name="s-status" value="open" class="filter-radio hidden">
+                    <span
+                        class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 transition-colors">
+                        <span
+                            class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                        <span class="w-2 h-2 rounded-full bg-green-400"></span>
+                        <span>Open</span>
+                    </span>
+                </label>
+                <label
+                    class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                    <input type="radio" name="s-status" value="closing" class="filter-radio hidden">
+                    <span
+                        class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 transition-colors">
+                        <span
+                            class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                        <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                        <span>Closing Soon</span>
+                    </span>
+                </label>
+                <label
+                    class="flex items-center space-x-3 cursor-pointer px-3 py-2.5 rounded-xl hover:bg-royalblue/5 dark:hover:bg-royalblue/10 transition-colors group">
+                    <input type="radio" name="s-status" value="closed" class="filter-radio hidden">
+                    <span
+                        class="filter-label flex items-center space-x-3 text-sm font-semibold text-gray-600 dark:text-gray-300 transition-colors">
+                        <span
+                            class="filter-dot w-4 h-4 rounded-full border-2 border-gray-300 dark:border-gray-600 transition-all flex-shrink-0"></span>
+                        <span class="w-2 h-2 rounded-full bg-gray-400"></span>
+                        <span>Closed</span>
+                    </span>
+                </label>
+            </div>
+        </div>
+
+
+    </div>
+</aside>
+
 
             <!-- ============================
                  EVENT CARDS GRID
@@ -995,7 +820,8 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5" id="events-grid">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 2xl:grid-cols-3 gap-5 xl:gap-6"
+                    id="events-grid">
 
                     <!-- Card 1 -->
                     <article
@@ -1034,11 +860,11 @@
                                 Build innovative solutions in 48 hours. Open for university students and professionals.
                             </p>
                             <div class="flex items-center justify-between">
-                                <div class="flex items-center space-x-1.5">
+                                <div class="flex flex-wrap items-center gap-1.5">
                                     <span
-                                        class="text-xs bg-royalblue/10 dark:bg-royalblue/20 text-royalblue dark:text-lightblue px-2.5 py-1 rounded-full font-semibold">University</span>
+                                        class="text-xs bg-royalblue/10 dark:bg-royalblue/20 text-royalblue dark:text-lightblue px-2.5 py-1 rounded-full font-semibold whitespace-nowrap">University</span>
                                     <span
-                                        class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2.5 py-1 rounded-full font-semibold">Public</span>
+                                        class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2.5 py-1 rounded-full font-semibold whitespace-nowrap">Public</span>
                                 </div>
                                 <button
                                     class="bg-royalblue hover:bg-darkblue text-white text-xs font-bold px-4 py-2 rounded-xl transition-all duration-300 shadow-md shadow-royalblue/20 hover:shadow-lg">View
@@ -1332,342 +1158,364 @@
     <script src="src/js/ui.js"></script>
 
     <script>
-            (function () {
-                'use strict';
+        async function loadComponents() {
+            try {
+                // If opening via file:/// this will fail due to CORS. 
+                // Please use Live Server to test!
+                const [nav, side] = await Promise.all([
+                    fetch('navbar.html').then(r => r.text()),
+                    fetch('sidebar.html').then(r => r.text())
+                ]);
 
-                /* ============================================================
-                   MODULE: INNEX — all page logic in one clean IIFE
-                ============================================================ */
-                const INNEX = {};
-                window.INNEX = INNEX;
+                document.getElementById('navbar-placeholder').innerHTML = nav;
+                document.getElementById('sidebar-placeholder').innerHTML = side;
 
-                // Cache DOM
-                const $ = (sel, ctx) => (ctx || document).querySelector(sel);
-                const $$ = (sel, ctx) => (ctx || document).querySelectorAll(sel);
+                // Only init UI when elements are actually in the DOM
+                initUI();
+            } catch (error) {
+                console.error('Error loading components:', error);
+                alert("It looks like components failed to load.\nAre you opening this file directly (file:///)?\nPlease use a local server like Live Server in VSCode for the fetch() architecture to work.");
+            }
+        }
 
-                const DOM = {
-                    mobileNavbar: $('#mobile-navbar'),
-                    mobileSearchBar: $('#mobile-search-bar'),
-                    fabMenuBtn: $('#fab-menu-btn'),
-                    fabPopoverMenu: $('#fab-popover-menu'),
-                    fabIconMenu: $('#fab-icon-menu'),
-                    fabIconClose: $('#fab-icon-close'),
-                    mobileLangBtn: $('#mobile-lang-btn'),
-                    mobileLangMenu: $('#mobile-lang-menu'),
-                    filterOverlay: $('#filter-overlay'),
-                    filterDrawer: $('#filter-drawer'),
-                    filterOpenBtn: $('#filter-drawer-open-btn'),
-                    filterCloseBtn: $('#filter-drawer-close-btn'),
-                    drawerApplyBtn: $('#drawer-apply-btn'),
-                    drawerResetBtn: $('#drawer-reset-btn'),
-                    eventsGrid: $('#events-grid'),
-                    resultsCount: $('#results-count'),
-                    totalCount: $('#total-count'),
-                    emptyState: $('#empty-state'),
-                };
+        loadComponents();
 
-                /* ============================================================
-                   1. THEME TOGGLE (works for both desktop & mobile buttons)
-                ============================================================ */
-                function syncAllThemeIcons() {
-                    const isDark = document.documentElement.classList.contains('dark');
-                    $$('.icon-moon').forEach(el => el.classList.toggle('hidden', isDark));
-                    $$('.icon-sun').forEach(el => el.classList.toggle('hidden', !isDark));
-                }
+        function initUI() {
+            'use strict';
 
-                $$('.theme-toggle-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const html = document.documentElement;
-                        const isDark = html.classList.contains('dark');
-                        html.classList.toggle('dark', !isDark);
-                        localStorage.setItem('theme', isDark ? 'light' : 'dark');
-                        syncAllThemeIcons();
-                    });
+            /* ============================================================
+               MODULE: INNEX — all page logic
+            ============================================================ */
+            const INNEX = {};
+            window.INNEX = INNEX;
+
+            // Cache DOM
+            const $ = (sel, ctx) => (ctx || document).querySelector(sel);
+            const $$ = (sel, ctx) => (ctx || document).querySelectorAll(sel);
+
+            const DOM = {
+                mobileNavbar: $('#mobile-navbar'),
+                mobileSearchBar: $('#mobile-search-bar'),
+                fabMenuBtn: $('#fab-menu-btn'),
+                fabPopoverMenu: $('#fab-popover-menu'),
+                fabIconMenu: $('#fab-icon-menu'),
+                fabIconClose: $('#fab-icon-close'),
+                mobileLangBtn: $('#mobile-lang-btn'),
+                mobileLangMenu: $('#mobile-lang-menu'),
+                filterOverlay: $('#filter-overlay'),
+                filterDrawer: $('#filter-drawer'),
+                filterOpenBtn: $('#filter-drawer-open-btn'),
+                filterCloseBtn: $('#filter-drawer-close-btn'),
+                drawerApplyBtn: $('#drawer-apply-btn'),
+                drawerResetBtn: $('#drawer-reset-btn'),
+                eventsGrid: $('#events-grid'),
+                resultsCount: $('#results-count'),
+                totalCount: $('#total-count'),
+                emptyState: $('#empty-state'),
+            };
+
+            /* ============================================================
+               1. THEME TOGGLE (works for both desktop & mobile buttons)
+            ============================================================ */
+            function syncAllThemeIcons() {
+                const isDark = document.documentElement.classList.contains('dark');
+                $$('.icon-moon').forEach(el => el.classList.toggle('hidden', isDark));
+                $$('.icon-sun').forEach(el => el.classList.toggle('hidden', !isDark));
+            }
+
+            $$('.theme-toggle-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const html = document.documentElement;
+                    const isDark = html.classList.contains('dark');
+                    html.classList.toggle('dark', !isDark);
+                    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+                    syncAllThemeIcons();
                 });
+            });
 
-                syncAllThemeIcons();
-                new MutationObserver(syncAllThemeIcons).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+            syncAllThemeIcons();
+            new MutationObserver(syncAllThemeIcons).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
-                /* ============================================================
-                   2. MOBILE SMART SCROLL-TO-HIDE (< xl)
-                ============================================================ */
-                let lastScrollY = window.scrollY || 0;
-                let scrollTicking = false;
+            /* ============================================================
+               2. MOBILE SMART SCROLL-TO-HIDE (< xl)
+            ============================================================ */
+            let lastScrollY = window.scrollY || 0;
+            let scrollTicking = false;
 
-                function onScroll() {
-                    if (window.innerWidth >= 1280) {
-                        DOM.mobileNavbar.classList.remove('-translate-y-full');
-                        scrollTicking = false;
-                        return;
-                    }
-
-                    const currentY = window.scrollY;
-                    const delta = currentY - lastScrollY;
-
-                    if (delta > 8 && currentY > 80) {
-                        // Scroll down - hide
-                        DOM.mobileNavbar.classList.add('-translate-y-full');
-                    } else if (delta < -5 || currentY <= 10) {
-                        // Scroll up - show
-                        DOM.mobileNavbar.classList.remove('-translate-y-full');
-                    }
-
-                    lastScrollY = currentY;
+            function onScroll() {
+                if (window.innerWidth >= 1280) {
+                    DOM.mobileNavbar.classList.remove('-translate-y-full');
                     scrollTicking = false;
+                    return;
                 }
 
-                window.addEventListener('scroll', () => {
-                    if (!scrollTicking) {
-                        requestAnimationFrame(onScroll);
-                        scrollTicking = true;
-                    }
-                }, { passive: true });
+                const currentY = window.scrollY;
+                const delta = currentY - lastScrollY;
 
-                /* ============================================================
-                   3. FAB POPOVER MENU (< xl)
-                ============================================================ */
-                let isFabOpen = false;
-
-                function toggleFab() {
-                    isFabOpen = !isFabOpen;
-                    if (isFabOpen) {
-                        DOM.fabPopoverMenu.classList.remove('opacity-0', 'invisible', 'scale-95');
-                        DOM.fabPopoverMenu.classList.add('opacity-100', 'scale-100');
-                        DOM.fabIconMenu.classList.add('hidden');
-                        DOM.fabIconClose.classList.remove('hidden');
-                    } else {
-                        DOM.fabPopoverMenu.classList.add('opacity-0', 'invisible', 'scale-95');
-                        DOM.fabPopoverMenu.classList.remove('opacity-100', 'scale-100');
-                        DOM.fabIconMenu.classList.remove('hidden');
-                        DOM.fabIconClose.classList.add('hidden');
-                        // Also close mobile lang menu if open
-                        if (DOM.mobileLangMenu) {
-                            DOM.mobileLangMenu.classList.add('opacity-0', 'invisible', 'scale-95');
-                            DOM.mobileLangMenu.classList.remove('opacity-100', 'scale-100');
-                        }
-                    }
+                if (delta > 8 && currentY > 80) {
+                    // Scroll down - hide
+                    DOM.mobileNavbar.classList.add('-translate-y-full');
+                } else if (delta < -5 || currentY <= 10) {
+                    // Scroll up - show
+                    DOM.mobileNavbar.classList.remove('-translate-y-full');
                 }
 
-                DOM.fabMenuBtn?.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    toggleFab();
-                });
+                lastScrollY = currentY;
+                scrollTicking = false;
+            }
 
-                // Click outside to close FAB popover
-                document.addEventListener('click', (e) => {
-                    if (isFabOpen && DOM.fabPopoverMenu && !DOM.fabPopoverMenu.contains(e.target)) {
-                        toggleFab();
-                    }
-                });
+            window.addEventListener('scroll', () => {
+                if (!scrollTicking) {
+                    requestAnimationFrame(onScroll);
+                    scrollTicking = true;
+                }
+            }, { passive: true });
 
-                // Mobile Lang Menu Toggle
-                DOM.mobileLangBtn?.addEventListener('click', (e) => {
-                    e.stopPropagation(); // prevent closing fab
-                    if (DOM.mobileLangMenu.classList.contains('opacity-0')) {
-                        DOM.mobileLangMenu.classList.remove('opacity-0', 'invisible', 'scale-95');
-                        DOM.mobileLangMenu.classList.add('opacity-100', 'scale-100');
-                    } else {
+            /* ============================================================
+               3. FAB POPOVER MENU (< xl)
+            ============================================================ */
+            let isFabOpen = false;
+
+            function toggleFab() {
+                isFabOpen = !isFabOpen;
+                if (isFabOpen) {
+                    DOM.fabPopoverMenu.classList.remove('opacity-0', 'invisible', 'scale-95');
+                    DOM.fabPopoverMenu.classList.add('opacity-100', 'scale-100');
+                    DOM.fabIconMenu.classList.add('hidden');
+                    DOM.fabIconClose.classList.remove('hidden');
+                } else {
+                    DOM.fabPopoverMenu.classList.add('opacity-0', 'invisible', 'scale-95');
+                    DOM.fabPopoverMenu.classList.remove('opacity-100', 'scale-100');
+                    DOM.fabIconMenu.classList.remove('hidden');
+                    DOM.fabIconClose.classList.add('hidden');
+                    // Also close mobile lang menu if open
+                    if (DOM.mobileLangMenu) {
                         DOM.mobileLangMenu.classList.add('opacity-0', 'invisible', 'scale-95');
                         DOM.mobileLangMenu.classList.remove('opacity-100', 'scale-100');
                     }
-                });
-
-                /* ============================================================
-                   4. FILTER DRAWER (< xl)
-                ============================================================ */
-                function openFilterDrawer() {
-                    DOM.filterOverlay.classList.remove('opacity-0', 'invisible', 'pointer-events-none');
-                    DOM.filterOverlay.classList.add('opacity-100');
-                    DOM.filterDrawer.classList.remove('translate-x-full');
-                    DOM.filterDrawer.classList.add('translate-x-0');
-                    document.body.style.overflow = 'hidden';
                 }
+            }
 
-                function closeFilterDrawer() {
-                    DOM.filterOverlay.classList.add('opacity-0', 'invisible', 'pointer-events-none');
-                    DOM.filterOverlay.classList.remove('opacity-100');
-                    DOM.filterDrawer.classList.add('translate-x-full');
-                    DOM.filterDrawer.classList.remove('translate-x-0');
-                    document.body.style.overflow = '';
+            DOM.fabMenuBtn?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleFab();
+            });
+
+            // Click outside to close FAB popover
+            document.addEventListener('click', (e) => {
+                if (isFabOpen && DOM.fabPopoverMenu && !DOM.fabPopoverMenu.contains(e.target)) {
+                    toggleFab();
                 }
+            });
 
-                DOM.filterOpenBtn?.addEventListener('click', openFilterDrawer);
-                DOM.filterCloseBtn?.addEventListener('click', closeFilterDrawer);
-                DOM.filterOverlay?.addEventListener('click', closeFilterDrawer);
-
-                /* ============================================================
-                   5. ACCORDION TOGGLES (inside filter drawer)
-                ============================================================ */
-                $$('.accordion-toggle').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const body = btn.nextElementSibling;
-                        const arrow = btn.querySelector('.accordion-arrow');
-                        body.classList.toggle('is-open');
-                        arrow.classList.toggle('is-open');
-                    });
-                });
-
-                /* ============================================================
-                   6. FILTER ENGINE — unified for sidebar & drawer
-                ============================================================ */
-                function isDesktop() {
-                    return window.innerWidth >= 1280;
+            // Mobile Lang Menu Toggle
+            DOM.mobileLangBtn?.addEventListener('click', (e) => {
+                e.stopPropagation(); // prevent closing fab
+                if (DOM.mobileLangMenu.classList.contains('opacity-0')) {
+                    DOM.mobileLangMenu.classList.remove('opacity-0', 'invisible', 'scale-95');
+                    DOM.mobileLangMenu.classList.add('opacity-100', 'scale-100');
+                } else {
+                    DOM.mobileLangMenu.classList.add('opacity-0', 'invisible', 'scale-95');
+                    DOM.mobileLangMenu.classList.remove('opacity-100', 'scale-100');
                 }
+            });
 
-                // Get filter values from the ACTIVE panel
-                function getActiveFilters() {
-                    if (isDesktop()) {
-                        return {
-                            category: ($('#sidebar-cat input[name="s-cat"]:checked') || {}).value || 'all',
-                            locations: Array.from($$('#sidebar-loc .filter-check:checked')).map(c => c.value),
-                            audiences: Array.from($$('#sidebar-aud .filter-check:checked')).map(c => c.value),
-                            status: ($('#sidebar-status input[name="s-status"]:checked') || {}).value || 'all',
-                        };
-                    } else {
-                        return {
-                            category: ($('#drawer-cat input[name="d-cat"]:checked') || {}).value || 'all',
-                            locations: Array.from($$('#drawer-loc input[type="checkbox"]:checked')).map(c => c.value),
-                            audiences: Array.from($$('#drawer-aud input[type="checkbox"]:checked')).map(c => c.value),
-                            status: ($('#drawer-status input[name="d-status"]:checked') || {}).value || 'all',
-                        };
-                    }
+            /* ============================================================
+               4. FILTER DRAWER (< xl)
+            ============================================================ */
+            function openFilterDrawer() {
+                DOM.filterOverlay.classList.remove('opacity-0', 'invisible', 'pointer-events-none');
+                DOM.filterOverlay.classList.add('opacity-100');
+                DOM.filterDrawer.classList.remove('translate-x-full');
+                DOM.filterDrawer.classList.add('translate-x-0');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeFilterDrawer() {
+                DOM.filterOverlay.classList.add('opacity-0', 'invisible', 'pointer-events-none');
+                DOM.filterOverlay.classList.remove('opacity-100');
+                DOM.filterDrawer.classList.add('translate-x-full');
+                DOM.filterDrawer.classList.remove('translate-x-0');
+                document.body.style.overflow = '';
+            }
+
+            DOM.filterOpenBtn?.addEventListener('click', openFilterDrawer);
+            DOM.filterCloseBtn?.addEventListener('click', closeFilterDrawer);
+            DOM.filterOverlay?.addEventListener('click', closeFilterDrawer);
+
+            /* ============================================================
+               5. ACCORDION TOGGLES (inside filter drawer)
+            ============================================================ */
+            $$('.accordion-toggle').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const body = btn.nextElementSibling;
+                    const arrow = btn.querySelector('.accordion-arrow');
+                    body.classList.toggle('is-open');
+                    arrow.classList.toggle('is-open');
+                });
+            });
+
+            /* ============================================================
+               6. FILTER ENGINE — unified for sidebar & drawer
+            ============================================================ */
+            function isDesktop() {
+                return window.innerWidth >= 1280;
+            }
+
+            // Get filter values from the ACTIVE panel
+            function getActiveFilters() {
+                if (isDesktop()) {
+                    return {
+                        category: ($('#sidebar-cat input[name="s-cat"]:checked') || {}).value || 'all',
+                        locations: Array.from($$('#sidebar-loc .filter-check:checked')).map(c => c.value),
+                        audiences: Array.from($$('#sidebar-aud .filter-check:checked')).map(c => c.value),
+                        status: ($('#sidebar-status input[name="s-status"]:checked') || {}).value || 'all',
+                    };
+                } else {
+                    return {
+                        category: ($('#drawer-cat input[name="d-cat"]:checked') || {}).value || 'all',
+                        locations: Array.from($$('#drawer-loc input[type="checkbox"]:checked')).map(c => c.value),
+                        audiences: Array.from($$('#drawer-aud input[type="checkbox"]:checked')).map(c => c.value),
+                        status: ($('#drawer-status input[name="d-status"]:checked') || {}).value || 'all',
+                    };
                 }
+            }
 
-                function getSearchTerm() {
-                    if (isDesktop()) {
-                        return ($('#desktop-search-input') || {}).value || '';
-                    } else {
-                        return ($('#mobile-search-input') || {}).value || '';
-                    }
+            function getSearchTerm() {
+                if (isDesktop()) {
+                    return ($('#desktop-search-input') || {}).value || '';
+                } else {
+                    return ($('#mobile-search-input') || {}).value || '';
                 }
+            }
 
-                function filterEvents() {
-                    const cards = $$('.event-card');
-                    const f = getActiveFilters();
-                    const search = getSearchTerm().toLowerCase().trim();
-                    let visible = 0;
+            function filterEvents() {
+                const cards = $$('.event-card');
+                const f = getActiveFilters();
+                const search = getSearchTerm().toLowerCase().trim();
+                let visible = 0;
 
-                    cards.forEach(card => {
-                        const cat = card.dataset.category;
-                        const aud = card.dataset.audience.split(',');
-                        const status = card.dataset.status;
-                        const loc = card.dataset.location;
-                        const title = (card.dataset.title || '').toLowerCase();
+                cards.forEach(card => {
+                    const cat = card.dataset.category;
+                    const aud = card.dataset.audience.split(',');
+                    const status = card.dataset.status;
+                    const loc = card.dataset.location;
+                    const title = (card.dataset.title || '').toLowerCase();
 
-                        let show = true;
+                    let show = true;
 
-                        if (f.category !== 'all' && cat !== f.category) show = false;
-                        if (f.locations.length > 0 && !f.locations.includes(loc)) show = false;
-                        if (f.audiences.length > 0 && !aud.some(a => f.audiences.includes(a))) show = false;
-                        if (f.status !== 'all' && status !== f.status) show = false;
-                        if (search && !title.includes(search)) show = false;
+                    if (f.category !== 'all' && cat !== f.category) show = false;
+                    if (f.locations.length > 0 && !f.locations.includes(loc)) show = false;
+                    if (f.audiences.length > 0 && !aud.some(a => f.audiences.includes(a))) show = false;
+                    if (f.status !== 'all' && status !== f.status) show = false;
+                    if (search && !title.includes(search)) show = false;
 
-                        card.style.display = show ? '' : 'none';
-                        if (show) visible++;
-                    });
+                    card.style.display = show ? '' : 'none';
+                    if (show) visible++;
+                });
 
-                    if (DOM.resultsCount) DOM.resultsCount.textContent = visible;
-                    if (DOM.totalCount) DOM.totalCount.textContent = cards.length;
+                if (DOM.resultsCount) DOM.resultsCount.textContent = visible;
+                if (DOM.totalCount) DOM.totalCount.textContent = cards.length;
 
-                    if (DOM.emptyState) {
-                        DOM.emptyState.classList.toggle('hidden', visible > 0);
-                        DOM.emptyState.classList.toggle('flex', visible === 0);
-                    }
+                if (DOM.emptyState) {
+                    DOM.emptyState.classList.toggle('hidden', visible > 0);
+                    DOM.emptyState.classList.toggle('flex', visible === 0);
                 }
+            }
 
-                // Sidebar change → instant filter
-                $$('#sidebar-cat input, #sidebar-loc input, #sidebar-aud input, #sidebar-status input').forEach(input => {
-                    input.addEventListener('change', filterEvents);
-                });
+            // Sidebar change → instant filter
+            $$('#sidebar-cat input, #sidebar-loc input, #sidebar-aud input, #sidebar-status input').forEach(input => {
+                input.addEventListener('change', filterEvents);
+            });
 
-                // Drawer Apply button
-                DOM.drawerApplyBtn?.addEventListener('click', () => {
-                    filterEvents();
-                    closeFilterDrawer();
-                });
-
-                // Search inputs (debounced)
-                let searchDebounce;
-                $$('.search-input').forEach(input => {
-                    input.addEventListener('input', () => {
-                        clearTimeout(searchDebounce);
-                        searchDebounce = setTimeout(filterEvents, 250);
-                    });
-                });
-
-                // Sync search inputs when switching modes
-                function syncSearchInputs() {
-                    const deskInput = $('#desktop-search-input');
-                    const mobInput = $('#mobile-search-input');
-                    if (deskInput && mobInput) {
-                        if (isDesktop()) {
-                            deskInput.value = mobInput.value;
-                        } else {
-                            mobInput.value = deskInput.value;
-                        }
-                    }
-                }
-
-                let wasDesktop = isDesktop();
-                window.addEventListener('resize', () => {
-                    const nowDesktop = isDesktop();
-                    if (wasDesktop !== nowDesktop) {
-                        syncSearchInputs();
-                        filterEvents();
-                        wasDesktop = nowDesktop;
-                    }
-                });
-
-                /* ============================================================
-                   7. RESET ALL FILTERS
-                ============================================================ */
-                INNEX.resetAllFilters = function () {
-                    // Reset sidebar
-                    const sidebarCatAll = $('#sidebar-cat input[value="all"]');
-                    if (sidebarCatAll) sidebarCatAll.checked = true;
-                    $$('#sidebar-loc .filter-check').forEach(cb => cb.checked = true);
-                    $$('#sidebar-aud .filter-check').forEach(cb => cb.checked = true);
-                    const sidebarStatusAll = $('#sidebar-status input[value="all"]');
-                    if (sidebarStatusAll) sidebarStatusAll.checked = true;
-
-                    // Reset drawer
-                    const drawerCatAll = $('#drawer-cat input[value="all"]');
-                    if (drawerCatAll) drawerCatAll.checked = true;
-                    $$('#drawer-loc input[type="checkbox"]').forEach(cb => cb.checked = true);
-                    $$('#drawer-aud input[type="checkbox"]').forEach(cb => cb.checked = true);
-                    const drawerStatusAll = $('#drawer-status input[value="all"]');
-                    if (drawerStatusAll) drawerStatusAll.checked = true;
-
-                    // Reset search
-                    const deskInput = $('#desktop-search-input');
-                    const mobInput = $('#mobile-search-input');
-                    if (deskInput) deskInput.value = '';
-                    if (mobInput) mobInput.value = '';
-
-                    filterEvents();
-                };
-
-                // Drawer reset button
-                DOM.drawerResetBtn?.addEventListener('click', () => {
-                    INNEX.resetAllFilters();
-                });
-
-                /* ============================================================
-                   8. KEYBOARD: Escape closes drawers
-                ============================================================ */
-                document.addEventListener('keydown', e => {
-                    if (e.key === 'Escape') {
-                        if (isFabOpen) toggleFab();
-                        closeFilterDrawer();
-                    }
-                });
-
-                /* ============================================================
-                   9. INIT
-                ============================================================ */
+            // Drawer Apply button
+            DOM.drawerApplyBtn?.addEventListener('click', () => {
                 filterEvents();
+                closeFilterDrawer();
+            });
 
-            })();
+            // Search inputs (debounced)
+            let searchDebounce;
+            $$('.search-input').forEach(input => {
+                input.addEventListener('input', () => {
+                    clearTimeout(searchDebounce);
+                    searchDebounce = setTimeout(filterEvents, 250);
+                });
+            });
+
+            // Sync search inputs when switching modes
+            function syncSearchInputs() {
+                const deskInput = $('#desktop-search-input');
+                const mobInput = $('#mobile-search-input');
+                if (deskInput && mobInput) {
+                    if (isDesktop()) {
+                        deskInput.value = mobInput.value;
+                    } else {
+                        mobInput.value = deskInput.value;
+                    }
+                }
+            }
+
+            let wasDesktop = isDesktop();
+            window.addEventListener('resize', () => {
+                const nowDesktop = isDesktop();
+                if (wasDesktop !== nowDesktop) {
+                    syncSearchInputs();
+                    filterEvents();
+                    wasDesktop = nowDesktop;
+                }
+            });
+
+            /* ============================================================
+               7. RESET ALL FILTERS
+            ============================================================ */
+            INNEX.resetAllFilters = function () {
+                // Reset sidebar
+                const sidebarCatAll = $('#sidebar-cat input[value="all"]');
+                if (sidebarCatAll) sidebarCatAll.checked = true;
+                $$('#sidebar-loc .filter-check').forEach(cb => cb.checked = true);
+                $$('#sidebar-aud .filter-check').forEach(cb => cb.checked = true);
+                const sidebarStatusAll = $('#sidebar-status input[value="all"]');
+                if (sidebarStatusAll) sidebarStatusAll.checked = true;
+
+                // Reset drawer
+                const drawerCatAll = $('#drawer-cat input[value="all"]');
+                if (drawerCatAll) drawerCatAll.checked = true;
+                $$('#drawer-loc input[type="checkbox"]').forEach(cb => cb.checked = true);
+                $$('#drawer-aud input[type="checkbox"]').forEach(cb => cb.checked = true);
+                const drawerStatusAll = $('#drawer-status input[value="all"]');
+                if (drawerStatusAll) drawerStatusAll.checked = true;
+
+                // Reset search
+                const deskInput = $('#desktop-search-input');
+                const mobInput = $('#mobile-search-input');
+                if (deskInput) deskInput.value = '';
+                if (mobInput) mobInput.value = '';
+
+                filterEvents();
+            };
+
+            // Drawer reset button
+            DOM.drawerResetBtn?.addEventListener('click', () => {
+                INNEX.resetAllFilters();
+            });
+
+            /* ============================================================
+               8. KEYBOARD: Escape closes drawers
+            ============================================================ */
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape') {
+                    if (isFabOpen) toggleFab();
+                    closeFilterDrawer();
+                }
+            });
+
+            /* ============================================================
+               9. INIT
+            ============================================================ */
+            filterEvents();
+
+        }
     </script>
 </body>
 

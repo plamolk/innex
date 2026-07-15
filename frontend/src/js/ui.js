@@ -12,6 +12,11 @@ function setLang(lang) {
         // Update display text
         const display = document.getElementById('current-lang-display');
         if (display) display.innerText = lang.toUpperCase();
+        
+        const sidebarDisplay = document.getElementById('mobile-lang-display');
+        if (sidebarDisplay) {
+            sidebarDisplay.innerText = lang.toUpperCase();
+        }
 
         // Reset styles
         const enBtn = document.getElementById('lang-btn-en');
@@ -45,38 +50,58 @@ function setLang(lang) {
     }
 }
 
-// Dropdown toggle logic
-const langBtn = document.getElementById('language-dropdown-btn');
-const langMenu = document.getElementById('language-dropdown-menu');
-
-function toggleLangDropdown(e) {
-    if (langMenu.classList.contains('opacity-0')) {
-        // Open
-        langMenu.classList.remove('opacity-0', 'invisible', 'scale-95');
-        langMenu.classList.add('opacity-100', 'visible', 'scale-100');
-    } else {
-        closeLangDropdown();
-    }
-    e.stopPropagation();
-}
-
+// Event Delegation for Dropdown toggle logic
 function closeLangDropdown() {
-    if (langMenu) {
-        langMenu.classList.add('opacity-0', 'invisible', 'scale-95');
-        langMenu.classList.remove('opacity-100', 'visible', 'scale-100');
-    }
+    const menus = [
+        document.getElementById('language-dropdown-menu'),
+        document.getElementById('mobile-lang-menu')
+    ];
+    menus.forEach(menu => {
+        if (menu && !menu.classList.contains('opacity-0')) {
+            menu.classList.add('opacity-0', 'invisible', 'scale-95');
+            menu.classList.remove('opacity-100', 'visible', 'scale-100');
+        }
+    });
 }
 
-if (langBtn) {
-    langBtn.addEventListener('click', toggleLangDropdown);
-}
-
-// Close when clicking outside
 document.addEventListener('click', (e) => {
-    if (langMenu && !langMenu.classList.contains('opacity-0') && !langMenu.contains(e.target) && !langBtn.contains(e.target)) {
-        closeLangDropdown();
+    const target = e.target;
+    
+    // Desktop Nav Language Dropdown
+    const desktopBtn = target.closest('#language-dropdown-btn');
+    if (desktopBtn) {
+        const menu = document.getElementById('language-dropdown-menu');
+        if (menu) {
+            menu.classList.toggle('opacity-0');
+            menu.classList.toggle('invisible');
+            menu.classList.toggle('scale-95');
+            menu.classList.toggle('opacity-100');
+            menu.classList.toggle('visible');
+            menu.classList.toggle('scale-100');
+        }
+        e.stopPropagation();
+        return;
     }
-})
+
+    // Mobile Language Dropdown
+    const sidebarBtn = target.closest('#mobile-lang-btn');
+    if (sidebarBtn) {
+        const menu = document.getElementById('mobile-lang-menu');
+        if (menu) {
+            menu.classList.toggle('opacity-0');
+            menu.classList.toggle('invisible');
+            menu.classList.toggle('scale-95');
+            menu.classList.toggle('opacity-100');
+            menu.classList.toggle('visible');
+            menu.classList.toggle('scale-100');
+        }
+        e.stopPropagation();
+        return;
+    }
+
+    // Close when clicking outside
+    closeLangDropdown();
+});
 
 // Initialize active state on load
 document.addEventListener('DOMContentLoaded', () => {
