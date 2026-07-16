@@ -29,18 +29,18 @@
     ---------------------------------------------------------- */
     const NAV_KEY_MAP = {
         'opportunities': 'opportunities',
-        'community':     'community',
-        'event-detail':  'opportunities', // event detail ยังอยู่ใต้ Opportunities
-        'teams':         'teams',
+        'community': 'community',
+        'event-detail': 'opportunities', // event detail ยังอยู่ใต้ Opportunities
+        'teams': 'teams',
     };
 
     /* ----------------------------------------------------------
        Active nav CSS classes
     ---------------------------------------------------------- */
-    const ACTIVE_CLASSES   = ['bg-royalblue/10', 'dark:bg-royalblue/20', 'text-royalblue', 'dark:text-lightblue', 'font-bold'];
+    const ACTIVE_CLASSES = ['bg-royalblue/10', 'dark:bg-royalblue/20', 'text-royalblue', 'dark:text-lightblue', 'font-bold'];
     const INACTIVE_CLASSES = ['text-gray-600', 'dark:text-gray-400', 'hover:bg-gray-100', 'dark:hover:bg-gray-800', 'font-medium'];
 
-    const ACTIVE_DESKTOP_CLASSES   = ['text-royalblue', 'dark:text-lightblue', 'border-b-2', 'border-royalblue', 'dark:border-lightblue', 'pb-0.5'];
+    const ACTIVE_DESKTOP_CLASSES = ['text-royalblue', 'dark:text-lightblue', 'border-b-2', 'border-royalblue', 'dark:border-lightblue', 'pb-0.5'];
     const INACTIVE_DESKTOP_CLASSES = ['text-gray-500', 'dark:text-gray-400', 'hover:text-royalblue', 'dark:hover:text-lightblue', 'transition-colors'];
 
     /* ----------------------------------------------------------
@@ -55,7 +55,7 @@
 
             if (!navRes.ok || !sideRes.ok) throw new Error('Components not found');
 
-            document.getElementById('navbar-placeholder').innerHTML  = await navRes.text();
+            document.getElementById('navbar-placeholder').innerHTML = await navRes.text();
             document.getElementById('sidebar-placeholder').innerHTML = await sideRes.text();
 
             // Init all shared UI after components are in DOM
@@ -132,7 +132,7 @@
     function syncThemeIcons() {
         const isDark = document.documentElement.classList.contains('dark');
         document.querySelectorAll('.icon-moon').forEach(el => el.classList.toggle('hidden', isDark));
-        document.querySelectorAll('.icon-sun').forEach(el  => el.classList.toggle('hidden', !isDark));
+        document.querySelectorAll('.icon-sun').forEach(el => el.classList.toggle('hidden', !isDark));
     }
 
     function initThemeToggle() {
@@ -191,10 +191,10 @@
        5. MOBILE FAB HAMBURGER MENU
     ---------------------------------------------------------- */
     function initFAB() {
-        const fabMenuBtn     = document.getElementById('fab-menu-btn');
+        const fabMenuBtn = document.getElementById('fab-menu-btn');
         const fabPopoverMenu = document.getElementById('fab-popover-menu');
-        const fabIconMenu    = document.getElementById('fab-icon-menu');
-        const fabIconClose   = document.getElementById('fab-icon-close');
+        const fabIconMenu = document.getElementById('fab-icon-menu');
+        const fabIconClose = document.getElementById('fab-icon-close');
 
         if (!fabMenuBtn || !fabPopoverMenu) return;
 
@@ -205,12 +205,12 @@
             if (isFabOpen) {
                 fabPopoverMenu.classList.remove('opacity-0', 'invisible', 'scale-95');
                 fabPopoverMenu.classList.add('opacity-100', 'scale-100');
-                if (fabIconMenu)  fabIconMenu.classList.add('hidden');
+                if (fabIconMenu) fabIconMenu.classList.add('hidden');
                 if (fabIconClose) fabIconClose.classList.remove('hidden');
             } else {
                 fabPopoverMenu.classList.add('opacity-0', 'invisible', 'scale-95');
                 fabPopoverMenu.classList.remove('opacity-100', 'scale-100');
-                if (fabIconMenu)  fabIconMenu.classList.remove('hidden');
+                if (fabIconMenu) fabIconMenu.classList.remove('hidden');
                 if (fabIconClose) fabIconClose.classList.add('hidden');
                 // Close mobile lang menu if open
                 const mobileLangMenu = document.getElementById('mobile-lang-menu');
@@ -242,7 +242,7 @@
        6. MOBILE LANGUAGE DROPDOWN (inside FAB popover)
     ---------------------------------------------------------- */
     function initMobileLangMenu() {
-        const mobileLangBtn  = document.getElementById('mobile-lang-btn');
+        const mobileLangBtn = document.getElementById('mobile-lang-btn');
         const mobileLangMenu = document.getElementById('mobile-lang-menu');
         if (!mobileLangBtn || !mobileLangMenu) return;
 

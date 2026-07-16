@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post - INNEX</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- FOUC Prevention: Apply saved theme BEFORE paint -->
+    <script>
+        (function () {
+            try {
+                const t = localStorage.getItem('theme');
+                if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { }
+        })();
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkblue: '#293681',
+                        royalblue: '#4274D9',
+                        lightblue: '#95CCDD',
+                        accent: '#D07E66',
+                        bglight: '#f6f9fc',
+                        bgteal: '#D0E7E6',
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                        prompt: ['Prompt', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body:lang(th) {
+            font-family: 'Prompt', 'Outfit', sans-serif;
+        }
+
+        /* Wavy Pattern Background */
+        .wave-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            opacity: 0.45;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='wave' x='0' y='0' width='120' height='24' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 12 Q 30 24 60 12 T 120 12' fill='none' stroke='%2395CCDD' stroke-width='1.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='url(%23wave)'/%3E%3C/svg%3E");
+        }
+
+        .dark .wave-bg {
+            opacity: 0.12;
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 10px 40px -10px rgba(41, 54, 129, 0.1);
+        }
+
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.85);
+            /* Tailwind slate-800 */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Custom Radio Card Styles */
+        .radio-card-input:checked+.radio-card-content {
+            border-color: #4274D9;
+            background-color: rgba(66, 116, 217, 0.05);
+            box-shadow: 0 4px 15px rgba(66, 116, 217, 0.1);
+        }
+
+        .dark .radio-card-input:checked+.radio-card-content {
+            background-color: rgba(66, 116, 217, 0.15);
+        }
+
+        .radio-card-input:checked+.radio-card-content .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .radio-card-content .check-icon {
+            transform: scale(0.5);
+        }
+
+        /* Custom Checkbox Pills */
+        .checkbox-pill-input:checked+.checkbox-pill-content {
+            background-color: #4274D9;
+            color: #ffffff;
+            border-color: #4274D9;
+        }
+
+        .dark .checkbox-pill-input:checked+.checkbox-pill-content {
+            color: #ffffff;
+        }
+
+        .checkbox-pill-input:checked+.checkbox-pill-content .role-icon {
+            color: #ffffff;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .dark ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #95CCDD;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4274D9;
+        }
+    </style>
+</head>
+
+<body
+    class="text-gray-800 dark:text-gray-200 bg-bglight dark:bg-gray-900 antialiased min-h-screen flex flex-col relative transition-colors duration-300">
+
+    <div class="wave-bg"></div>
+
+    <!-- ============================================================
+         NAVBAR & SIDEBAR PLACEHOLDERS
+    ============================================================ -->
+    <div id="navbar-placeholder"></div>
+    <div id="sidebar-placeholder"></div>
+
+    <!-- ============================================================
+         MAIN CONTENT
+    ============================================================ -->
+    <main class="flex-grow pt-28 pb-20 px-4 sm:px-6 relative z-10">
+        <div class="max-w-3xl mx-auto glass-card rounded-2xl p-6 sm:p-10 transition-all duration-300">
+
+            <!-- Page Header -->
+            <div class="mb-10 text-center">
+                <div
+                    class="w-16 h-16 bg-gradient-to-br from-royalblue to-lightblue text-white rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg shadow-royalblue/20 transform rotate-3">
+                    <i class="fa-solid fa-pen-nib text-2xl -rotate-3"></i>
+                </div>
+                <h1 class="text-3xl font-extrabold text-darkblue dark:text-white mb-2 tracking-tight"
+                    data-i18n="create.title">สร้างโพสต์ (Create Post)</h1>
+                <p class="text-gray-500 dark:text-gray-400 text-sm font-medium" data-i18n="create.subtitle">
+                    ค้นหาทีมหรือหาสมาชิกที่ใช่ เพื่อเข้าร่วมโปรเจกต์ของคุณ</p>
+            </div>
+
+            <!-- Form -->
+            <form id="create-post-form" class="space-y-8">
+
+                <!-- 1. Main Objective Toggle -->
+                <div class="space-y-3">
+                    <label class="block text-sm font-bold text-darkblue dark:text-lightblue uppercase tracking-wide">
+                        <i class="fa-solid fa-bullseye mr-1.5 text-royalblue dark:text-lightblue"></i> <span
+                            data-i18n="create.objectiveLabel">1. จุดประสงค์ของคุณ (Objective)</span>
+                    </label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Option A: Looking for Members -->
+                        <label class="relative cursor-pointer group">
+                            <input type="radio" name="objective" value="members" class="radio-card-input sr-only"
+                                checked>
+                            <div
+                                class="radio-card-content rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 transition-all duration-300 hover:border-royalblue/50 dark:hover:border-royalblue/50 flex flex-col h-full">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div
+                                        class="w-12 h-12 rounded-full bg-royalblue/10 dark:bg-royalblue/20 flex items-center justify-center text-royalblue dark:text-lightblue group-hover:scale-110 transition-transform">
+                                        <i class="fa-solid fa-users text-xl"></i>
+                                    </div>
+                                    <div
+                                        class="check-icon opacity-0 transition-all duration-300 text-royalblue dark:text-lightblue">
+                                        <i class="fa-solid fa-circle-check text-2xl"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-lg font-bold text-darkblue dark:text-white mb-1"
+                                    data-i18n="create.lookingForMembers">หาคนเข้าทีม</h3>
+                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Looking for Members</p>
+                            </div>
+                        </label>
+                        <!-- Option B: Looking for a Team -->
+                        <label class="relative cursor-pointer group">
+                            <input type="radio" name="objective" value="team" class="radio-card-input sr-only">
+                            <div
+                                class="radio-card-content rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 transition-all duration-300 hover:border-royalblue/50 dark:hover:border-royalblue/50 flex flex-col h-full">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div
+                                        class="w-12 h-12 rounded-full bg-lightblue/20 dark:bg-lightblue/10 flex items-center justify-center text-darkblue dark:text-white group-hover:scale-110 transition-transform">
+                                        <i class="fa-solid fa-magnifying-glass text-xl"></i>
+                                    </div>
+                                    <div
+                                        class="check-icon opacity-0 transition-all duration-300 text-royalblue dark:text-lightblue">
+                                        <i class="fa-solid fa-circle-check text-2xl"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-lg font-bold text-darkblue dark:text-white mb-1"
+                                    data-i18n="create.lookingForTeam">หาทีมอยู่</h3>
+                                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">Looking for a Team</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 2. Event Selection -->
+                <div class="space-y-3">
+                    <label for="event-select"
+                        class="block text-sm font-bold text-darkblue dark:text-lightblue uppercase tracking-wide">
+                        <i class="fa-solid fa-calendar-days mr-1.5 text-royalblue dark:text-lightblue"></i> <span
+                            data-i18n="create.eventLabel">2. กิจกรรมที่เกี่ยวข้อง (Event)</span>
+                    </label>
+                    <div class="relative">
+                        <div
+                            class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 dark:text-gray-500">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        <select id="event-select" name="event"
+                            class="w-full appearance-none bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl pl-11 pr-10 py-3.5 text-sm font-medium text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-4 focus:ring-royalblue/20 focus:border-royalblue dark:focus:border-royalblue transition-all cursor-pointer shadow-sm">
+                            <option value="open" data-i18n="create.eventOpen">ไม่ระบุรายการ / พร้อมลุยทุกงาน (Open to
+                                any Event)</option>
+                            <option value="hackathon2026">Hackathon 2026</option>
+                            <option value="startup2026">Startup Pitch Arena 2026</option>
+                        </select>
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-gray-500 dark:text-gray-400">
+                            <i class="fa-solid fa-chevron-down text-sm"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-200/60 dark:border-gray-700/60 my-8"></div>
+
+                <!-- 3. Dynamic Fields Section -->
+
+                <!-- Container A: Looking for Members -->
+                <div id="container-members" class="space-y-6 block">
+                    <div class="space-y-6">
+                        <h3 class="font-bold text-darkblue dark:text-white text-lg flex items-center">
+                            <i class="fa-solid fa-layer-group mr-2 text-lightblue"></i> <span
+                                data-i18n="create.teamDetails">รายละเอียดทีมของคุณ</span>
+                        </h3>
+
+                        <!-- Project Name -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-300"
+                                data-i18n="create.projectName">ชื่อโปรเจกต์ / ชื่อทีม (Project Name)</label>
+                            <input type="text" placeholder="เช่น AI Health Dashboard..."
+                                data-i18n-placeholder="create.projectNamePlaceholder"
+                                class="w-full bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3.5 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-royalblue/20 focus:border-royalblue transition-all shadow-sm dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+                        </div>
+
+                        <!-- Current Member Count -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-300"
+                                data-i18n="create.currentMembers">จำนวนสมาชิกปัจจุบัน (Current Members)</label>
+                            <div class="relative max-w-xs">
+                                <select
+                                    class="w-full appearance-none bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3.5 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-royalblue/20 focus:border-royalblue transition-all shadow-sm cursor-pointer dark:text-white">
+                                    <option value="1" data-i18n="create.member1">1 คน</option>
+                                    <option value="2" data-i18n="create.member2">2 คน</option>
+                                    <option value="3" data-i18n="create.member3">3 คน</option>
+                                    <option value="4" data-i18n="create.member4">4 คน</option>
+                                    <option value="5" data-i18n="create.member5">5 คน</option>
+                                </select>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-gray-500 dark:text-gray-400">
+                                    <i class="fa-solid fa-chevron-down text-sm"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Needed Roles -->
+                        <div class="space-y-3">
+                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-300"
+                                data-i18n="create.neededRoles">ตำแหน่งที่ต้องการ (Needed Roles)</label>
+                            <div class="flex flex-wrap gap-2.5">
+                                <label class="cursor-pointer">
+                                    <input type="checkbox" class="checkbox-pill-input sr-only">
+                                    <div
+                                        class="checkbox-pill-content px-5 py-2.5 rounded-full bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 text-sm font-bold text-gray-600 dark:text-gray-300 transition-all shadow-sm hover:border-royalblue dark:hover:border-royalblue hover:text-royalblue">
+                                        <i
+                                            class="fa-solid fa-code mr-1.5 role-icon text-gray-400 dark:text-gray-500"></i>
+                                        Front-end
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="checkbox" class="checkbox-pill-input sr-only">
+                                    <div
+                                        class="checkbox-pill-content px-5 py-2.5 rounded-full bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 text-sm font-bold text-gray-600 dark:text-gray-300 transition-all shadow-sm hover:border-royalblue dark:hover:border-royalblue hover:text-royalblue">
+                                        <i
+                                            class="fa-solid fa-server mr-1.5 role-icon text-gray-400 dark:text-gray-500"></i>
+                                        Back-end
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="checkbox" class="checkbox-pill-input sr-only">
+                                    <div
+                                        class="checkbox-pill-content px-5 py-2.5 rounded-full bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 text-sm font-bold text-gray-600 dark:text-gray-300 transition-all shadow-sm hover:border-royalblue dark:hover:border-royalblue hover:text-royalblue">
+                                        <i
+                                            class="fa-solid fa-pen-nib mr-1.5 role-icon text-gray-400 dark:text-gray-500"></i>
+                                        UI/UX
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="checkbox" class="checkbox-pill-input sr-only">
+                                    <div
+                                        class="checkbox-pill-content px-5 py-2.5 rounded-full bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 text-sm font-bold text-gray-600 dark:text-gray-300 transition-all shadow-sm hover:border-royalblue dark:hover:border-royalblue hover:text-royalblue">
+                                        <i
+                                            class="fa-solid fa-chart-line mr-1.5 role-icon text-gray-400 dark:text-gray-500"></i>
+                                        Business
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="checkbox" class="checkbox-pill-input sr-only">
+                                    <div
+                                        class="checkbox-pill-content px-5 py-2.5 rounded-full bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 text-sm font-bold text-gray-600 dark:text-gray-300 transition-all shadow-sm hover:border-royalblue dark:hover:border-royalblue hover:text-royalblue">
+                                        <i
+                                            class="fa-solid fa-microphone mr-1.5 role-icon text-gray-400 dark:text-gray-500"></i>
+                                        Pitching
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Project Details -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-300"
+                                data-i18n="create.projectDetails">รายละเอียดโปรเจกต์ (Project Details & Idea)</label>
+                            <textarea rows="5" placeholder="อธิบายไอเดียคร่าวๆ หรือสิ่งที่คุณกำลังจะสร้าง..."
+                                data-i18n-placeholder="create.projectDetailsPlaceholder"
+                                class="w-full bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3.5 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-royalblue/20 focus:border-royalblue transition-all shadow-sm resize-none dark:text-white placeholder-gray-400 dark:placeholder-gray-500"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Container B: Looking for a Team -->
+                <div id="container-team" class="space-y-6 hidden">
+                    <div class="space-y-6">
+                        <h3 class="font-bold text-darkblue dark:text-white text-lg flex items-center">
+                            <i class="fa-solid fa-user-astronaut mr-2 text-lightblue"></i> <span
+                                data-i18n="create.introduceYourself">แนะนำตัวคุณ</span>
+                        </h3>
+
+                        <!-- Primary Role -->
+                        <div class="space-y-3">
+                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-300"
+                                data-i18n="create.primaryRole">บทบาทหลักของคุณ (Primary Role)</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="primary_role" value="hacker" class="peer sr-only" checked>
+                                    <div
+                                        class="rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 text-center peer-checked:border-royalblue peer-checked:bg-royalblue/5 dark:peer-checked:bg-royalblue/10 transition-all shadow-sm text-gray-500 dark:text-gray-400 hover:border-royalblue/50">
+                                        <i
+                                            class="fa-solid fa-laptop-code text-2xl mb-2 block text-darkblue dark:text-white peer-checked:text-royalblue dark:peer-checked:text-lightblue"></i>
+                                        <span
+                                            class="text-sm font-extrabold text-darkblue dark:text-white peer-checked:text-royalblue dark:peer-checked:text-lightblue">Hacker</span>
+                                        <p class="text-[0.7rem] font-medium mt-0.5">Developer / Engineer</p>
+                                    </div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="primary_role" value="hustler" class="peer sr-only">
+                                    <div
+                                        class="rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 text-center peer-checked:border-royalblue peer-checked:bg-royalblue/5 dark:peer-checked:bg-royalblue/10 transition-all shadow-sm text-gray-500 dark:text-gray-400 hover:border-royalblue/50">
+                                        <i
+                                            class="fa-solid fa-briefcase text-2xl mb-2 block text-darkblue dark:text-white peer-checked:text-royalblue dark:peer-checked:text-lightblue"></i>
+                                        <span
+                                            class="text-sm font-extrabold text-darkblue dark:text-white peer-checked:text-royalblue dark:peer-checked:text-lightblue">Hustler</span>
+                                        <p class="text-[0.7rem] font-medium mt-0.5">Business / Marketing</p>
+                                    </div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="primary_role" value="hipster" class="peer sr-only">
+                                    <div
+                                        class="rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 text-center peer-checked:border-royalblue peer-checked:bg-royalblue/5 dark:peer-checked:bg-royalblue/10 transition-all shadow-sm text-gray-500 dark:text-gray-400 hover:border-royalblue/50">
+                                        <i
+                                            class="fa-solid fa-palette text-2xl mb-2 block text-darkblue dark:text-white peer-checked:text-royalblue dark:peer-checked:text-lightblue"></i>
+                                        <span
+                                            class="text-sm font-extrabold text-darkblue dark:text-white peer-checked:text-royalblue dark:peer-checked:text-lightblue">Hipster</span>
+                                        <p class="text-[0.7rem] font-medium mt-0.5">Design / UX/UI</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Skills & Tools -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-300"
+                                data-i18n="create.skillsTools">ทักษะและเครื่องมือ (Skills & Tools)</label>
+                            <input type="text" placeholder="เช่น React, Figma, Business Canvas..."
+                                data-i18n-placeholder="create.skillsToolsPlaceholder"
+                                class="w-full bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3.5 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-royalblue/20 focus:border-royalblue transition-all shadow-sm dark:text-white placeholder-gray-400 dark:placeholder-gray-500">
+                        </div>
+
+                        <!-- Intro & Goals -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-300"
+                                data-i18n="create.introGoals">แนะนำตัวและเป้าหมาย (Introduction & Goals)</label>
+                            <textarea rows="5" placeholder="บอกเล่าประสบการณ์ของคุณ และโปรเจกต์แบบไหนที่คุณอยากทำ..."
+                                data-i18n-placeholder="create.introGoalsPlaceholder"
+                                class="w-full bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3.5 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-royalblue/20 focus:border-royalblue transition-all shadow-sm resize-none dark:text-white placeholder-gray-400 dark:placeholder-gray-500"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Submit Button -->
+                <div class="pt-4">
+                    <button type="submit"
+                        class="w-full py-4 px-6 bg-royalblue hover:bg-darkblue text-white font-bold rounded-2xl shadow-lg shadow-royalblue/30 hover:shadow-xl hover:shadow-darkblue/40 transition-all duration-300 active:scale-[0.98] flex justify-center items-center gap-2.5 text-lg border border-transparent">
+                        <i class="fa-solid fa-paper-plane"></i> <span data-i18n="create.submitBtn">สร้างโพสต์ (Publish
+                            Post)</span>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <!-- ============================================================
+         SCRIPTS
+    ============================================================ -->
+    <!-- Include UI and App logic for consistent Navbar/Sidebar & i18n -->
+    <script src="src/js/i18n.js"></script>
+    <script src="src/js/ui.js"></script>
+    <script src="src/js/app.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 1. Fetch Navbar & Sidebar
+            if (window.INNEX && typeof window.INNEX.loadComponents === 'function') {
+                window.INNEX.loadComponents(); // Load components with appropriate active nav state
+            } else {
+                fetch('navbar.html')
+                    .then(r => r.text())
+                    .then(html => {
+                        const ph = document.getElementById('navbar-placeholder');
+                        if (ph) ph.innerHTML = html;
+                    });
+                fetch('sidebar.html')
+                    .then(r => r.text())
+                    .then(html => {
+                        const ph = document.getElementById('sidebar-placeholder');
+                        if (ph) ph.innerHTML = html;
+                    });
+            }
+
+            // 2. Tab Toggling Logic (Main Objective)
+            const radioMembers = document.querySelector('input[name="objective"][value="members"]');
+            const radioTeam = document.querySelector('input[name="objective"][value="team"]');
+            const containerMembers = document.getElementById('container-members');
+            const containerTeam = document.getElementById('container-team');
+
+            function updateContainers() {
+                if (radioMembers.checked) {
+                    containerMembers.classList.remove('hidden');
+                    containerMembers.classList.add('block');
+                    containerTeam.classList.remove('block');
+                    containerTeam.classList.add('hidden');
+                } else if (radioTeam.checked) {
+                    containerTeam.classList.remove('hidden');
+                    containerTeam.classList.add('block');
+                    containerMembers.classList.remove('block');
+                    containerMembers.classList.add('hidden');
+                }
+            }
+
+            if (radioMembers) radioMembers.addEventListener('change', updateContainers);
+            if (radioTeam) radioTeam.addEventListener('change', updateContainers);
+
+            // 3. URL Parameter Auto-Select Logic for Event Dropdown
+            const urlParams = new URLSearchParams(window.location.search);
+            const eventParam = urlParams.get('event');
+
+            if (eventParam) {
+                const eventSelect = document.getElementById('event-select');
+                if (eventSelect) {
+                    const targetValue = eventParam.toLowerCase().replace(/\s+/g, '');
+                    for (let i = 0; i < eventSelect.options.length; i++) {
+                        const optVal = eventSelect.options[i].value.toLowerCase();
+                        if (optVal === targetValue || optVal.includes(targetValue) || targetValue.includes(optVal)) {
+                            eventSelect.value = eventSelect.options[i].value;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // 4. Form Submit Prevention (Demo UX)
+            const form = document.getElementById('create-post-form');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const btn = form.querySelector('button[type="submit"]');
+                    const originalHTML = btn.innerHTML;
+                    btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> กำลังสร้างโพสต์...';
+                    btn.classList.add('opacity-80', 'cursor-not-allowed');
+
+                    setTimeout(() => {
+                        alert('โพสต์ของคุณถูกสร้างเรียบร้อยแล้ว! (Demo)');
+                        window.location.href = 'community.html';
+                    }, 800);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

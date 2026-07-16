@@ -129,5 +129,33 @@
     "currentMembers": "สมาชิกปัจจุบัน",
     "neededRoles": "ตำแหน่งที่ต้องการ",
     "description": "รายละเอียด"
+  },
+  "create": {
+    "title": "สร้างโพสต์ (Create Post)",
+    "subtitle": "ค้นหาทีมที่ใช่ หรือหาสมาชิกใหม่ เพื่อเข้าร่วมโปรเจกต์ของคุณ",
+    "objectiveLabel": "1. จุดประสงค์ของคุณ (Objective)",
+    "lookingForMembers": "หาคนเข้าทีม",
+    "lookingForTeam": "หาทีมอยู่",
+    "eventLabel": "2. กิจกรรมที่เกี่ยวข้อง (Event)",
+    "eventOpen": "ไม่ระบุรายการ / พร้อมลุยทุกงาน (Open to any Event)",
+    "teamDetails": "รายละเอียดทีมของคุณ",
+    "projectName": "ชื่อโปรเจกต์ / ชื่อทีม (Project Name)",
+    "projectNamePlaceholder": "เช่น AI Health Dashboard...",
+    "currentMembers": "จำนวนสมาชิกปัจจุบัน (Current Members)",
+    "member1": "1 คน",
+    "member2": "2 คน",
+    "member3": "3 คน",
+    "member4": "4 คน",
+    "member5": "5 คน",
+    "neededRoles": "ตำแหน่งที่ต้องการ (Needed Roles)",
+    "projectDetails": "รายละเอียดโปรเจกต์ (Project Details & Idea)",
+    "projectDetailsPlaceholder": "อธิบายไอเดียคร่าวๆ หรือสิ่งที่คุณกำลังจะสร้าง...",
+    "introduceYourself": "แนะนำตัวคุณ",
+    "primaryRole": "บทบาทหลักของคุณ (Primary Role)",
+    "skillsTools": "ทักษะและเครื่องมือ (Skills & Tools)",
+    "skillsToolsPlaceholder": "เช่น React, Figma, Business Canvas...",
+    "introGoals": "แนะนำตัวและเป้าหมาย (Introduction & Goals)",
+    "introGoalsPlaceholder": "บอกเล่าประสบการณ์ของคุณ และโปรเจกต์แบบไหนที่คุณอยากทำ...",
+    "submitBtn": "สร้างโพสต์ (Publish Post)"
   }
 }

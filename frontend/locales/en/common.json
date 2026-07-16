@@ -129,5 +129,33 @@
     "currentMembers": "Current Members",
     "neededRoles": "Needed Roles",
     "description": "Description"
+  },
+  "create": {
+    "title": "Create Post",
+    "subtitle": "Find the right team or recruit new members to join your project",
+    "objectiveLabel": "1. Objective",
+    "lookingForMembers": "Looking for Members",
+    "lookingForTeam": "Looking for a Team",
+    "eventLabel": "2. Event",
+    "eventOpen": "Open to any Event",
+    "teamDetails": "Team Details",
+    "projectName": "Project Name",
+    "projectNamePlaceholder": "e.g., AI Health Dashboard...",
+    "currentMembers": "Current Members",
+    "member1": "1 Person",
+    "member2": "2 People",
+    "member3": "3 People",
+    "member4": "4 People",
+    "member5": "5 People",
+    "neededRoles": "Needed Roles",
+    "projectDetails": "Project Details & Idea",
+    "projectDetailsPlaceholder": "Briefly describe your idea or what you are building...",
+    "introduceYourself": "Introduce Yourself",
+    "primaryRole": "Primary Role",
+    "skillsTools": "Skills & Tools",
+    "skillsToolsPlaceholder": "e.g., React, Figma, Business Canvas...",
+    "introGoals": "Introduction & Goals",
+    "introGoalsPlaceholder": "Tell us about your experience and what kind of project you want to build...",
+    "submitBtn": "Publish Post"
   }
 }
