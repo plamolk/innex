@@ -3,19 +3,26 @@
         <!-- Popover Menu -->
         <div id="fab-popover-menu"
             class="mb-4 pointer-events-auto bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 shadow-2xl rounded-2xl w-56 overflow-visible opacity-0 invisible scale-95 origin-bottom-right transition-all duration-300">
-            <!-- Nav Links -->
+            <!-- Nav Links — active class is set by app.js via data-nav-key -->
             <nav class="flex flex-col p-2 space-y-1">
                 <a href="index.html"
-                    class="flex items-center space-x-3 px-3 py-2.5 rounded-xl bg-royalblue/10 dark:bg-royalblue/20 text-royalblue dark:text-lightblue font-bold text-sm">
+                    data-nav-key="opportunities"
+                    class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium transition-colors text-sm">
                     <i class="fa-solid fa-compass"></i><span data-i18n="hub.navOpportunities">Opportunities</span>
                 </a>
                 <a href="#"
+                    data-nav-key="community"
+                    class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium transition-colors text-sm">
+                    <i class="fa-solid fa-comments"></i><span data-i18n="hub.navCommunity">Community</span>
+                </a>
+                <a href="community.html"
+                    data-nav-key="teams"
                     class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium transition-colors text-sm">
                     <i class="fa-solid fa-users"></i><span data-i18n="hub.navTeams">Find Teams</span>
                 </a>
                 <a href="#"
                     class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium transition-colors text-sm">
-                    <i class="fa-solid fa-comments"></i><span data-i18n="hub.navCommunity">Community</span>
+                    <i class="fa-solid fa-plus-circle"></i><span data-i18n="nav.createTeam">Create Team</span>
                 </a>
             </nav>
 
@@ -35,7 +42,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
-                        <span class="font-bold">Theme</span>
+                        <span class="font-bold" data-i18n="nav.theme">Theme</span>
                     </div>
                 </button>
 
@@ -45,7 +52,7 @@
                         class="flex items-center justify-between w-full px-3 py-2.5 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium transition-colors text-sm cursor-pointer">
                         <div class="flex items-center space-x-3">
                             <i class="fa-solid fa-language text-lg"></i>
-                            <span class="font-bold">Language</span>
+                            <span class="font-bold" data-i18n="nav.language">Language</span>
                         </div>
                         <div class="flex items-center space-x-1 text-darkblue dark:text-white">
                             <span class="text-sm font-bold tracking-wide" id="mobile-lang-display">EN</span>

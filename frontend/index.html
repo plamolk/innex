@@ -1156,52 +1156,20 @@
     <script src="src/js/i18n.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="src/js/ui.js"></script>
+    <script src="src/js/app.js"></script>
 
     <script>
-        async function loadComponents() {
-            try {
-                // If opening via file:/// this will fail due to CORS. 
-                // Please use Live Server to test!
-                const [nav, side] = await Promise.all([
-                    fetch('navbar.html').then(r => r.text()),
-                    fetch('sidebar.html').then(r => r.text())
-                ]);
+        // Use shared app.js to load navbar/sidebar, handle theme, FAB, and mobile nav scroll
+        INNEX.loadComponents('opportunities');
 
-                document.getElementById('navbar-placeholder').innerHTML = nav;
-                document.getElementById('sidebar-placeholder').innerHTML = side;
-
-                // Only init UI when elements are actually in the DOM
-                initUI();
-            } catch (error) {
-                console.error('Error loading components:', error);
-                alert("It looks like components failed to load.\nAre you opening this file directly (file:///)?\nPlease use a local server like Live Server in VSCode for the fetch() architecture to work.");
-            }
-        }
-
-        loadComponents();
-
-        function initUI() {
+        INNEX.onReady(function() {
             'use strict';
-
-            /* ============================================================
-               MODULE: INNEX — all page logic
-            ============================================================ */
-            const INNEX = {};
-            window.INNEX = INNEX;
 
             // Cache DOM
             const $ = (sel, ctx) => (ctx || document).querySelector(sel);
             const $$ = (sel, ctx) => (ctx || document).querySelectorAll(sel);
 
             const DOM = {
-                mobileNavbar: $('#mobile-navbar'),
-                mobileSearchBar: $('#mobile-search-bar'),
-                fabMenuBtn: $('#fab-menu-btn'),
-                fabPopoverMenu: $('#fab-popover-menu'),
-                fabIconMenu: $('#fab-icon-menu'),
-                fabIconClose: $('#fab-icon-close'),
-                mobileLangBtn: $('#mobile-lang-btn'),
-                mobileLangMenu: $('#mobile-lang-menu'),
                 filterOverlay: $('#filter-overlay'),
                 filterDrawer: $('#filter-drawer'),
                 filterOpenBtn: $('#filter-drawer-open-btn'),
@@ -1213,112 +1181,6 @@
                 totalCount: $('#total-count'),
                 emptyState: $('#empty-state'),
             };
-
-            /* ============================================================
-               1. THEME TOGGLE (works for both desktop & mobile buttons)
-            ============================================================ */
-            function syncAllThemeIcons() {
-                const isDark = document.documentElement.classList.contains('dark');
-                $$('.icon-moon').forEach(el => el.classList.toggle('hidden', isDark));
-                $$('.icon-sun').forEach(el => el.classList.toggle('hidden', !isDark));
-            }
-
-            $$('.theme-toggle-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const html = document.documentElement;
-                    const isDark = html.classList.contains('dark');
-                    html.classList.toggle('dark', !isDark);
-                    localStorage.setItem('theme', isDark ? 'light' : 'dark');
-                    syncAllThemeIcons();
-                });
-            });
-
-            syncAllThemeIcons();
-            new MutationObserver(syncAllThemeIcons).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-
-            /* ============================================================
-               2. MOBILE SMART SCROLL-TO-HIDE (< xl)
-            ============================================================ */
-            let lastScrollY = window.scrollY || 0;
-            let scrollTicking = false;
-
-            function onScroll() {
-                if (window.innerWidth >= 1280) {
-                    DOM.mobileNavbar.classList.remove('-translate-y-full');
-                    scrollTicking = false;
-                    return;
-                }
-
-                const currentY = window.scrollY;
-                const delta = currentY - lastScrollY;
-
-                if (delta > 8 && currentY > 80) {
-                    // Scroll down - hide
-                    DOM.mobileNavbar.classList.add('-translate-y-full');
-                } else if (delta < -5 || currentY <= 10) {
-                    // Scroll up - show
-                    DOM.mobileNavbar.classList.remove('-translate-y-full');
-                }
-
-                lastScrollY = currentY;
-                scrollTicking = false;
-            }
-
-            window.addEventListener('scroll', () => {
-                if (!scrollTicking) {
-                    requestAnimationFrame(onScroll);
-                    scrollTicking = true;
-                }
-            }, { passive: true });
-
-            /* ============================================================
-               3. FAB POPOVER MENU (< xl)
-            ============================================================ */
-            let isFabOpen = false;
-
-            function toggleFab() {
-                isFabOpen = !isFabOpen;
-                if (isFabOpen) {
-                    DOM.fabPopoverMenu.classList.remove('opacity-0', 'invisible', 'scale-95');
-                    DOM.fabPopoverMenu.classList.add('opacity-100', 'scale-100');
-                    DOM.fabIconMenu.classList.add('hidden');
-                    DOM.fabIconClose.classList.remove('hidden');
-                } else {
-                    DOM.fabPopoverMenu.classList.add('opacity-0', 'invisible', 'scale-95');
-                    DOM.fabPopoverMenu.classList.remove('opacity-100', 'scale-100');
-                    DOM.fabIconMenu.classList.remove('hidden');
-                    DOM.fabIconClose.classList.add('hidden');
-                    // Also close mobile lang menu if open
-                    if (DOM.mobileLangMenu) {
-                        DOM.mobileLangMenu.classList.add('opacity-0', 'invisible', 'scale-95');
-                        DOM.mobileLangMenu.classList.remove('opacity-100', 'scale-100');
-                    }
-                }
-            }
-
-            DOM.fabMenuBtn?.addEventListener('click', (e) => {
-                e.stopPropagation();
-                toggleFab();
-            });
-
-            // Click outside to close FAB popover
-            document.addEventListener('click', (e) => {
-                if (isFabOpen && DOM.fabPopoverMenu && !DOM.fabPopoverMenu.contains(e.target)) {
-                    toggleFab();
-                }
-            });
-
-            // Mobile Lang Menu Toggle
-            DOM.mobileLangBtn?.addEventListener('click', (e) => {
-                e.stopPropagation(); // prevent closing fab
-                if (DOM.mobileLangMenu.classList.contains('opacity-0')) {
-                    DOM.mobileLangMenu.classList.remove('opacity-0', 'invisible', 'scale-95');
-                    DOM.mobileLangMenu.classList.add('opacity-100', 'scale-100');
-                } else {
-                    DOM.mobileLangMenu.classList.add('opacity-0', 'invisible', 'scale-95');
-                    DOM.mobileLangMenu.classList.remove('opacity-100', 'scale-100');
-                }
-            });
 
             /* ============================================================
                4. FILTER DRAWER (< xl)
@@ -1505,7 +1367,9 @@
             ============================================================ */
             document.addEventListener('keydown', e => {
                 if (e.key === 'Escape') {
-                    if (isFabOpen) toggleFab();
+                    if (window.INNEX && window.INNEX._isFabOpen && window.INNEX._isFabOpen()) {
+                        window.INNEX._toggleFab();
+                    }
                     closeFilterDrawer();
                 }
             });
@@ -1515,7 +1379,7 @@
             ============================================================ */
             filterEvents();
 
-        }
+        });
     </script>
 </body>
 

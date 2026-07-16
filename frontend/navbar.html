@@ -14,17 +14,20 @@
                 INNEX.COM</span>
         </a>
 
-        <!-- Desktop Nav Links -->
+        <!-- Desktop Nav Links — active class is set by app.js via data-nav-desktop-key -->
         <nav class="flex items-center space-x-6 text-sm font-semibold">
             <a href="index.html"
-                class="text-royalblue dark:text-lightblue border-b-2 border-royalblue dark:border-lightblue pb-0.5"
+                data-nav-desktop-key="opportunities"
+                class="text-gray-500 dark:text-gray-400 hover:text-royalblue dark:hover:text-lightblue transition-colors"
                 data-i18n="hub.navOpportunities">Opportunities</a>
             <a href="#"
-                class="text-gray-500 dark:text-gray-400 hover:text-royalblue dark:hover:text-lightblue transition-colors"
-                data-i18n="hub.navTeams">Find Teams</a>
-            <a href="#"
+                data-nav-desktop-key="community"
                 class="text-gray-500 dark:text-gray-400 hover:text-royalblue dark:hover:text-lightblue transition-colors"
                 data-i18n="hub.navCommunity">Community</a>
+            <a href="community.html"
+                data-nav-desktop-key="teams"
+                class="text-gray-500 dark:text-gray-400 hover:text-royalblue dark:hover:text-lightblue transition-colors"
+                data-i18n="hub.navTeams">Find Teams</a>
         </nav>
 
         <!-- Desktop Right Controls -->

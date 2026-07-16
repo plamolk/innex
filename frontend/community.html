@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="INNEX Community Board — ค้นหาทีม หาสมาชิก และสร้างทีมสำหรับ Hackathon และโปรเจกต์นวัตกรรม">
+
+    <!-- Google Fonts: Outfit & Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- FOUC Prevention: Apply saved theme BEFORE paint -->
+    <script>
+        (function () {
+            try {
+                const t = localStorage.getItem('theme');
+                if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { }
+        })();
+    </script>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkblue: '#293681',
+                        royalblue: '#4274D9',
+                        lightblue: '#95CCDD',
+                        accent: '#D07E66',
+                        bglight: '#f6f9fc',
+                        bgteal: '#D0E7E6',
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'float-fast': 'float 4s ease-in-out infinite',
+                        'pulse-soft': 'pulse-soft 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'pulse-soft': {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.6' },
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+
+    <title>Community Board — INNEX</title>
+
+    <!-- Shared JS (loaded first so AOS CDN script can follow) -->
+    <script src="src/js/theme.js"></script>
+    <script src="src/js/i18n.js"></script>
+
+    <style>
+        /* ============================
+           Base Typography
+        ============================ */
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body:lang(th) {
+            font-family: 'Prompt', 'Outfit', sans-serif;
+        }
+
+        /* ============================
+           Wavy Pattern Background
+        ============================ */
+        .wave-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            opacity: 0.45;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='wave' x='0' y='0' width='120' height='24' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 12 Q 30 24 60 12 T 120 12' fill='none' stroke='%2395CCDD' stroke-width='1.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='url(%23wave)'/%3E%3C/svg%3E");
+        }
+
+        .dark .wave-bg {
+            opacity: 0.12;
+        }
+
+        /* ============================
+           Custom Scrollbar
+        ============================ */
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .dark ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #95CCDD;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4274D9;
+        }
+
+        /* Modal body scrollbar */
+        .modal-body-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .modal-body-scroll::-webkit-scrollbar-thumb {
+            background: #95CCDD;
+            border-radius: 2px;
+        }
+
+        /* ============================
+           Recruitment Card
+        ============================ */
+        .recruit-card {
+            position: relative;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .recruit-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            background: linear-gradient(135deg, rgba(66, 116, 217, 0.06), rgba(149, 204, 221, 0.06));
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .recruit-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .recruit-card:hover::after {
+            opacity: 1;
+        }
+
+        /* ============================
+           Filter Pill Active State
+        ============================ */
+        .filter-pill {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .filter-pill.is-active {
+            background-color: #293681;
+            color: #ffffff;
+            box-shadow: 0 4px 14px -3px rgba(41, 54, 129, 0.35);
+        }
+
+        .dark .filter-pill.is-active {
+            background-color: #4274D9;
+            box-shadow: 0 4px 14px -3px rgba(66, 116, 217, 0.45);
+        }
+
+        /* ============================
+           Role Badge Color Variants
+        ============================ */
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 9999px;
+            white-space: nowrap;
+        }
+
+        .role-frontend {
+            background-color: rgba(66, 116, 217, 0.12);
+            color: #4274D9;
+        }
+
+        .dark .role-frontend {
+            background-color: rgba(66, 116, 217, 0.22);
+            color: #93b5f5;
+        }
+
+        .role-backend {
+            background-color: rgba(16, 185, 129, 0.12);
+            color: #059669;
+        }
+
+        .dark .role-backend {
+            background-color: rgba(16, 185, 129, 0.22);
+            color: #6ee7b7;
+        }
+
+        .role-pitching {
+            background-color: rgba(208, 126, 102, 0.14);
+            color: #c2693d;
+        }
+
+        .dark .role-pitching {
+            background-color: rgba(208, 126, 102, 0.25);
+            color: #f0b49a;
+        }
+
+        .role-design {
+            background-color: rgba(139, 92, 246, 0.12);
+            color: #7c3aed;
+        }
+
+        .dark .role-design {
+            background-color: rgba(139, 92, 246, 0.22);
+            color: #c4b5fd;
+        }
+
+        .role-data {
+            background-color: rgba(6, 182, 212, 0.12);
+            color: #0891b2;
+        }
+
+        .dark .role-data {
+            background-color: rgba(6, 182, 212, 0.22);
+            color: #67e8f9;
+        }
+
+        .role-pm {
+            background-color: rgba(234, 179, 8, 0.12);
+            color: #b45309;
+        }
+
+        .dark .role-pm {
+            background-color: rgba(234, 179, 8, 0.22);
+            color: #fcd34d;
+        }
+
+        /* ============================
+           Modal Overlay & Panel
+        ============================ */
+        .modal-overlay {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-panel {
+            transition: transform 0.35s cubic-bezier(0.34, 1.1, 0.64, 1),
+                opacity 0.3s ease;
+        }
+
+        /* Cover image hover effect inside modal */
+        .event-banner-link img {
+            transition: filter 0.3s ease, transform 0.4s ease;
+        }
+
+        .event-banner-link:hover img {
+            filter: brightness(0.88);
+            transform: scale(1.02);
+        }
+
+        /* ============================
+           Member avatar stack
+        ============================ */
+        .avatar-stack .avatar-item {
+            margin-left: -0.625rem;
+            box-shadow: 0 0 0 2px white;
+        }
+
+        .dark .avatar-stack .avatar-item {
+            box-shadow: 0 0 0 2px #1e293b;
+        }
+
+        .avatar-stack .avatar-item:first-child {
+            margin-left: 0;
+        }
+
+        /* ============================
+           Progress bar
+        ============================ */
+        .member-progress-fill {
+            background: linear-gradient(90deg, #4274D9, #95CCDD);
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ============================
+           Badge pulse
+        ============================ */
+        .badge-pulse {
+            animation: pulse-soft 2s ease-in-out infinite;
+        }
+
+        /* ============================
+           FAB bounce-in
+        ============================ */
+        @keyframes fab-pop {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .fab-btn {
+            animation: fab-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        /* ============================
+           Hidden utility
+        ============================ */
+        [data-hidden] {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<!--
+    Z-INDEX DISCIPLINE
+    ==================
+    z-0   : wave-bg, floating blobs
+    z-10  : main content, cards
+    z-40  : modal overlay
+    z-50  : modal panel, navbars
+    z-30  : mobile FAB
+-->
+
+<body
+    class="relative min-h-screen flex flex-col bg-bglight text-darkblue dark:bg-gray-900 dark:text-gray-100 overflow-x-hidden selection:bg-royalblue selection:text-white transition-colors duration-300">
+
+    <!-- ============================================================
+         BACKGROUND DECORATIONS  (z-0)
+    ============================================================ -->
+    <div class="wave-bg"></div>
+
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
+        <!-- Floating geometric shapes -->
+        <div class="hidden lg:flex absolute top-32 left-8 animate-float opacity-40">
+            <div
+                class="w-20 h-20 bg-darkblue dark:bg-royalblue rounded-[2rem] rotate-12 shadow-2xl flex items-center justify-center border-4 border-white/30">
+                <div class="w-8 h-8 rounded-full border-4 border-white/50 border-t-transparent"></div>
+            </div>
+        </div>
+        <div class="hidden lg:flex absolute bottom-24 right-16 animate-float-delayed opacity-30">
+            <div class="w-24 h-12 bg-lightblue border-4 border-white/30 rounded-full shadow-xl"></div>
+        </div>
+        <div class="hidden md:block absolute top-1/4 right-1/3 animate-float-fast opacity-20">
+            <div class="w-8 h-8 bg-accent rounded-full"></div>
+        </div>
+        <div class="hidden md:block absolute bottom-1/3 left-1/4 animate-float opacity-20">
+            <div class="w-6 h-6 bg-royalblue rounded-full"></div>
+        </div>
+        <!-- Blurred blobs -->
+        <div
+            class="absolute top-0 -left-10 w-96 h-96 bg-lightblue rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-20 animate-blob">
+        </div>
+        <div
+            class="absolute top-1/2 -right-10 w-96 h-96 bg-accent rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-15 animate-blob"
+            style="animation-delay:2s"></div>
+        <div
+            class="absolute -bottom-8 left-1/3 w-96 h-96 bg-royalblue rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-15 animate-blob"
+            style="animation-delay:4s"></div>
+    </div>
+
+    <!-- ============================================================
+         NAVBAR & SIDEBAR PLACEHOLDER
+    ============================================================ -->
+    <div id="navbar-placeholder"></div>
+    <div id="sidebar-placeholder"></div>
+
+    <!-- ============================================================
+         MAIN CONTENT
+         pt-24 = navbar height (~60px) + breathing room on mobile
+         xl:pt-[88px] = matches index.html exactly
+    ============================================================ -->
+    <main class="flex-grow relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 xl:px-10 pt-24 xl:pt-[88px] pb-16">
+
+        <!-- ============================
+             PAGE HEADER
+        ============================ -->
+        <div class="mb-8" data-aos="fade-up" data-aos-duration="600">
+            <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                <div>
+                    <h1
+                        class="text-2xl sm:text-3xl xl:text-4xl font-extrabold text-darkblue dark:text-white tracking-tight">
+                        <i class="fa-solid fa-users-rectangle text-royalblue dark:text-lightblue mr-2"></i>
+                        <span data-i18n="community.title">Community Board</span>
+                    </h1>
+                    <p class="text-gray-500 dark:text-gray-400 mt-1.5 text-sm md:text-base font-medium max-w-xl"
+                        data-i18n="community.subtitle">
+                        ค้นหาทีมที่ใช่ หรือรับสมัครสมาชิกใหม่ — สร้างทีมในฝันและพิชิต Hackathon ไปด้วยกัน
+                    </p>
+                </div>
+
+                <!-- Desktop: Create Post Button -->
+                <button id="create-post-btn"
+                    class="hidden sm:inline-flex items-center gap-2 bg-royalblue hover:bg-darkblue text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-md shadow-royalblue/20 hover:shadow-lg hover:shadow-royalblue/30 transition-all duration-300 active:scale-[0.97] flex-shrink-0"
+                    aria-label="Create new post">
+                    <i class="fa-solid fa-plus text-xs"></i>
+                    <span data-i18n="community.createPost">สร้างโพสต์</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ============================
+             EVENT CONTEXT ALERT (JS-injected if ?event= found)
+        ============================ -->
+        <div id="event-context-alert"
+            class="hidden mb-6 flex items-start gap-3 bg-royalblue/8 dark:bg-royalblue/15 border border-royalblue/25 dark:border-royalblue/30 rounded-2xl px-4 py-3.5"
+            data-aos="fade-down" data-aos-duration="400" role="alert">
+            <div
+                class="flex-shrink-0 w-8 h-8 rounded-lg bg-royalblue/15 dark:bg-royalblue/25 flex items-center justify-center mt-0.5">
+                <i class="fa-solid fa-location-dot text-royalblue dark:text-lightblue text-sm"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-sm font-semibold text-darkblue dark:text-white">
+                    <span data-i18n="community.eventContextPrefix">กำลังแสดงโพสต์สำหรับ:</span>
+                    <span id="event-context-name"
+                        class="text-royalblue dark:text-lightblue font-extrabold"></span>
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 font-medium mt-0.5"
+                    data-i18n="community.eventContextSub">
+                    แสดงเฉพาะโพสต์ที่เชื่อมโยงกับอีเวนต์นี้
+                </p>
+            </div>
+            <button id="event-alert-dismiss"
+                class="flex-shrink-0 p-1.5 rounded-lg text-gray-400 hover:text-darkblue dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/10 transition-colors"
+                aria-label="Dismiss event filter">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- ============================
+             FILTER PILLS + SEARCH ROW
+        ============================ -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-7"
+            data-aos="fade-up" data-aos-duration="600" data-aos-delay="80">
+
+            <!-- Filter pills -->
+            <div class="flex items-center gap-2 flex-wrap" id="filter-pills-group" role="group"
+                aria-label="Post type filter">
+                <button
+                    class="filter-pill is-active text-xs sm:text-sm font-bold px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200/80 dark:border-gray-700/80 shadow-sm hover:shadow transition-all"
+                    data-filter="all" aria-pressed="true">
+                    <i class="fa-solid fa-layer-group mr-1.5 text-xs opacity-70"></i>
+                    <span data-i18n="community.filterAll">ทั้งหมด (All)</span>
+                </button>
+                <button
+                    class="filter-pill text-xs sm:text-sm font-bold px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200/80 dark:border-gray-700/80 shadow-sm hover:shadow transition-all"
+                    data-filter="looking-members" aria-pressed="false">
+                    <i class="fa-solid fa-user-plus mr-1.5 text-xs opacity-70"></i>
+                    <span data-i18n="community.filterMembers">หาคนเข้าทีม</span>
+                </button>
+                <button
+                    class="filter-pill text-xs sm:text-sm font-bold px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200/80 dark:border-gray-700/80 shadow-sm hover:shadow transition-all"
+                    data-filter="looking-team" aria-pressed="false">
+                    <i class="fa-solid fa-people-group mr-1.5 text-xs opacity-70"></i>
+                    <span data-i18n="community.filterTeam">หาทีม</span>
+                </button>
+            </div>
+
+            <!-- Search input -->
+            <div class="relative w-full sm:w-72 flex-shrink-0">
+                <input type="text" id="community-search"
+                    data-i18n-placeholder="community.searchPlaceholder"
+                    placeholder="ค้นหาโพสต์, ทักษะ..."
+                    class="w-full pl-10 pr-4 py-2.5 rounded-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-4 focus:ring-lightblue/30 focus:border-royalblue dark:focus:border-lightblue transition-all duration-300 placeholder-gray-400 dark:placeholder-gray-500 font-medium text-darkblue dark:text-white text-sm shadow-sm">
+                <i
+                    class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm pointer-events-none"></i>
+            </div>
+        </div>
+
+        <!-- Result count -->
+        <p class="text-xs sm:text-sm text-gray-400 dark:text-gray-500 font-medium mb-5" id="results-count">
+            <span id="results-num">9</span> <span data-i18n="community.resultsCount">โพสต์ในระบบ</span>
+        </p>
+
+        <!-- ============================
+             RECRUITMENT FEED GRID
+        ============================ -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 xl:gap-6" id="recruit-grid">
+
+            <!-- ── CARD 1 ── -->
+            <article
+                class="recruit-card group bg-white/80 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-darkblue/5 dark:shadow-black/20 overflow-hidden hover:shadow-2xl hover:shadow-royalblue/10 cursor-pointer"
+                data-type="looking-members" data-event="Hackathon 2026"
+                data-title="ทีมทำแอปสุขภาพ AI"
+                data-aos="fade-up" data-aos-duration="500"
+                onclick="openModal(this)" tabindex="0"
+                onkeydown="if(event.key==='Enter')openModal(this)"
+                role="button" aria-label="เปิดรายละเอียด: ทีมทำแอปสุขภาพ AI">
+
+                <!-- Cover Image -->
+                <div class="relative h-36 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=640&q=80&auto=format"
+                        alt="ทีมทำแอปสุขภาพ AI"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <!-- Type Badge -->
+                    <div class="absolute top-3 left-3">
+                        <span
+                            class="inline-flex items-center gap-1.5 bg-royalblue/90 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full shadow-md">
+                            <i class="fa-solid fa-user-plus text-[0.6rem]"></i> หาคนเข้าทีม
+                        </span>
+                    </div>
+                    <!-- Event Badge -->
+                    <div class="absolute top-3 right-3">
+                        <span
+                            class="bg-darkblue/80 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full">Hackathon 2026</span>
+                    </div>
+                </div>
+
+                <!-- Body -->
+                <div class="p-5 flex flex-col gap-3 relative z-10">
+                    <h3
+                        class="text-base font-bold text-darkblue dark:text-white leading-snug group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors line-clamp-2">
+                        ทีมทำแอปสุขภาพ AI
+                    </h3>
+
+                    <!-- Member Count -->
+                    <div class="flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400">
+                            <i class="fa-solid fa-user-group text-royalblue dark:text-lightblue text-xs"></i>
+                            สมาชิก 2 / 4 คน
+                        </div>
+                        <div class="flex-1 h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden max-w-[80px]">
+                            <div class="member-progress-fill" style="width:50%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Needed Roles -->
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="role-badge role-frontend">
+                            <i class="fa-solid fa-circle-exclamation text-[0.5rem] opacity-70"></i> Front-end
+                        </span>
+                        <span class="role-badge role-backend">
+                            <i class="fa-solid fa-circle-exclamation text-[0.5rem] opacity-70"></i> Back-end
+                        </span>
+                    </div>
+
+                    <!-- Card Footer -->
+                    <div class="pt-2 border-t border-gray-100 dark:border-gray-700/60 flex items-center justify-between">
+                        <div class="avatar-stack flex">
+                            <div
+                                class="avatar-item w-7 h-7 rounded-full bg-royalblue text-white text-xs font-bold flex items-center justify-center ring-2 ring-white dark:ring-gray-800">
+                                A</div>
+                            <div
+                                class="avatar-item w-7 h-7 rounded-full bg-lightblue text-darkblue text-xs font-bold flex items-center justify-center ring-2 ring-white dark:ring-gray-800">
+                                B</div>
+                        </div>
+                        <span
+                            class="text-[0.65rem] font-semibold text-royalblue dark:text-lightblue opacity-70 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                            ดูรายละเอียด <i class="fa-solid fa-arrow-right text-[0.5rem]"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Hidden data for modal -->
+                <div class="recruit-data" hidden>
+                    <span class="d-title">ทีมทำแอปสุขภาพ AI</span>
+                    <span class="d-event">Hackathon 2026</span>
+                    <span class="d-cover">https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80&auto=format</span>
+                    <span class="d-desc">เรากำลังสร้างแอปพลิเคชันสุขภาพที่ใช้ AI วิเคราะห์อาการเบื้องต้นและเชื่อมต่อผู้ใช้กับแพทย์ผู้เชี่ยวชาญ ทีมเราให้ความสำคัญกับ User Experience และผลลัพธ์ที่จับต้องได้จริง มาร่วมสร้างอะไรบางอย่างที่มีความหมายไปด้วยกัน!</span>
+                    <span class="d-members">Alex — Product Manager|Maria — UX/UI Designer</span>
+                    <span class="d-roles">Front-end Developer::role-frontend::ถนัด React.js หรือ Vue.js, ทำ Responsive UI ได้ดี|Back-end Developer::role-backend::Node.js หรือ Python, ออกแบบ RESTful API</span>
+                </div>
+            </article>
+
+            <!-- ── CARD 2 ── -->
+            <article
+                class="recruit-card group bg-white/80 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-darkblue/5 dark:shadow-black/20 overflow-hidden hover:shadow-2xl hover:shadow-royalblue/10 cursor-pointer"
+                data-type="looking-team" data-event="Startup Weekend 2026"
+                data-title="UX/UI Designer หาทีม"
+                data-aos="fade-up" data-aos-duration="500" data-aos-delay="80"
+                onclick="openModal(this)" tabindex="0"
+                onkeydown="if(event.key==='Enter')openModal(this)"
+                role="button" aria-label="เปิดรายละเอียด: UX/UI Designer หาทีม">
+
+                <div class="relative h-36 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=640&q=80&auto=format"
+                        alt="UX/UI Designer หาทีม"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-3 left-3">
+                        <span
+                            class="inline-flex items-center gap-1.5 bg-accent/90 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full shadow-md">
+                            <i class="fa-solid fa-magnifying-glass text-[0.6rem]"></i> หาทีม
+                        </span>
+                    </div>
+                    <div class="absolute top-3 right-3">
+                        <span
+                            class="bg-darkblue/80 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full">Startup Weekend 2026</span>
+                    </div>
+                </div>
+
+                <div class="p-5 flex flex-col gap-3 relative z-10">
+                    <h3
+                        class="text-base font-bold text-darkblue dark:text-white leading-snug group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors line-clamp-2">
+                        UX/UI Designer หาทีม
+                    </h3>
+                    <div class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400">
+                        <i class="fa-solid fa-user text-accent text-xs"></i>
+                        พร้อมเข้าร่วมทีม (1 คน)
+                    </div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="role-badge role-design">
+                            <i class="fa-solid fa-check text-[0.5rem]"></i> UX/UI Design
+                        </span>
+                        <span class="role-badge role-pitching">
+                            <i class="fa-solid fa-check text-[0.5rem]"></i> Pitching
+                        </span>
+                        <span class="role-badge role-pm">
+                            <i class="fa-solid fa-check text-[0.5rem]"></i> Figma
+                        </span>
+                    </div>
+                    <div class="pt-2 border-t border-gray-100 dark:border-gray-700/60 flex items-center justify-between">
+                        <div class="avatar-stack flex">
+                            <div
+                                class="avatar-item w-7 h-7 rounded-full bg-accent text-white text-xs font-bold flex items-center justify-center ring-2 ring-white dark:ring-gray-800">
+                                N</div>
+                        </div>
+                        <span
+                            class="text-[0.65rem] font-semibold text-royalblue dark:text-lightblue opacity-70 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                            ดูรายละเอียด <i class="fa-solid fa-arrow-right text-[0.5rem]"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="recruit-data" hidden>
+                    <span class="d-title">UX/UI Designer หาทีม</span>
+                    <span class="d-event">Startup Weekend 2026</span>
+                    <span class="d-cover">https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80&auto=format</span>
+                    <span class="d-desc">สวัสดีครับ ผมเป็น UX/UI Designer มีประสบการณ์ 3 ปีในสาย FinTech ถนัดทำ Prototype, User Research และ Design System ด้วย Figma กำลังมองหาทีมที่ให้ความสำคัญกับ Product Design และต้องการชนะจริงๆ!</span>
+                    <span class="d-members">Nat — UX/UI Designer</span>
+                    <span class="d-roles">ต้องการทีมมารับ — กำลังหาทีม::role-design::สมาชิกคนนี้มีทักษะด้าน Design พร้อมเข้าร่วมทีมทันที</span>
+                </div>
+            </article>
+
+            <!-- ── CARD 3 ── -->
+            <article
+                class="recruit-card group bg-white/80 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-darkblue/5 dark:shadow-black/20 overflow-hidden hover:shadow-2xl hover:shadow-royalblue/10 cursor-pointer"
+                data-type="looking-members" data-event="Hackathon 2026"
+                data-title="EduTech Platform — ระบบเรียนออนไลน์"
+                data-aos="fade-up" data-aos-duration="500" data-aos-delay="160"
+                onclick="openModal(this)" tabindex="0"
+                onkeydown="if(event.key==='Enter')openModal(this)"
+                role="button" aria-label="เปิดรายละเอียด: EduTech Platform">
+
+                <div class="relative h-36 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=640&q=80&auto=format"
+                        alt="EduTech Platform"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-3 left-3">
+                        <span
+                            class="inline-flex items-center gap-1.5 bg-royalblue/90 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full shadow-md">
+                            <i class="fa-solid fa-user-plus text-[0.6rem]"></i> หาคนเข้าทีม
+                        </span>
+                    </div>
+                    <div class="absolute top-3 right-3">
+                        <span
+                            class="bg-darkblue/80 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full">Hackathon 2026</span>
+                    </div>
+                </div>
+
+                <div class="p-5 flex flex-col gap-3 relative z-10">
+                    <h3
+                        class="text-base font-bold text-darkblue dark:text-white leading-snug group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors line-clamp-2">
+                        EduTech Platform — ระบบเรียนออนไลน์
+                    </h3>
+                    <div class="flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400">
+                            <i class="fa-solid fa-user-group text-royalblue dark:text-lightblue text-xs"></i>
+                            สมาชิก 3 / 5 คน
+                        </div>
+                        <div class="flex-1 h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden max-w-[80px]">
+                            <div class="member-progress-fill" style="width:60%"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="role-badge role-pitching">
+                            <i class="fa-solid fa-circle-exclamation text-[0.5rem] opacity-70"></i> Pitching
+                        </span>
+                        <span class="role-badge role-frontend">
+                            <i class="fa-solid fa-circle-exclamation text-[0.5rem] opacity-70"></i> Front-end
+                        </span>
+                    </div>
+                    <div class="pt-2 border-t border-gray-100 dark:border-gray-700/60 flex items-center justify-between">
+                        <div class="avatar-stack flex">
+                            <div class="avatar-item w-7 h-7 rounded-full bg-royalblue text-white text-xs font-bold flex items-center justify-center ring-2 ring-white dark:ring-gray-800">C</div>
+                            <div class="avatar-item w-7 h-7 rounded-full bg-lightblue text-darkblue text-xs font-bold flex items-center justify-center ring-2 ring-white dark:ring-gray-800">D</div>
+                            <div class="avatar-item w-7 h-7 rounded-full bg-accent text-white text-xs font-bold flex items-center justify-center ring-2 ring-white dark:ring-gray-800">E</div>
+                        </div>
+                        <span class="text-[0.65rem] font-semibold text-royalblue dark:text-lightblue opacity-70 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                            ดูรายละเอียด <i class="fa-solid fa-arrow-right text-[0.5rem]"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="recruit-data" hidden>
+                    <span class="d-title">EduTech Platform — ระบบเรียนออนไลน์</span>
+                    <span class="d-event">Hackathon 2026</span>
+                    <span class="d-cover">https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80&auto=format</span>
+                    <span class="d-desc">สร้างแพลตฟอร์มการเรียนรู้ที่ใช้ Gamification ช่วยให้นักเรียนสนุกกับการเรียนมากขึ้น เชื่อมโยงครูและนักเรียนทั่วประเทศ ทีมเรามีความเชี่ยวชาญด้าน Back-end และ Design พร้อมแล้ว ขาดคนทำ Front-end และ Pitching</span>
+                    <span class="d-members">Chan — Product Manager|Dao — UX/UI Designer|Ek — Back-end Developer</span>
+                    <span class="d-roles">Front-end Developer::role-frontend::Vue.js หรือ React, ทำ Interactive UI สำหรับเด็ก|Pitching / Business::role-pitching::นำเสนอโปรเจกต์ต่อกรรมการ, มีทักษะ Communication ที่ดี</span>
+                </div>
+            </article>
+
+            <!-- ── CARD 4 ── -->
+            <article
+                class="recruit-card group bg-white/80 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-darkblue/5 dark:shadow-black/20 overflow-hidden hover:shadow-2xl hover:shadow-royalblue/10 cursor-pointer"
+                data-type="looking-members" data-event="Hackathon 2026"
+                data-title="Green Energy Dashboard"
+                data-aos="fade-up" data-aos-duration="500" data-aos-delay="0"
+                onclick="openModal(this)" tabindex="0"
+                onkeydown="if(event.key==='Enter')openModal(this)"
+                role="button" aria-label="เปิดรายละเอียด: Green Energy Dashboard">
+
+                <div class="relative h-36 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=640&q=80&auto=format"
+                        alt="Green Energy Dashboard"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-3 left-3">
+                        <span class="inline-flex items-center gap-1.5 bg-royalblue/90 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full shadow-md">
+                            <i class="fa-solid fa-user-plus text-[0.6rem]"></i> หาคนเข้าทีม
+                        </span>
+                    </div>
+                    <div class="absolute top-3 right-3">
+                        <span class="bg-darkblue/80 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full">Hackathon 2026</span>
+                    </div>
+                </div>
+
+                <div class="p-5 flex flex-col gap-3 relative z-10">
+                    <h3 class="text-base font-bold text-darkblue dark:text-white leading-snug group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors line-clamp-2">
+                        Green Energy Dashboard
+                    </h3>
+                    <div class="flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400">
+                            <i class="fa-solid fa-user-group text-royalblue dark:text-lightblue text-xs"></i>
+                            สมาชิก 1 / 4 คน
+                        </div>
+                        <div class="flex-1 h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden max-w-[80px]">
+                            <div class="member-progress-fill" style="width:25%"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="role-badge role-frontend"><i class="fa-solid fa-circle-exclamation text-[0.5rem] opacity-70"></i> Front-end</span>
+                        <span class="role-badge role-data"><i class="fa-solid fa-circle-exclamation text-[0.5rem] opacity-70"></i> Data Viz</span>
+                        <span class="role-badge role-pitching"><i class="fa-solid fa-circle-exclamation text-[0.5rem] opacity-70"></i> Pitching</span>
+                    </div>
+                    <div class="pt-2 border-t border-gray-100 dark:border-gray-700/60 flex items-center justify-between">
+                        <div class="avatar-stack flex">
+                            <div class="avatar-item w-7 h-7 rounded-full bg-green-500 text-white text-xs font-bold flex items-center justify-center ring-2 ring-white dark:ring-gray-800">F</div>
+                        </div>
+                        <span class="text-[0.65rem] font-semibold text-royalblue dark:text-lightblue opacity-70 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                            ดูรายละเอียด <i class="fa-solid fa-arrow-right text-[0.5rem]"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="recruit-data" hidden>
+                    <span class="d-title">Green Energy Dashboard</span>
+                    <span class="d-event">Hackathon 2026</span>
+                    <span class="d-cover">https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80&auto=format</span>
+                    <span class="d-desc">สร้าง Dashboard สำหรับ Monitor การใช้พลังงานแบบ Real-time ในอาคาร เพื่อลด Carbon Footprint ตามเทรนด์ ESG ต้องการทีมที่สนใจเรื่อง Climate Tech และพลังงานสะอาด</span>
+                    <span class="d-members">Fah — IoT Engineer</span>
+                    <span class="d-roles">Front-end Developer::role-frontend::D3.js หรือ Chart.js, ทำ Data Visualization|Data Analyst::role-data::วิเคราะห์ข้อมูลพลังงาน, Python หรือ R|Pitching / Business::role-pitching::นำเสนอ ESG Value Proposition</span>
+                </div>
+            </article>
+
+            <!-- ── CARD 5 ── -->
+            <article
+                class="recruit-card group bg-white/80 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-darkblue/5 dark:shadow-black/20 overflow-hidden hover:shadow-2xl hover:shadow-royalblue/10 cursor-pointer"
+                data-type="looking-team" data-event="STARTUP THAILAND 2026"
+                data-title="Full-Stack Developer หาทีม Startup"
+                data-aos="fade-up" data-aos-duration="500" data-aos-delay="80"
+                onclick="openModal(this)" tabindex="0"
+                onkeydown="if(event.key==='Enter')openModal(this)"
+                role="button" aria-label="เปิดรายละเอียด: Full-Stack Developer หาทีม">
+
+                <div class="relative h-36 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=640&q=80&auto=format"
+                        alt="Full-Stack Developer"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-3 left-3">
+                        <span class="inline-flex items-center gap-1.5 bg-accent/90 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full shadow-md">
+                            <i class="fa-solid fa-magnifying-glass text-[0.6rem]"></i> หาทีม
+                        </span>
+                    </div>
+                    <div class="absolute top-3 right-3">
+                        <span class="bg-darkblue/80 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full">STARTUP THAILAND 2026</span>
+                    </div>
+                </div>
+
+                <div class="p-5 flex flex-col gap-3 relative z-10">
+                    <h3 class="text-base font-bold text-darkblue dark:text-white leading-snug group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors line-clamp-2">
+                        Full-Stack Developer หาทีม Startup
+                    </h3>
+                    <div class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400">
+                        <i class="fa-solid fa-user text-accent text-xs"></i>
+                        พร้อมเข้าร่วมทีม (1 คน)
+                    </div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="role-badge role-frontend"><i class="fa-solid fa-check text-[0.5rem]"></i> React / Next.js</span>
+                        <span class="role-badge role-backend"><i class="fa-solid fa-check text-[0.5rem]"></i> Node.js</span>
+                        <span class="role-badge role-data"><i class="fa-solid fa-check text-[0.5rem]"></i> PostgreSQL</span>
+                    </div>
+                    <div class="pt-2 border-t border-gray-100 dark:border-gray-700/60 flex items-center justify-between">
+                        <div class="avatar-stack flex">
+                            <div class="avatar-item w-7 h-7 rounded-full bg-darkblue text-white text-xs font-bold flex items-center justify-center ring-2 ring-white dark:ring-gray-800">G</div>
+                        </div>
+                        <span class="text-[0.65rem] font-semibold text-royalblue dark:text-lightblue opacity-70 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                            ดูรายละเอียด <i class="fa-solid fa-arrow-right text-[0.5rem]"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="recruit-data" hidden>
+                    <span class="d-title">Full-Stack Developer หาทีม Startup</span>
+                    <span class="d-event">STARTUP THAILAND 2026</span>
+                    <span class="d-cover">https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80&auto=format</span>
+                    <span class="d-desc">สวัสดีครับ ผมเป็น Full-Stack Developer ประสบการณ์ 4 ปี ถนัด React, Next.js, Node.js และ PostgreSQL เคยสร้าง SaaS Product จริงๆ มาแล้ว มองหาทีม Startup ที่มีไอเดียชัดเจนและต้องการนักพัฒนาที่ลงมือทำได้เลย</span>
+                    <span class="d-members">Golf — Full-Stack Developer</span>
+                    <span class="d-roles">ต้องการทีม — กำลังหาทีม::role-frontend::สมาชิกคนนี้มีทักษะ Full-Stack พร้อมเข้าร่วมทีมที่มีไอเดียชัดเจน</span>
+                </div>
+            </article>
+
+            <!-- ── CARD 6 ── -->
+            <article
+                class="recruit-card group bg-white/80 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-darkblue/5 dark:shadow-black/20 overflow-hidden hover:shadow-2xl hover:shadow-royalblue/10 cursor-pointer"
+                data-type="looking-members" data-event="Ideathon Challenge 2026"
+                data-title="FinTech — แอปลงทุนเริ่มต้น"
+                data-aos="fade-up" data-aos-duration="500" data-aos-delay="160"
+                onclick="openModal(this)" tabindex="0"
+                onkeydown="if(event.key==='Enter')openModal(this)"
+                role="button" aria-label="เปิดรายละเอียด: FinTech แอปลงทุน">
+
+                <div class="relative h-36 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=640&q=80&auto=format"
+                        alt="FinTech App"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-3 left-3">
+                        <span class="inline-flex items-center gap-1.5 bg-royalblue/90 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full shadow-md">
+                            <i class="fa-solid fa-user-plus text-[0.6rem]"></i> หาคนเข้าทีม
+                        </span>
+                    </div>
+                    <div class="absolute top-3 right-3">
+                        <span class="bg-darkblue/80 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full">Ideathon Challenge 2026</span>
+                    </div>
+                </div>
+
+                <div class="p-5 flex flex-col gap-3 relative z-10">
+                    <h3 class="text-base font-bold text-darkblue dark:text-white leading-snug group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors line-clamp-2">
+                        FinTech — แอปลงทุนเริ่มต้น
+                    </h3>
+                    <div class="flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400">
+                            <i class="fa-solid fa-user-group text-royalblue dark:text-lightblue text-xs"></i>
+                            สมาชิก 2 / 5 คน
+                        </div>
+                        <div class="flex-1 h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden max-w-[80px]">
+                            <div class="member-progress-fill" style="width:40%"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="role-badge role-design"><i class="fa-solid fa-circle-exclamation text-[0.5rem] opacity-70"></i> UX Designer</span>
+                        <span class="role-badge role-data"><i class="fa-solid fa-circle-exclamation text-[0.5rem] opacity-70"></i> Data Analyst</span>
+                        <span class="role-badge role-pitching"><i class="fa-solid fa-circle-exclamation text-[0.5rem] opacity-70"></i> Business</span>
+                    </div>
+                    <div class="pt-2 border-t border-gray-100 dark:border-gray-700/60 flex items-center justify-between">
+                        <div class="avatar-stack flex">
+                            <div class="avatar-item w-7 h-7 rounded-full bg-royalblue text-white text-xs font-bold flex items-center justify-center ring-2 ring-white dark:ring-gray-800">H</div>
+                            <div class="avatar-item w-7 h-7 rounded-full bg-lightblue text-darkblue text-xs font-bold flex items-center justify-center ring-2 ring-white dark:ring-gray-800">I</div>
+                        </div>
+                        <span class="text-[0.65rem] font-semibold text-royalblue dark:text-lightblue opacity-70 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                            ดูรายละเอียด <i class="fa-solid fa-arrow-right text-[0.5rem]"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="recruit-data" hidden>
+                    <span class="d-title">FinTech — แอปลงทุนเริ่มต้น</span>
+                    <span class="d-event">Ideathon Challenge 2026</span>
+                    <span class="d-cover">https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80&auto=format</span>
+                    <span class="d-desc">แอปที่ช่วยให้คนรุ่นใหม่เริ่มต้นลงทุนได้ตั้งแต่ 1 บาท ผ่านระบบ Robo-Advisor ที่เข้าใจง่าย เราเชื่อว่าทุกคนควรมีโอกาสสร้าง Financial Freedom ตั้งแต่อายุน้อย</span>
+                    <span class="d-members">Hua — Business Analyst|Ing — Back-end Developer</span>
+                    <span class="d-roles">UX/UI Designer::role-design::ออกแบบ Financial UI ให้เข้าใจง่ายและน่าเชื่อถือ|Data Analyst::role-data::วิเคราะห์ข้อมูลตลาดหุ้นและ Investment Patterns|Business Analyst::role-pitching::ทำ Business Model, Market Research</span>
+                </div>
+            </article>
+
+            <!-- ── CARD 7 ── -->
+            <article
+                class="recruit-card group bg-white/80 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-darkblue/5 dark:shadow-black/20 overflow-hidden hover:shadow-2xl hover:shadow-royalblue/10 cursor-pointer"
+                data-type="looking-members" data-event="Hackathon 2026"
+                data-title="Smart Farm IoT — เกษตรอัจฉริยะ"
+                data-aos="fade-up" data-aos-duration="500" data-aos-delay="0"
+                onclick="openModal(this)" tabindex="0"
+                onkeydown="if(event.key==='Enter')openModal(this)"
+                role="button" aria-label="เปิดรายละเอียด: Smart Farm IoT">
+
+                <div class="relative h-36 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1586771107445-d3ca888129ce?w=640&q=80&auto=format"
+                        alt="Smart Farm IoT"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-3 left-3">
+                        <span class="inline-flex items-center gap-1.5 bg-royalblue/90 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full shadow-md">
+                            <i class="fa-solid fa-user-plus text-[0.6rem]"></i> หาคนเข้าทีม
+                        </span>
+                    </div>
+                    <div class="absolute top-3 right-3">
+                        <span class="bg-darkblue/80 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full">Hackathon 2026</span>
+                    </div>
+                </div>
+
+                <div class="p-5 flex flex-col gap-3 relative z-10">
+                    <h3 class="text-base font-bold text-darkblue dark:text-white leading-snug group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors line-clamp-2">
+                        Smart Farm IoT — เกษตรอัจฉริยะ
+                    </h3>
+                    <div class="flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400">
+                            <i class="fa-solid fa-user-group text-royalblue dark:text-lightblue text-xs"></i>
+                            สมาชิก 2 / 4 คน
+                        </div>
+                        <div class="flex-1 h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden max-w-[80px]">
+                            <div class="member-progress-fill" style="width:50%"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="role-badge role-backend"><i class="fa-solid fa-circle-exclamation text-[0.5rem] opacity-70"></i> Back-end</span>
+                        <span class="role-badge role-design"><i class="fa-solid fa-circle-exclamation text-[0.5rem] opacity-70"></i> UX Design</span>
+                    </div>
+                    <div class="pt-2 border-t border-gray-100 dark:border-gray-700/60 flex items-center justify-between">
+                        <div class="avatar-stack flex">
+                            <div class="avatar-item w-7 h-7 rounded-full bg-green-600 text-white text-xs font-bold flex items-center justify-center ring-2 ring-white dark:ring-gray-800">J</div>
+                            <div class="avatar-item w-7 h-7 rounded-full bg-amber-500 text-white text-xs font-bold flex items-center justify-center ring-2 ring-white dark:ring-gray-800">K</div>
+                        </div>
+                        <span class="text-[0.65rem] font-semibold text-royalblue dark:text-lightblue opacity-70 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                            ดูรายละเอียด <i class="fa-solid fa-arrow-right text-[0.5rem]"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="recruit-data" hidden>
+                    <span class="d-title">Smart Farm IoT — เกษตรอัจฉริยะ</span>
+                    <span class="d-event">Hackathon 2026</span>
+                    <span class="d-cover">https://images.unsplash.com/photo-1586771107445-d3ca888129ce?w=800&q=80&auto=format</span>
+                    <span class="d-desc">ระบบ IoT สำหรับฟาร์มอัจฉริยะ ตรวจสอบดิน น้ำ และอุณหภูมิผ่าน Sensor แบบ Real-time พร้อม AI วิเคราะห์ข้อมูลเพื่อเพิ่มผลผลิต ช่วยเกษตรกรไทยลดต้นทุนและเพิ่มรายได้</span>
+                    <span class="d-members">Jai — Hardware / IoT Engineer|Kai — Data Scientist</span>
+                    <span class="d-roles">Back-end Developer::role-backend::Python, FastAPI, MQTT Protocol สำหรับ IoT|UX/UI Designer::role-design::ออกแบบ Dashboard สำหรับเกษตรกร ต้องเรียบง่าย</span>
+                </div>
+            </article>
+
+            <!-- ── CARD 8 ── -->
+            <article
+                class="recruit-card group bg-white/80 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-darkblue/5 dark:shadow-black/20 overflow-hidden hover:shadow-2xl hover:shadow-royalblue/10 cursor-pointer"
+                data-type="looking-team" data-event="Hackathon 2026"
+                data-title="Data Scientist หาทีม AI"
+                data-aos="fade-up" data-aos-duration="500" data-aos-delay="80"
+                onclick="openModal(this)" tabindex="0"
+                onkeydown="if(event.key==='Enter')openModal(this)"
+                role="button" aria-label="เปิดรายละเอียด: Data Scientist หาทีม">
+
+                <div class="relative h-36 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=640&q=80&auto=format"
+                        alt="Data Scientist"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-3 left-3">
+                        <span class="inline-flex items-center gap-1.5 bg-accent/90 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full shadow-md">
+                            <i class="fa-solid fa-magnifying-glass text-[0.6rem]"></i> หาทีม
+                        </span>
+                    </div>
+                    <div class="absolute top-3 right-3">
+                        <span class="bg-darkblue/80 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full">Hackathon 2026</span>
+                    </div>
+                </div>
+
+                <div class="p-5 flex flex-col gap-3 relative z-10">
+                    <h3 class="text-base font-bold text-darkblue dark:text-white leading-snug group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors line-clamp-2">
+                        Data Scientist หาทีม AI
+                    </h3>
+                    <div class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400">
+                        <i class="fa-solid fa-user text-accent text-xs"></i>
+                        พร้อมเข้าร่วมทีม (1 คน)
+                    </div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="role-badge role-data"><i class="fa-solid fa-check text-[0.5rem]"></i> Python / ML</span>
+                        <span class="role-badge role-backend"><i class="fa-solid fa-check text-[0.5rem]"></i> TensorFlow</span>
+                    </div>
+                    <div class="pt-2 border-t border-gray-100 dark:border-gray-700/60 flex items-center justify-between">
+                        <div class="avatar-stack flex">
+                            <div class="avatar-item w-7 h-7 rounded-full bg-cyan-600 text-white text-xs font-bold flex items-center justify-center ring-2 ring-white dark:ring-gray-800">L</div>
+                        </div>
+                        <span class="text-[0.65rem] font-semibold text-royalblue dark:text-lightblue opacity-70 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                            ดูรายละเอียด <i class="fa-solid fa-arrow-right text-[0.5rem]"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="recruit-data" hidden>
+                    <span class="d-title">Data Scientist หาทีม AI</span>
+                    <span class="d-event">Hackathon 2026</span>
+                    <span class="d-cover">https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80&auto=format</span>
+                    <span class="d-desc">เป็น Data Scientist ที่ถนัด Python, ML Pipelines, และ NLP ด้วย TensorFlow / PyTorch เคยทำ Research Paper ด้าน Computer Vision มาแล้ว มองหาทีมที่ต้องการสร้าง AI Solution จริงๆ ไม่ใช่แค่ Demo</span>
+                    <span class="d-members">Lin — Data Scientist</span>
+                    <span class="d-roles">ต้องการทีม — กำลังหาทีม AI::role-data::สมาชิกคนนี้เชี่ยวชาญ ML / Data Science พร้อมสร้าง AI Solution</span>
+                </div>
+            </article>
+
+            <!-- ── CARD 9 ── -->
+            <article
+                class="recruit-card group bg-white/80 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-lg shadow-darkblue/5 dark:shadow-black/20 overflow-hidden hover:shadow-2xl hover:shadow-royalblue/10 cursor-pointer"
+                data-type="looking-members" data-event="Startup Weekend 2026"
+                data-title="Mental Health App — แอปดูแลจิตใจ"
+                data-aos="fade-up" data-aos-duration="500" data-aos-delay="160"
+                onclick="openModal(this)" tabindex="0"
+                onkeydown="if(event.key==='Enter')openModal(this)"
+                role="button" aria-label="เปิดรายละเอียด: Mental Health App">
+
+                <div class="relative h-36 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=640&q=80&auto=format"
+                        alt="Mental Health App"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute top-3 left-3">
+                        <span class="inline-flex items-center gap-1.5 bg-royalblue/90 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full shadow-md">
+                            <i class="fa-solid fa-user-plus text-[0.6rem]"></i> หาคนเข้าทีม
+                        </span>
+                    </div>
+                    <div class="absolute top-3 right-3">
+                        <span class="bg-darkblue/80 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full">Startup Weekend 2026</span>
+                    </div>
+                </div>
+
+                <div class="p-5 flex flex-col gap-3 relative z-10">
+                    <h3 class="text-base font-bold text-darkblue dark:text-white leading-snug group-hover:text-royalblue dark:group-hover:text-lightblue transition-colors line-clamp-2">
+                        Mental Health App — แอปดูแลจิตใจ
+                    </h3>
+                    <div class="flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400">
+                            <i class="fa-solid fa-user-group text-royalblue dark:text-lightblue text-xs"></i>
+                            สมาชิก 1 / 4 คน
+                        </div>
+                        <div class="flex-1 h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden max-w-[80px]">
+                            <div class="member-progress-fill" style="width:25%"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="role-badge role-frontend"><i class="fa-solid fa-circle-exclamation text-[0.5rem] opacity-70"></i> Front-end</span>
+                        <span class="role-badge role-backend"><i class="fa-solid fa-circle-exclamation text-[0.5rem] opacity-70"></i> Back-end</span>
+                        <span class="role-badge role-design"><i class="fa-solid fa-circle-exclamation text-[0.5rem] opacity-70"></i> UX Design</span>
+                    </div>
+                    <div class="pt-2 border-t border-gray-100 dark:border-gray-700/60 flex items-center justify-between">
+                        <div class="avatar-stack flex">
+                            <div class="avatar-item w-7 h-7 rounded-full bg-purple-500 text-white text-xs font-bold flex items-center justify-center ring-2 ring-white dark:ring-gray-800">M</div>
+                        </div>
+                        <span class="text-[0.65rem] font-semibold text-royalblue dark:text-lightblue opacity-70 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                            ดูรายละเอียด <i class="fa-solid fa-arrow-right text-[0.5rem]"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="recruit-data" hidden>
+                    <span class="d-title">Mental Health App — แอปดูแลจิตใจ</span>
+                    <span class="d-event">Startup Weekend 2026</span>
+                    <span class="d-cover">https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80&auto=format</span>
+                    <span class="d-desc">แอปที่ช่วยให้คนรุ่นใหม่จัดการกับความเครียดและ Burnout ผ่าน Journaling, Mood Tracking, และการเชื่อมต่อกับ Community Online นักจิตวิทยา ทีมเรามุ่งมั่นสร้าง Impact ที่แท้จริง</span>
+                    <span class="d-members">May — Founder / Product Vision</span>
+                    <span class="d-roles">Front-end Developer::role-frontend::React Native / Flutter สำหรับ Mobile App|Back-end Developer::role-backend::Node.js, Authentication, Database Design|UX/UI Designer::role-design::Empathy-driven Design, การออกแบบ Onboarding ที่อบอุ่น</span>
+                </div>
+            </article>
+
+        </div><!-- end #recruit-grid -->
+
+        <!-- Empty State -->
+        <div id="empty-state"
+            class="hidden flex-col items-center justify-center py-24 text-center">
+            <div
+                class="w-24 h-24 rounded-full bg-lightblue/20 dark:bg-lightblue/10 flex items-center justify-center mb-6">
+                <i class="fa-solid fa-users-slash text-3xl text-lightblue dark:text-lightblue/60"></i>
+            </div>
+            <h3 class="text-xl font-bold text-darkblue dark:text-white mb-2">ไม่พบโพสต์ที่ตรงกัน</h3>
+            <p class="text-gray-400 dark:text-gray-500 text-sm font-medium max-w-xs">
+                ลองเปลี่ยน Filter หรือค้นหาด้วยคำอื่น แล้วลองใหม่อีกครั้ง
+            </p>
+        </div>
+    </main>
+
+    <!-- ============================================================
+         FOOTER  (mirrors index.html)
+    ============================================================ -->
+    <footer
+        class="w-full py-8 text-center text-sm font-semibold z-10 text-darkblue/80 dark:text-white/60 border-t border-gray-200/30 dark:border-gray-700/30 relative">
+        Copyright &copy; INNEX &mdash;
+        <a href="#" class="font-bold hover:text-royalblue dark:hover:text-lightblue transition-colors">Privacy Policy</a>
+    </footer>
+
+    <!-- ============================================================
+         DETAILS MODAL
+         z-40 overlay | z-50 panel
+    ============================================================ -->
+
+    <!-- Overlay -->
+    <div id="modal-overlay"
+        class="modal-overlay fixed inset-0 z-40 bg-black/55 backdrop-blur-sm opacity-0 invisible transition-all duration-300"
+        aria-hidden="true"></div>
+
+    <!-- Modal Panel -->
+    <div id="modal-panel"
+        class="modal-panel fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+        <div
+            class="relative w-full max-w-lg bg-white/90 dark:bg-gray-900/90 backdrop-blur-2xl border border-white/50 dark:border-gray-700/60 rounded-2xl shadow-2xl shadow-darkblue/15 dark:shadow-black/40 overflow-hidden flex flex-col max-h-[88vh] scale-95 opacity-0 transition-all duration-350 pointer-events-auto"
+            id="modal-inner" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+
+            <!-- Top gradient bar -->
+            <div class="h-1 w-full bg-gradient-to-r from-royalblue via-lightblue to-royalblue flex-shrink-0"></div>
+
+            <!-- Event Banner (clickable) -->
+            <a id="modal-event-link" href="event-detail.html"
+                class="event-banner-link relative block flex-shrink-0 h-36 overflow-hidden">
+                <img id="modal-cover-img" src="" alt=""
+                    class="w-full h-full object-cover">
+                <!-- Event name overlay -->
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-darkblue/70 via-transparent to-transparent flex items-end px-5 pb-3">
+                    <span id="modal-event-label"
+                        class="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full">
+                        <i class="fa-solid fa-calendar-days text-[0.55rem]"></i>
+                        <span id="modal-event-text"></span>
+                    </span>
+                </div>
+                <!-- Hover hint -->
+                <div
+                    class="absolute top-3 right-3 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-[0.6rem] font-bold px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[0.5rem]"></i> ดูอีเวนต์
+                </div>
+            </a>
+
+            <!-- Modal Header -->
+            <div class="px-6 pt-5 pb-3 flex items-start justify-between gap-3 flex-shrink-0">
+                <div>
+                    <p id="modal-type-label" class="text-[0.65rem] font-bold uppercase tracking-widest mb-1"></p>
+                    <h2 id="modal-title-text"
+                        class="text-xl font-extrabold text-darkblue dark:text-white leading-snug"></h2>
+                </div>
+                <button id="modal-close-btn"
+                    class="flex-shrink-0 p-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-darkblue dark:hover:text-white transition-colors mt-0.5"
+                    aria-label="Close modal">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Divider -->
+            <div class="mx-6 border-t border-gray-100 dark:border-gray-700/60"></div>
+
+            <!-- Scrollable Body -->
+            <div class="flex-1 overflow-y-auto modal-body-scroll px-6 py-4 space-y-5">
+
+                <!-- Description -->
+                <div>
+                    <h3
+                        class="text-[0.65rem] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
+                        <i class="fa-solid fa-align-left mr-1"></i> รายละเอียด
+                    </h3>
+                    <p id="modal-desc-text"
+                        class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed font-medium"></p>
+                </div>
+
+                <!-- Current Members -->
+                <div>
+                    <h3
+                        class="text-[0.65rem] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+                        <i class="fa-solid fa-users mr-1"></i> สมาชิกปัจจุบัน
+                    </h3>
+                    <ul id="modal-members-list" class="space-y-2"></ul>
+                </div>
+
+                <!-- Needed Roles -->
+                <div id="modal-roles-section">
+                    <h3
+                        class="text-[0.65rem] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">
+                        <i class="fa-solid fa-circle-exclamation mr-1"></i> ตำแหน่งที่ต้องการ
+                    </h3>
+                    <ul id="modal-roles-list" class="space-y-2"></ul>
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex-shrink-0 px-6 py-4 border-t border-gray-100 dark:border-gray-700/60 bg-white/60 dark:bg-gray-900/60">
+                <button id="modal-join-btn"
+                    class="w-full flex items-center justify-center gap-2.5 py-3 bg-royalblue hover:bg-darkblue active:scale-[0.98] text-white text-sm font-bold rounded-xl shadow-md shadow-royalblue/20 hover:shadow-lg hover:shadow-royalblue/30 transition-all duration-300">
+                    <i class="fa-solid fa-handshake text-base"></i>
+                    <span>ขอเข้าร่วมทีม (Request to Join)</span>
+                </button>
+            </div>
+
+        </div>
+    </div><!-- end modal-panel -->
+
+    <!-- ============================================================
+         SCRIPTS
+    ============================================================ -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="src/js/ui.js"></script>
+    <script src="src/js/app.js"></script>
+
+    <script>
+        /* ==============================================================
+           SECTION 1: AOS INIT
+        ============================================================== */
+        AOS.init({
+            once: true,
+            duration: 500,
+            easing: 'ease-out-cubic',
+        });
+
+        /* ==============================================================
+           SECTION 2: LOAD COMPONENTS (navbar + sidebar) via shared app.js
+           app.js handles: FAB, theme toggle, mobile nav scroll-hide,
+           nav active highlighting, and i18n re-run.
+        ============================================================== */
+        INNEX.loadComponents('community');
+
+        /* ==============================================================
+           SECTION 3: URL PARAM — Event Context Alert
+        ============================================================== */
+        (function checkEventParam() {
+            const params = new URLSearchParams(window.location.search);
+            const raw = params.get('event');
+            if (!raw) return;
+
+            // Format: "Hackathon2026" -> "Hackathon 2026"
+            const formatted = decodeURIComponent(raw)
+                .replace(/([a-z])([A-Z])/g, '$1 $2')   // camelCase split
+                .replace(/([A-Za-z])(\d)/g, '$1 $2')   // letter-digit split
+                .trim();
+
+            const alert = document.getElementById('event-context-alert');
+            document.getElementById('event-context-name').textContent = formatted;
+            alert.classList.remove('hidden');
+            alert.style.display = 'flex';
+        })();
+
+        document.getElementById('event-alert-dismiss').addEventListener('click', () => {
+            const alert = document.getElementById('event-context-alert');
+            alert.style.opacity = '0';
+            alert.style.transform = 'translateY(-6px)';
+            alert.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+            setTimeout(() => alert.style.display = 'none', 260);
+
+            // Strip event param from URL cleanly
+            const url = new URL(window.location.href);
+            url.searchParams.delete('event');
+            window.history.replaceState(null, '', url.toString());
+        });
+
+        /* ==============================================================
+           SECTION 4: FILTER PILLS
+        ============================================================== */
+        let activeFilter = 'all';
+        let searchQuery  = '';
+
+        document.getElementById('filter-pills-group').addEventListener('click', (e) => {
+            const btn = e.target.closest('.filter-pill');
+            if (!btn) return;
+
+            document.querySelectorAll('.filter-pill').forEach(p => {
+                p.classList.remove('is-active');
+                p.setAttribute('aria-pressed', 'false');
+            });
+            btn.classList.add('is-active');
+            btn.setAttribute('aria-pressed', 'true');
+
+            activeFilter = btn.dataset.filter;
+            applyFilters();
+        });
+
+        /* ==============================================================
+           SECTION 5: SEARCH
+        ============================================================== */
+        let searchTimer;
+        document.getElementById('community-search').addEventListener('input', (e) => {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => {
+                searchQuery = e.target.value.toLowerCase().trim();
+                applyFilters();
+            }, 220);
+        });
+
+        /* ==============================================================
+           SECTION 6: FILTER ENGINE
+        ============================================================== */
+        function applyFilters() {
+            const cards = document.querySelectorAll('#recruit-grid article');
+            let visible = 0;
+
+            cards.forEach(card => {
+                const type  = card.dataset.type  || '';
+                const title = (card.dataset.title || '').toLowerCase();
+                const event = (card.dataset.event || '').toLowerCase();
+                const body  = card.querySelector('.recruit-data')?.textContent.toLowerCase() || '';
+
+                const passesFilter = activeFilter === 'all' || type === activeFilter;
+                const passesSearch = !searchQuery ||
+                    title.includes(searchQuery) ||
+                    event.includes(searchQuery) ||
+                    body.includes(searchQuery);
+
+                if (passesFilter && passesSearch) {
+                    card.removeAttribute('data-hidden');
+                    card.style.display = '';
+                    visible++;
+                } else {
+                    card.setAttribute('data-hidden', '');
+                    card.style.display = 'none';
+                }
+            });
+
+            // Results count
+            document.getElementById('results-num').textContent = visible;
+
+            // Empty state
+            const emptyState = document.getElementById('empty-state');
+            if (visible === 0) {
+                emptyState.classList.remove('hidden');
+                emptyState.style.display = 'flex';
+            } else {
+                emptyState.classList.add('hidden');
+                emptyState.style.display = '';
+            }
+        }
+
+        /* ==============================================================
+           SECTION 7: MODAL — Open
+        ============================================================== */
+        function openModal(card) {
+            const data     = card.querySelector('.recruit-data');
+            const title    = data.querySelector('.d-title')?.textContent  || '';
+            const event    = data.querySelector('.d-event')?.textContent  || '';
+            const cover    = data.querySelector('.d-cover')?.textContent  || '';
+            const desc     = data.querySelector('.d-desc')?.textContent   || '';
+            const membersRaw = data.querySelector('.d-members')?.textContent || '';
+            const rolesRaw   = data.querySelector('.d-roles')?.textContent  || '';
+            const type     = card.dataset.type || 'looking-members';
+
+            // Cover
+            const coverImg = document.getElementById('modal-cover-img');
+            coverImg.src = cover;
+            coverImg.alt = title;
+
+            // Event link + label
+            document.getElementById('modal-event-text').textContent = event;
+
+            // Type label
+            const typeLabel = document.getElementById('modal-type-label');
+            if (type === 'looking-members') {
+                typeLabel.innerHTML = '<i class="fa-solid fa-user-plus mr-1"></i> หาคนเข้าทีม';
+                typeLabel.className = 'text-[0.65rem] font-bold uppercase tracking-widest mb-1 text-royalblue dark:text-lightblue';
+            } else {
+                typeLabel.innerHTML = '<i class="fa-solid fa-magnifying-glass mr-1"></i> กำลังหาทีม';
+                typeLabel.className = 'text-[0.65rem] font-bold uppercase tracking-widest mb-1 text-accent dark:text-orange-400';
+            }
+
+            // Title & Description
+            document.getElementById('modal-title-text').textContent = title;
+            document.getElementById('modal-desc-text').textContent  = desc;
+
+            // Current Members
+            const membersList = document.getElementById('modal-members-list');
+            membersList.innerHTML = '';
+            if (membersRaw.trim()) {
+                membersRaw.split('|').forEach(raw => {
+                    const [name, role] = raw.split('—').map(s => s.trim());
+                    const li = document.createElement('li');
+                    li.className = 'flex items-center gap-3';
+                    li.innerHTML = `
+                        <div class="w-8 h-8 rounded-full bg-royalblue/10 dark:bg-royalblue/20 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-user text-royalblue dark:text-lightblue text-xs"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-sm font-bold text-darkblue dark:text-white leading-tight truncate">${name || ''}</p>
+                            <p class="text-[0.7rem] text-gray-500 dark:text-gray-400 font-medium truncate">${role || ''}</p>
+                        </div>`;
+                    membersList.appendChild(li);
+                });
+            }
+
+            // Needed Roles
+            const rolesList    = document.getElementById('modal-roles-list');
+            const rolesSection = document.getElementById('modal-roles-section');
+            rolesList.innerHTML = '';
+
+            if (rolesRaw.trim()) {
+                rolesRaw.split('|').forEach(raw => {
+                    const [roleName, badgeClass, roleDesc] = raw.split('::').map(s => s.trim());
+                    const li = document.createElement('li');
+                    li.className = 'flex items-start gap-3 p-3 rounded-xl bg-gray-50/80 dark:bg-gray-800/60 border border-gray-100 dark:border-gray-700/50';
+                    li.innerHTML = `
+                        <div class="w-7 h-7 rounded-lg bg-royalblue/10 dark:bg-royalblue/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <i class="fa-solid fa-circle-exclamation text-royalblue dark:text-lightblue text-xs"></i>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <p class="text-sm font-bold text-darkblue dark:text-white leading-tight mb-1">${roleName || ''}</p>
+                            <p class="text-[0.7rem] text-gray-500 dark:text-gray-400 font-medium leading-snug">${roleDesc || ''}</p>
+                        </div>`;
+                    rolesList.appendChild(li);
+                });
+                rolesSection.style.display = '';
+            } else {
+                rolesSection.style.display = 'none';
+            }
+
+            // Join button label
+            const joinBtn = document.getElementById('modal-join-btn');
+            if (type === 'looking-team') {
+                joinBtn.innerHTML = `<i class="fa-solid fa-envelope text-base"></i><span>ชวนเข้าทีม (Invite)</span>`;
+            } else {
+                joinBtn.innerHTML = `<i class="fa-solid fa-handshake text-base"></i><span>ขอเข้าร่วมทีม (Request to Join)</span>`;
+            }
+
+            // Reveal
+            const overlay = document.getElementById('modal-overlay');
+            const inner   = document.getElementById('modal-inner');
+
+            overlay.classList.remove('invisible', 'opacity-0');
+            overlay.classList.add('opacity-100');
+
+            inner.classList.remove('scale-95', 'opacity-0');
+            inner.classList.add('scale-100', 'opacity-100');
+
+            document.body.style.overflow = 'hidden';
+            document.getElementById('modal-close-btn').focus();
+        }
+
+        /* ==============================================================
+           SECTION 8: MODAL — Close
+        ============================================================== */
+        function closeModal() {
+            const overlay = document.getElementById('modal-overlay');
+            const inner   = document.getElementById('modal-inner');
+
+            inner.classList.remove('scale-100', 'opacity-100');
+            inner.classList.add('scale-95', 'opacity-0');
+
+            overlay.classList.remove('opacity-100');
+            overlay.classList.add('opacity-0');
+
+            setTimeout(() => {
+                overlay.classList.add('invisible');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+
+        document.getElementById('modal-overlay').addEventListener('click', closeModal);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        /* ==============================================================
+           SECTION 9: CREATE POST BUTTON (stub)
+        ============================================================== */
+        function handleCreatePost() {
+            alert('ฟีเจอร์สร้างโพสต์กำลังจะมา — Coming Soon!');
+        }
+
+        document.getElementById('create-post-btn')?.addEventListener('click', handleCreatePost);
+
+    </script>
+
+</body>
+
+</html>

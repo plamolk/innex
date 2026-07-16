@@ -83,22 +83,6 @@ document.addEventListener('click', (e) => {
         return;
     }
 
-    // Mobile Language Dropdown
-    const sidebarBtn = target.closest('#mobile-lang-btn');
-    if (sidebarBtn) {
-        const menu = document.getElementById('mobile-lang-menu');
-        if (menu) {
-            menu.classList.toggle('opacity-0');
-            menu.classList.toggle('invisible');
-            menu.classList.toggle('scale-95');
-            menu.classList.toggle('opacity-100');
-            menu.classList.toggle('visible');
-            menu.classList.toggle('scale-100');
-        }
-        e.stopPropagation();
-        return;
-    }
-
     // Close when clicking outside
     closeLangDropdown();
 });

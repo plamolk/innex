@@ -104,5 +104,30 @@
     "event5Desc": "Develop cutting-edge AI solutions for healthcare and sustainability. ฿300,000 prize pool.",
     "event6Title": "Young Innovators Ideathon",
     "event6Desc": "An ideathon exclusively for high school students to solve community challenges using tech."
+  },
+  "nav": {
+    "createTeam": "Create Team",
+    "theme": "Theme",
+    "language": "Language"
+  },
+  "community": {
+    "title": "Community Board",
+    "subtitle": "Find the right team or recruit new members — build your dream team and conquer Hackathons together.",
+    "createPost": "Create Post",
+    "filterAll": "All",
+    "filterMembers": "Looking for Members",
+    "filterTeam": "Looking for Team",
+    "searchPlaceholder": "Search posts, skills...",
+    "resultsCount": "posts in the system",
+    "emptyTitle": "No matching posts found",
+    "emptyDesc": "Try changing the filter or search with different keywords.",
+    "eventContextPrefix": "Showing posts for:",
+    "eventContextSub": "Showing only posts linked to this event.",
+    "joinBtn": "Request to Join",
+    "inviteBtn": "Invite to Team",
+    "viewDetails": "View Details",
+    "currentMembers": "Current Members",
+    "neededRoles": "Needed Roles",
+    "description": "Description"
   }
 }

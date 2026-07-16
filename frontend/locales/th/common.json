@@ -104,5 +104,30 @@
     "event5Desc": "พัฒนาโซลูชัน AI ล้ำสมัยด้านสุขภาพและความยั่งยืน เงินรางวัลรวม ฿300,000",
     "event6Title": "ไอเดียธอนนักนวัตกรรุ่นเยาว์",
     "event6Desc": "ไอเดียธอนสำหรับนักเรียนมัธยมศึกษาโดยเฉพาะ เพื่อแก้ปัญหาชุมชนด้วยเทคโนโลยี"
+  },
+  "nav": {
+    "createTeam": "สร้างทีม",
+    "theme": "ธีม",
+    "language": "ภาษา"
+  },
+  "community": {
+    "title": "Community Board",
+    "subtitle": "ค้นหาทีมที่ใช่ หรือรับสมัครสมาชิกใหม่ — สร้างทีมในฝันและพิชิต Hackathon ไปด้วยกัน",
+    "createPost": "สร้างโพสต์",
+    "filterAll": "ทั้งหมด (All)",
+    "filterMembers": "หาคนเข้าทีม",
+    "filterTeam": "หาทีม",
+    "searchPlaceholder": "ค้นหาโพสต์, ทักษะ...",
+    "resultsCount": "โพสต์ในระบบ",
+    "emptyTitle": "ไม่พบโพสต์ที่ตรงกัน",
+    "emptyDesc": "ลองเปลี่ยน Filter หรือค้นหาด้วยคำอื่น แล้วลองใหม่อีกครั้ง",
+    "eventContextPrefix": "กำลังแสดงโพสต์สำหรับ:",
+    "eventContextSub": "แสดงเฉพาะโพสต์ที่เชื่อมโยงกับอีเวนต์นี้",
+    "joinBtn": "ขอเข้าร่วมทีม (Request to Join)",
+    "inviteBtn": "ชวนเข้าทีม (Invite)",
+    "viewDetails": "ดูรายละเอียด",
+    "currentMembers": "สมาชิกปัจจุบัน",
+    "neededRoles": "ตำแหน่งที่ต้องการ",
+    "description": "รายละเอียด"
   }
 }
