@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Hackathon 2026 — Join Thailand's largest student innovation competition. Find teammates and apply now on INNEX.">
+
+    <!-- Google Fonts: Outfit & Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- FOUC Prevention: Apply saved theme BEFORE paint -->
+    <script>
+        (function () {
+            try {
+                const t = localStorage.getItem('theme');
+                if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { }
+        })();
+    </script>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkblue: '#293681',
+                        royalblue: '#4274D9',
+                        lightblue: '#95CCDD',
+                        accent: '#D07E66',
+                        bglight: '#f6f9fc',
+                        bgteal: '#D0E7E6',
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'float-fast': 'float 4s ease-in-out infinite',
+                        'pulse-soft': 'pulse-soft 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'pulse-soft': {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.6' },
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+
+    <title>Hackathon 2026 — INNEX</title>
+
+    <style>
+        /* ============================
+           Base Typography
+        ============================ */
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body:lang(th) {
+            font-family: 'Prompt', 'Outfit', sans-serif;
+        }
+
+        /* ============================
+           Wavy Pattern Background
+        ============================ */
+        .wave-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            opacity: 0.45;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='wave' x='0' y='0' width='120' height='24' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 12 Q 30 24 60 12 T 120 12' fill='none' stroke='%2395CCDD' stroke-width='1.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='url(%23wave)'/%3E%3C/svg%3E");
+        }
+
+        .dark .wave-bg {
+            opacity: 0.12;
+        }
+
+        /* ============================
+           Custom Scrollbar
+        ============================ */
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .dark ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #95CCDD;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4274D9;
+        }
+
+        /* ============================
+           Adjust Sidebar position on Mobile
+           (to avoid overlapping the fixed CTA bar)
+        ============================ */
+        #sidebar-placeholder>div {
+            bottom: 5.5rem !important;
+        }
+
+        /* ============================
+           Timeline Connector Line
+        ============================ */
+        .timeline-item {
+            position: relative;
+            padding-left: 2.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0.6875rem;
+            top: 1.75rem;
+            bottom: -0.75rem;
+            width: 2px;
+            background: linear-gradient(to bottom, #95CCDD, transparent);
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 0;
+            top: 0.35rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* ============================
+           Glassmorphism Card
+        ============================ */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.75);
+            border: 1px solid rgba(148, 163, 184, 0.15);
+        }
+
+        /* ============================
+           Hero Banner Gradient Overlay
+        ============================ */
+        .hero-banner-overlay {
+            background: linear-gradient(to top,
+                    rgba(0, 0, 0, 0.65) 0%,
+                    rgba(0, 0, 0, 0.25) 40%,
+                    rgba(0, 0, 0, 0.05) 70%,
+                    transparent 100%);
+        }
+
+        /* ============================
+           Prize Card Shimmer
+        ============================ */
+        .prize-card-gold {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+        }
+
+        .prize-card-silver {
+            background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 50%, #64748b 100%);
+        }
+
+        .prize-card-bronze {
+            background: linear-gradient(135deg, #d4a574 0%, #b8860b 50%, #8B6914 100%);
+        }
+
+        /* ============================
+           Mobile Bottom CTA Bar
+        ============================ */
+        .mobile-cta-bar {
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .dark .mobile-cta-bar {
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ============================
+           Section Divider
+        ============================ */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #95CCDD, transparent);
+        }
+
+        .dark .section-divider {
+            background: linear-gradient(to right, transparent, rgba(149, 204, 221, 0.3), transparent);
+        }
+
+        /* ============================
+           Breadcrumb hover
+        ============================ */
+        .breadcrumb-link {
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .breadcrumb-link:hover {
+            color: #4274D9;
+        }
+    </style>
+</head>
+
+<!--
+    Z-INDEX DISCIPLINE
+    ==================
+    z-0   : wave-bg, floating blobs
+    z-10  : main content
+    z-40  : overlays
+    z-50  : navbars (desktop & mobile), mobile CTA bar
+-->
+
+<body
+    class="relative min-h-screen flex flex-col bg-bglight text-darkblue dark:bg-gray-900 dark:text-gray-100 overflow-x-hidden selection:bg-royalblue selection:text-white transition-colors duration-300">
+
+    <!-- ========================================
+         BACKGROUND DECORATIONS (z-0)
+    ======================================== -->
+    <div class="wave-bg"></div>
+
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="hidden lg:flex absolute top-32 left-8 animate-float opacity-40">
+            <div
+                class="w-20 h-20 bg-darkblue dark:bg-royalblue rounded-[2rem] rotate-12 shadow-2xl flex items-center justify-center border-4 border-white/30">
+                <div class="w-8 h-8 rounded-full border-4 border-white/50 border-t-transparent"></div>
+            </div>
+        </div>
+        <div class="hidden lg:flex absolute bottom-24 right-16 animate-float-delayed opacity-30">
+            <div class="w-24 h-12 bg-lightblue border-4 border-white/30 rounded-full shadow-xl"></div>
+        </div>
+        <div class="hidden md:block absolute top-1/4 right-1/3 animate-float-fast opacity-20">
+            <div class="w-8 h-8 bg-accent rounded-full"></div>
+        </div>
+        <div class="hidden md:block absolute bottom-1/3 left-1/4 animate-float opacity-20">
+            <div class="w-6 h-6 bg-royalblue rounded-full"></div>
+        </div>
+        <div
+            class="absolute top-0 -left-10 w-96 h-96 bg-lightblue rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-20 animate-blob">
+        </div>
+        <div class="absolute top-1/2 -right-10 w-96 h-96 bg-accent rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-15 animate-blob"
+            style="animation-delay:2s"></div>
+        <div class="absolute -bottom-8 left-1/3 w-96 h-96 bg-royalblue rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-15 animate-blob"
+            style="animation-delay:4s"></div>
+    </div>
+
+    <!-- ================================================================
+         ██████  NAVBAR PLACEHOLDER
+         ================================================================ -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- ================================================================
+         ██████  MOBILE FAB & POPOVER MENU (< xl only)
+         ================================================================ -->
+    <div id="sidebar-placeholder"></div>
+
+
+    <!-- ================================================================
+         ██████  MAIN PAGE CONTENT (z-10)
+         ================================================================ -->
+    <main class="relative z-10 flex-1 pt-20 xl:pt-24 pb-32 lg:pb-16">
+
+        <!-- ========================================
+             BREADCRUMB NAVIGATION
+        ======================================== -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4" data-aos="fade-down" data-aos-duration="400">
+            <nav aria-label="Breadcrumb" class="flex items-center space-x-2 text-sm font-medium">
+                <a href="index.html"
+                    class="breadcrumb-link text-gray-400 dark:text-gray-500 hover:text-royalblue dark:hover:text-lightblue flex items-center gap-1.5">
+                    <i class="fa-solid fa-house text-xs"></i>
+                    <span>Opportunities</span>
+                </a>
+                <i class="fa-solid fa-chevron-right text-[0.6rem] text-gray-300 dark:text-gray-600"></i>
+                <span class="text-darkblue dark:text-white font-semibold truncate max-w-[200px] sm:max-w-none">Hackathon
+                    2026</span>
+            </nav>
+        </div>
+
+        <!-- ========================================
+             HERO BANNER SECTION
+        ======================================== -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8" data-aos="fade-up" data-aos-duration="600">
+            <div
+                class="relative rounded-2xl xl:rounded-3xl overflow-hidden shadow-2xl shadow-darkblue/10 dark:shadow-black/30 group">
+                <!-- Banner Image -->
+                <div
+                    class="aspect-[21/9] sm:aspect-[3/1] lg:aspect-[21/7] bg-gradient-to-br from-darkblue via-royalblue to-lightblue relative overflow-hidden">
+                    <!-- Decorative Pattern Over Banner -->
+                    <div class="absolute inset-0 opacity-10">
+                        <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <pattern id="hero-grid" x="0" y="0" width="40" height="40"
+                                    patternUnits="userSpaceOnUse">
+                                    <circle cx="20" cy="20" r="1" fill="white" />
+                                </pattern>
+                            </defs>
+                            <rect width="100%" height="100%" fill="url(#hero-grid)" />
+                        </svg>
+                    </div>
+                    <!-- Floating Elements Inside Banner -->
+                    <div class="absolute inset-0">
+                        <div
+                            class="absolute top-[15%] left-[10%] w-24 h-24 rounded-full border-2 border-white/20 animate-float">
+                        </div>
+                        <div
+                            class="absolute top-[30%] right-[15%] w-16 h-16 rounded-xl border-2 border-white/15 rotate-45 animate-float-delayed">
+                        </div>
+                        <div
+                            class="absolute bottom-[20%] left-[60%] w-12 h-12 bg-white/10 rounded-full animate-float-fast">
+                        </div>
+                        <!-- Large Text Watermark -->
+                        <div
+                            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none pointer-events-none">
+                            <span
+                                class="text-[6rem] sm:text-[8rem] lg:text-[12rem] font-extrabold text-white/[0.06] tracking-tighter leading-none">HACK</span>
+                        </div>
+                    </div>
+                    <!-- Gradient Overlay -->
+                    <div class="hero-banner-overlay absolute inset-0"></div>
+                    <!-- Hero Content -->
+                    <div class="absolute bottom-0 left-0 right-0 p-5 sm:p-8 lg:p-10">
+                        <!-- Status Badge -->
+                        <div class="mb-3 sm:mb-4" data-aos="fade-right" data-aos-delay="200">
+                            <span id="event-status-badge"
+                                class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold bg-emerald-500/90 text-white backdrop-blur-md shadow-lg">
+                                <span class="relative flex h-2.5 w-2.5">
+                                    <span
+                                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
+                                </span>
+                                Open for Application
+                            </span>
+                        </div>
+                        <!-- Event Title -->
+                        <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-3 sm:mb-4 drop-shadow-lg"
+                            data-aos="fade-right" data-aos-delay="300">
+                            Hackathon 2026
+                        </h1>
+                        <!-- Key Meta Info -->
+                        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm sm:text-base text-white/90"
+                            data-aos="fade-right" data-aos-delay="400">
+                            <span class="flex items-center gap-2">
+                                <i class="fa-regular fa-calendar text-lightblue"></i>
+                                15 – 17 สิงหาคม 2026
+                            </span>
+                            <span class="flex items-center gap-2">
+                                <i class="fa-solid fa-location-dot text-lightblue"></i>
+                                True Digital Park, Bangkok
+                            </span>
+                            <span class="flex items-center gap-2">
+                                <i class="fa-solid fa-users text-lightblue"></i>
+                                นักศึกษาระดับอุดมศึกษา
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             2-COLUMN LAYOUT: Content + Action Sidebar
+        ======================================== -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-8">
+
+                <!-- ============================
+                     LEFT COLUMN: Main Content
+                ============================ -->
+                <div class="flex-1 min-w-0 space-y-8">
+
+                    <!-- Overview Description -->
+                    <section class="glass-card rounded-2xl p-6 sm:p-8 shadow-lg shadow-darkblue/5 dark:shadow-black/15"
+                        data-aos="fade-up" data-aos-delay="100">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-royalblue/10 dark:bg-royalblue/20 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-circle-info text-royalblue dark:text-lightblue"></i>
+                            </div>
+                            <h2 class="text-lg sm:text-xl font-bold text-darkblue dark:text-white">ภาพรวมโครงการ</h2>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed text-sm sm:text-base">
+                            Hackathon 2026 คือการแข่งขันพัฒนานวัตกรรมระดับประเทศ
+                            สำหรับนักศึกษาที่ต้องการแก้ปัญหาสังคมด้วยเทคโนโลยี
+                            ผู้เข้าแข่งขันจะได้รับโจทย์จริงจากพันธมิตรภาคอุตสาหกรรม และมีเวลา 48
+                            ชั่วโมงในการสร้างต้นแบบที่ใช้งานได้จริง
+                            พร้อม Mentorship จากผู้เชี่ยวชาญตลอดการแข่งขัน
+                        </p>
+                        <!-- Tags -->
+                        <div class="flex flex-wrap gap-2 mt-5">
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-royalblue/10 dark:bg-royalblue/20 text-royalblue dark:text-lightblue text-xs font-semibold">
+                                <i class="fa-solid fa-code text-[0.6rem]"></i> Hackathon
+                            </span>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-semibold">
+                                <i class="fa-solid fa-bolt text-[0.6rem]"></i> Innovation
+                            </span>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/10 dark:bg-accent/20 text-accent text-xs font-semibold">
+                                <i class="fa-solid fa-trophy text-[0.6rem]"></i> Competition
+                            </span>
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400 text-xs font-semibold">
+                                <i class="fa-solid fa-graduation-cap text-[0.6rem]"></i> Student
+                            </span>
+                        </div>
+                    </section>
+
+                    <!-- ============================
+                         TIMELINE SECTION
+                    ============================ -->
+                    <section class="glass-card rounded-2xl p-6 sm:p-8 shadow-lg shadow-darkblue/5 dark:shadow-black/15"
+                        data-aos="fade-up" data-aos-delay="150">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-royalblue/10 dark:bg-royalblue/20 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-timeline text-royalblue dark:text-lightblue"></i>
+                            </div>
+                            <h2 class="text-lg sm:text-xl font-bold text-darkblue dark:text-white">กำหนดการ (Timeline)
+                            </h2>
+                        </div>
+
+                        <div class="space-y-5">
+                            <!-- Timeline Item 1 -->
+                            <div class="timeline-item" data-aos="fade-left" data-aos-delay="100">
+                                <div class="timeline-dot bg-royalblue text-white shadow-md shadow-royalblue/30">
+                                    <span>1</span>
+                                </div>
+                                <div class="glass-card rounded-xl p-4 hover:shadow-md transition-shadow duration-300">
+                                    <div
+                                        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-1">
+                                        <h3 class="font-bold text-darkblue dark:text-white text-sm sm:text-base">
+                                            เปิดรับสมัคร</h3>
+                                        <span
+                                            class="text-xs font-semibold text-royalblue dark:text-lightblue bg-royalblue/10 dark:bg-royalblue/20 px-2.5 py-0.5 rounded-full w-fit">
+                                            1 ก.ค. – 31 ก.ค. 2026
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">สมัครผ่านระบบออนไลน์
+                                        ทีมละ 3–5 คน</p>
+                                </div>
+                            </div>
+
+                            <!-- Timeline Item 2 -->
+                            <div class="timeline-item" data-aos="fade-left" data-aos-delay="200">
+                                <div class="timeline-dot bg-lightblue text-darkblue shadow-md shadow-lightblue/30">
+                                    <span>2</span>
+                                </div>
+                                <div class="glass-card rounded-xl p-4 hover:shadow-md transition-shadow duration-300">
+                                    <div
+                                        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-1">
+                                        <h3 class="font-bold text-darkblue dark:text-white text-sm sm:text-base">
+                                            ประกาศผลรอบคัดเลือก</h3>
+                                        <span
+                                            class="text-xs font-semibold text-royalblue dark:text-lightblue bg-royalblue/10 dark:bg-royalblue/20 px-2.5 py-0.5 rounded-full w-fit">
+                                            5 ส.ค. 2026
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">คัดเลือก 50
+                                        ทีมเข้าร่วมแข่งขัน</p>
+                                </div>
+                            </div>
+
+                            <!-- Timeline Item 3 -->
+                            <div class="timeline-item" data-aos="fade-left" data-aos-delay="300">
+                                <div class="timeline-dot bg-accent text-white shadow-md shadow-accent/30">
+                                    <span>3</span>
+                                </div>
+                                <div class="glass-card rounded-xl p-4 hover:shadow-md transition-shadow duration-300">
+                                    <div
+                                        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-1">
+                                        <h3 class="font-bold text-darkblue dark:text-white text-sm sm:text-base">
+                                            วันแข่งขัน (48 ชั่วโมง)</h3>
+                                        <span
+                                            class="text-xs font-semibold text-royalblue dark:text-lightblue bg-royalblue/10 dark:bg-royalblue/20 px-2.5 py-0.5 rounded-full w-fit">
+                                            15 – 17 ส.ค. 2026
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Hacking ที่ True
+                                        Digital Park พร้อม Mentor Session</p>
+                                </div>
+                            </div>
+
+                            <!-- Timeline Item 4 -->
+                            <div class="timeline-item" data-aos="fade-left" data-aos-delay="400">
+                                <div class="timeline-dot bg-emerald-500 text-white shadow-md shadow-emerald-500/30">
+                                    <span>4</span>
+                                </div>
+                                <div class="glass-card rounded-xl p-4 hover:shadow-md transition-shadow duration-300">
+                                    <div
+                                        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-1">
+                                        <h3 class="font-bold text-darkblue dark:text-white text-sm sm:text-base">Demo
+                                            Day & ประกาศผล</h3>
+                                        <span
+                                            class="text-xs font-semibold text-royalblue dark:text-lightblue bg-royalblue/10 dark:bg-royalblue/20 px-2.5 py-0.5 rounded-full w-fit">
+                                            17 ส.ค. 2026
+                                        </span>
+                                    </div>
+                                    <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
+                                        นำเสนอผลงานต่อคณะกรรมการและมอบรางวัล</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ============================
+                         PRIZES SECTION
+                    ============================ -->
+                    <section class="glass-card rounded-2xl p-6 sm:p-8 shadow-lg shadow-darkblue/5 dark:shadow-black/15"
+                        data-aos="fade-up" data-aos-delay="200">
+                        <h2 class="text-xs font-bold uppercase tracking-widest text-royalblue dark:text-lightblue mb-6">รางวัล</h2>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <!-- 1st -->
+                            <div class="relative text-center overflow-hidden rounded-xl bg-gradient-to-br from-darkblue to-royalblue p-5 sm:p-6 text-white hover:shadow-xl transition-shadow duration-300"
+                                data-aos="fade-up" data-aos-delay="100">
+                                <span class="rank-number text-white font-bold">1</span>
+                                <p class="text-xs font-medium text-white/60 uppercase tracking-wide mb-1">อันดับที่ 1</p>
+                                <p class="text-2xl sm:text-3xl font-extrabold leading-none mb-2">100,000 ฿</p>
+                                <p class="text-xs text-white/60 leading-relaxed">ถ้วยรางวัล & Incubation Program</p>
+                            </div>
+
+                            <!-- 2nd -->
+                            <div class="relative text-center overflow-hidden rounded-xl bg-gradient-to-br from-gray-500 to-gray-600 dark:from-gray-600 dark:to-gray-700 p-5 sm:p-6 text-white hover:shadow-xl transition-shadow duration-300"
+                                data-aos="fade-up" data-aos-delay="150">
+                                <span class="rank-number text-white font-bold">2</span>
+                                <p class="text-xs font-medium text-white/60 uppercase tracking-wide mb-1">อันดับที่ 2</p>
+                                <p class="text-2xl sm:text-3xl font-extrabold leading-none mb-2">50,000 ฿</p>
+                                <p class="text-xs text-white/60 leading-relaxed">ถ้วยรางวัล & Cloud Credits</p>
+                            </div>
+
+                            <!-- 3rd -->
+                            <div class="relative text-center overflow-hidden rounded-xl bg-gradient-to-br from-accent to-amber-700 p-5 sm:p-6 text-white hover:shadow-xl transition-shadow duration-300"
+                                data-aos="fade-up" data-aos-delay="200">
+                                <span class="rank-number text-white font-bold">3</span>
+                                <p class="text-xs font-medium text-white/60 uppercase tracking-wide mb-1">อันดับที่ 3</p>
+                                <p class="text-2xl sm:text-3xl font-extrabold leading-none mb-2">25,000 ฿</p>
+                                <p class="text-xs text-white/60 leading-relaxed">ถ้วยรางวัล & Swag Pack</p>
+                            </div>
+                        </div>
+
+                        <!-- Special Awards — simple text, no icon -->
+                        <div class="mt-5 pt-5 border-t border-gray-200/50 dark:border-gray-700/40">
+                            <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                                <strong class="text-darkblue dark:text-white font-semibold">รางวัลพิเศษ</strong> —
+                                Best Innovation, Best UI/UX Design, People's Choice — แต่ละรางวัล 10,000 ฿ พร้อมใบประกาศนียบัตร
+                            </p>
+                        </div>
+                    </section>
+
+
+                    <!-- ============================
+                         RULES SUMMARY SECTION
+                    ============================ -->
+                    <section class="glass-card rounded-2xl p-6 sm:p-8 shadow-lg shadow-darkblue/5 dark:shadow-black/15"
+                        data-aos="fade-up" data-aos-delay="250">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-royalblue/10 dark:bg-royalblue/20 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-scale-balanced text-royalblue dark:text-lightblue"></i>
+                            </div>
+                            <h2 class="text-lg sm:text-xl font-bold text-darkblue dark:text-white">กติกาโดยย่อ</h2>
+                        </div>
+
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3 text-sm sm:text-base text-gray-600 dark:text-gray-300">
+                                <span
+                                    class="mt-1.5 w-2 h-2 rounded-full bg-royalblue dark:bg-lightblue flex-shrink-0"></span>
+                                <span>สมาชิกทีมละ <strong class="text-darkblue dark:text-white">3 – 5 คน</strong>
+                                    จากสถาบันอุดมศึกษาเดียวกันหรือต่างสถาบัน</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-sm sm:text-base text-gray-600 dark:text-gray-300">
+                                <span
+                                    class="mt-1.5 w-2 h-2 rounded-full bg-royalblue dark:bg-lightblue flex-shrink-0"></span>
+                                <span>ต้องพัฒนาผลงาน <strong class="text-darkblue dark:text-white">ภายในเวลาแข่งขัน 48
+                                        ชั่วโมง</strong> เท่านั้น ห้ามใช้โค้ดเก่า</span>
+                            </li>
+                            <li class="flex items-start gap-3 text-sm sm:text-base text-gray-600 dark:text-gray-300">
+                                <span
+                                    class="mt-1.5 w-2 h-2 rounded-full bg-royalblue dark:bg-lightblue flex-shrink-0"></span>
+                                <span>การตัดสินพิจารณาจาก: <strong class="text-darkblue dark:text-white">Innovation
+                                        (30%), Impact (25%), Technical (25%), Presentation (20%)</strong></span>
+                            </li>
+                            <li class="flex items-start gap-3 text-sm sm:text-base text-gray-600 dark:text-gray-300">
+                                <span
+                                    class="mt-1.5 w-2 h-2 rounded-full bg-royalblue dark:bg-lightblue flex-shrink-0"></span>
+                                <span>ผลงานที่ได้รับรางวัลจะได้สิทธิ์เข้า <strong
+                                        class="text-darkblue dark:text-white">Incubation Program 3 เดือน</strong></span>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <!-- ============================
+                         EXTERNAL RESOURCES SECTION
+                    ============================ -->
+                    <section class="glass-card rounded-2xl p-6 sm:p-8 shadow-lg shadow-darkblue/5 dark:shadow-black/15"
+                        data-aos="fade-up" data-aos-delay="300">
+                        <div class="flex items-center gap-3 mb-5">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-royalblue/10 dark:bg-royalblue/20 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-book-open text-royalblue dark:text-lightblue"></i>
+                            </div>
+                            <h2 class="text-lg sm:text-xl font-bold text-darkblue dark:text-white">ข้อมูลเพิ่มเติม</h2>
+                        </div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-5">
+                            สำหรับรายละเอียดฉบับเต็ม กรุณาดาวน์โหลดเอกสารหรือเยี่ยมชมเว็บไซต์อย่างเป็นทางการ
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <!-- Download Rules PDF -->
+                            <a href="#" target="_blank" rel="noopener noreferrer"
+                                class="group inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl border-2 border-royalblue dark:border-lightblue text-royalblue dark:text-lightblue bg-transparent hover:bg-royalblue dark:hover:bg-lightblue hover:text-white dark:hover:text-darkblue font-semibold text-sm transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-royalblue/20">
+                                <i class="fa-solid fa-file-pdf text-base"></i>
+                                <span>ดาวน์โหลดกติกาฉบับเต็ม (PDF)</span>
+                                <i
+                                    class="fa-solid fa-download text-xs opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                            </a>
+
+                            <!-- Official Website -->
+                            <a href="#" target="_blank" rel="noopener noreferrer"
+                                class="group inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl border-2 border-royalblue dark:border-lightblue text-royalblue dark:text-lightblue bg-transparent hover:bg-royalblue dark:hover:bg-lightblue hover:text-white dark:hover:text-darkblue font-semibold text-sm transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-royalblue/20">
+                                <i class="fa-solid fa-globe text-base"></i>
+                                <span>เว็บไซต์ทางการของโครงการ</span>
+                                <i
+                                    class="fa-solid fa-arrow-up-right-from-square text-xs opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                            </a>
+                        </div>
+                    </section>
+
+                </div>
+                <!-- END LEFT COLUMN -->
+
+                <!-- ============================
+                     RIGHT COLUMN: Sticky Action Card
+                     (Hidden on mobile — replaced by fixed bottom CTA)
+                ============================ -->
+                <aside id="action-sidebar" class="hidden lg:block w-full lg:w-[360px] flex-shrink-0">
+                    <div class="sticky top-24 space-y-5">
+                        <!-- Main Action Card -->
+                        <div class="glass-card rounded-2xl p-6 shadow-xl shadow-darkblue/8 dark:shadow-black/25 border border-gray-200/40 dark:border-gray-700/40"
+                            data-aos="fade-left" data-aos-delay="200">
+
+                            <!-- Event Quick Stats -->
+                            <div class="space-y-3 mb-6">
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                                        <i
+                                            class="fa-solid fa-users-between-lines text-royalblue dark:text-lightblue"></i>
+                                        จำนวนทีม
+                                    </span>
+                                    <span class="font-bold text-darkblue dark:text-white">50 ทีม</span>
+                                </div>
+                                <div class="section-divider"></div>
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                                        <i class="fa-solid fa-user-group text-royalblue dark:text-lightblue"></i>
+                                        ขนาดทีม
+                                    </span>
+                                    <span class="font-bold text-darkblue dark:text-white">3 – 5 คน</span>
+                                </div>
+                                <div class="section-divider"></div>
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                                        <i class="fa-solid fa-money-bill-wave text-royalblue dark:text-lightblue"></i>
+                                        รางวัลรวม
+                                    </span>
+                                    <span class="font-bold text-darkblue dark:text-white">205,000 ฿</span>
+                                </div>
+                                <div class="section-divider"></div>
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                                        <i class="fa-solid fa-clock text-royalblue dark:text-lightblue"></i>
+                                        ปิดรับสมัคร
+                                    </span>
+                                    <span class="font-bold text-accent">31 ก.ค. 2026</span>
+                                </div>
+                            </div>
+
+                            <!-- Countdown Indicator -->
+                            <div
+                                class="mb-6 p-3 rounded-xl bg-accent/10 dark:bg-accent/15 border border-accent/20 dark:border-accent/30">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-hourglass-half text-accent animate-pulse"></i>
+                                    <span class="text-accent font-bold" id="countdown-text">เหลืออีก 15 วัน</span>
+                                </div>
+                                <div
+                                    class="mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 overflow-hidden">
+                                    <div class="bg-gradient-to-r from-accent to-royalblue h-full rounded-full transition-all duration-1000"
+                                        style="width: 52%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Primary CTA: Apply -->
+                            <a href="#" target="_blank" rel="noopener noreferrer" id="cta-apply-desktop"
+                                class="group w-full flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl bg-gradient-to-r from-darkblue to-royalblue hover:from-royalblue hover:to-darkblue text-white font-bold text-sm shadow-lg shadow-darkblue/20 hover:shadow-xl hover:shadow-royalblue/30 hover:scale-[1.02] transition-all duration-300 mb-3">
+                                
+                                <span>สมัครแข่งขัน (ระบบภายนอก)</span>
+                                <i
+                                    class="fa-solid fa-arrow-up-right-from-square text-xs opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
+                            </a>
+
+                            <!-- Primary CTA: Find Team -->
+                            <a href="community.html?event=Hackathon2026" id="cta-find-team-desktop"
+                                class="group w-full flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl bg-royalblue hover:bg-darkblue text-white font-bold text-sm shadow-lg shadow-royalblue/20 hover:shadow-xl hover:shadow-darkblue/30 hover:scale-[1.02] transition-all duration-300">
+                               
+                                <span>หาเพื่อนร่วมทีมสำหรับงานนี้</span>
+                                <i
+                                    class="fa-solid fa-arrow-right text-xs opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all"></i>
+                            </a>
+                        </div>
+
+                        <!-- Organizer Info -->
+                        <div class="glass-card rounded-2xl p-5 shadow-lg shadow-darkblue/5 dark:shadow-black/15"
+                            data-aos="fade-left" data-aos-delay="300">
+                            <h3 class="text-sm font-bold text-darkblue dark:text-white mb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-building text-royalblue dark:text-lightblue text-xs"></i>
+                                ผู้จัดงาน
+                            </h3>
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-11 h-11 rounded-xl bg-gradient-to-br from-royalblue to-lightblue flex items-center justify-center text-white font-bold text-sm shadow-md flex-shrink-0">
+                                    TH
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-sm text-darkblue dark:text-white">TechHub Thailand</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">ร่วมกับ กระทรวง อว.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Share Section -->
+                        <div class="glass-card rounded-2xl p-5 shadow-lg shadow-darkblue/5 dark:shadow-black/15"
+                            data-aos="fade-left" data-aos-delay="400">
+                            <h3 class="text-sm font-bold text-darkblue dark:text-white mb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-share-nodes text-royalblue dark:text-lightblue text-xs"></i>
+                                แชร์งานนี้
+                            </h3>
+                            <div class="flex items-center gap-2">
+                                <button id="share-copy-link"
+                                    class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-royalblue/10 dark:hover:bg-royalblue/20 hover:text-royalblue dark:hover:text-lightblue text-xs font-semibold transition-all duration-200">
+                                    <i class="fa-solid fa-link"></i>
+                                    <span>Copy Link</span>
+                                </button>
+                                <a href="#" target="_blank" rel="noopener noreferrer"
+                                    class="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-[#1877F2]/10 hover:text-[#1877F2] text-sm transition-all duration-200"
+                                    aria-label="Share on Facebook">
+                                    <i class="fa-brands fa-facebook-f"></i>
+                                </a>
+                                <a href="#" target="_blank" rel="noopener noreferrer"
+                                    class="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-black/10 dark:hover:bg-white/10 hover:text-black dark:hover:text-white text-sm transition-all duration-200"
+                                    aria-label="Share on X (Twitter)">
+                                    <i class="fa-brands fa-x-twitter"></i>
+                                </a>
+                                <a href="#" target="_blank" rel="noopener noreferrer"
+                                    class="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-[#06C755]/10 hover:text-[#06C755] text-sm transition-all duration-200"
+                                    aria-label="Share on LINE">
+                                    <i class="fa-brands fa-line"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+                <!-- END RIGHT COLUMN -->
+            </div>
+        </div>
+
+    </main>
+    <!-- END MAIN -->
+
+
+    <!-- ================================================================
+         ██████  MOBILE STICKY BOTTOM CTA BAR  (< lg only)
+         Ensures mobile users can always reach "Apply" and "Find Team"
+         without scrolling back through long content.
+         ================================================================ -->
+    <div id="mobile-cta-bar"
+        class="mobile-cta-bar lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t border-gray-200/60 dark:border-gray-700/60 px-4 py-3 flex items-center gap-3 transition-transform duration-300">
+
+        <!-- Apply Button (Mobile) -->
+        <a href="#" target="_blank" rel="noopener noreferrer" id="cta-apply-mobile"
+            class="flex-1 flex items-center justify-center gap-2 px-3 py-3 rounded-xl bg-gradient-to-r from-darkblue to-royalblue text-white font-bold text-xs sm:text-sm shadow-lg shadow-darkblue/20 hover:shadow-xl transition-all duration-300">
+            <span>🚀</span>
+            <span>สมัครแข่งขัน</span>
+            <i class="fa-solid fa-arrow-up-right-from-square text-[0.6rem] opacity-70"></i>
+        </a>
+
+        <!-- Find Team Button (Mobile) -->
+        <a href="community.html?event=Hackathon2026" id="cta-find-team-mobile"
+            class="flex-1 flex items-center justify-center gap-2 px-3 py-3 rounded-xl bg-royalblue text-white font-bold text-xs sm:text-sm shadow-lg shadow-royalblue/20 hover:shadow-xl transition-all duration-300">
+            <span>🤝</span>
+            <span>หาเพื่อนร่วมทีม</span>
+            <i class="fa-solid fa-arrow-right text-[0.6rem] opacity-70"></i>
+        </a>
+    </div>
+
+
+    <!-- ============================
+         SCRIPTS
+    ============================ -->
+    <script src="src/js/theme.js"></script>
+    <script src="src/js/i18n.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="src/js/ui.js"></script>
+
+    <script>
+        // ============================================================
+        // 1. COMPONENT INJECTION: Load navbar & sidebar
+        // ============================================================
+        async function loadComponents() {
+            try {
+                const [navHTML, sideHTML] = await Promise.all([
+                    fetch('navbar.html').then(r => r.text()),
+                    fetch('sidebar.html').then(r => r.text())
+                ]);
+                document.getElementById('navbar-placeholder').innerHTML = navHTML;
+
+                const sidebarPlaceholder = document.getElementById('sidebar-placeholder');
+                if (sidebarPlaceholder) {
+                    sidebarPlaceholder.innerHTML = sideHTML;
+                }
+
+                // Re-run theme icon sync after components are injected
+                if (typeof syncThemeIcons === 'function') syncThemeIcons();
+
+                // Bind theme toggles from injected components
+                bindThemeToggles();
+
+                // Initialize Mobile FAB Menu
+                initFAB();
+
+            } catch (error) {
+                console.error('Error loading components:', error);
+                // Fallback: show a minimal inline navbar
+                document.getElementById('navbar-placeholder').innerHTML = `
+                    <header class="fixed top-0 left-0 right-0 w-full px-6 py-3.5 flex justify-between items-center z-50 bg-white/80 dark:bg-gray-900/85 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50">
+                        <a href="index.html" class="flex items-center space-x-3 group">
+                            <div class="w-10 h-10 bg-darkblue dark:bg-white rounded-tl-full rounded-bl-full rounded-tr-lg rounded-br-sm shadow-lg"></div>
+                            <span class="font-bold text-lg tracking-wide text-darkblue dark:text-white">INNEX</span>
+                        </a>
+                        <button onclick="toggleTheme()" class="p-2.5 rounded-full bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 text-darkblue dark:text-white">
+                            <i class="fa-solid fa-circle-half-stroke"></i>
+                        </button>
+                    </header>`;
+            }
+        }
+
+        loadComponents();
+
+        // ============================================================
+        // 2. BIND THEME TOGGLES from injected components
+        // ============================================================
+        function bindThemeToggles() {
+            const toggleBtns = document.querySelectorAll('.theme-toggle-btn');
+            toggleBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    toggleTheme();
+                    syncAllThemeIcons();
+                });
+            });
+
+            // Sync icon visibility on load
+            syncAllThemeIcons();
+        }
+
+        function syncAllThemeIcons() {
+            const isDark = document.documentElement.classList.contains('dark');
+
+            // Desktop navbar icons
+            document.querySelectorAll('.icon-moon').forEach(el => el.classList.toggle('hidden', isDark));
+            document.querySelectorAll('.icon-sun').forEach(el => el.classList.toggle('hidden', !isDark));
+        }
+
+        // Watch for class changes on <html> to keep icons synced
+        const themeObserver = new MutationObserver(syncAllThemeIcons);
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+        // ============================================================
+        // 2.5. MOBILE FAB MENU LOGIC
+        // ============================================================
+        function initFAB() {
+            const fabMenuBtn = document.getElementById('fab-menu-btn');
+            const fabPopoverMenu = document.getElementById('fab-popover-menu');
+            const fabIconMenu = document.getElementById('fab-icon-menu');
+            const fabIconClose = document.getElementById('fab-icon-close');
+            const mobileLangMenu = document.getElementById('mobile-lang-menu');
+            const mobileNavbar = document.getElementById('mobile-navbar');
+
+            if (!fabMenuBtn || !fabPopoverMenu) return;
+
+            let isFabOpen = false;
+
+            function toggleFab() {
+                isFabOpen = !isFabOpen;
+                if (isFabOpen) {
+                    fabPopoverMenu.classList.remove('opacity-0', 'invisible', 'scale-95');
+                    fabPopoverMenu.classList.add('opacity-100', 'scale-100');
+                    if (fabIconMenu) fabIconMenu.classList.add('hidden');
+                    if (fabIconClose) fabIconClose.classList.remove('hidden');
+                } else {
+                    fabPopoverMenu.classList.add('opacity-0', 'invisible', 'scale-95');
+                    fabPopoverMenu.classList.remove('opacity-100', 'scale-100');
+                    if (fabIconMenu) fabIconMenu.classList.remove('hidden');
+                    if (fabIconClose) fabIconClose.classList.add('hidden');
+                    // Also close mobile lang menu if open
+                    if (mobileLangMenu) {
+                        mobileLangMenu.classList.add('opacity-0', 'invisible', 'scale-95');
+                        mobileLangMenu.classList.remove('opacity-100', 'scale-100');
+                    }
+                }
+            }
+
+            fabMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleFab();
+            });
+
+            document.addEventListener('click', (e) => {
+                if (isFabOpen && !fabMenuBtn.contains(e.target) && !fabPopoverMenu.contains(e.target)) {
+                    toggleFab();
+                }
+            });
+
+            // Mobile smart scroll-to-hide for navbar
+            if (mobileNavbar) {
+                let lastScrollY = window.scrollY || 0;
+                let scrollTicking = false;
+
+                function onScrollNav() {
+                    if (window.innerWidth >= 1280) {
+                        mobileNavbar.classList.remove('-translate-y-full');
+                        scrollTicking = false;
+                        return;
+                    }
+
+                    const currentY = window.scrollY;
+                    const delta = currentY - lastScrollY;
+
+                    if (delta > 8 && currentY > 80) {
+                        mobileNavbar.classList.add('-translate-y-full');
+                    } else if (delta < -5 || currentY <= 10) {
+                        mobileNavbar.classList.remove('-translate-y-full');
+                    }
+
+                    lastScrollY = currentY;
+                    scrollTicking = false;
+                }
+
+                window.addEventListener('scroll', () => {
+                    if (!scrollTicking) {
+                        requestAnimationFrame(onScrollNav);
+                        scrollTicking = true;
+                    }
+                }, { passive: true });
+            }
+        }
+
+
+        // ============================================================
+        // 3. AOS INITIALIZATION
+        // ============================================================
+        AOS.init({
+            once: true,
+            offset: 50,
+            duration: 800,
+            easing: 'ease-out-cubic',
+        });
+
+
+        // ============================================================
+        // 4. COPY LINK BUTTON
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const copyBtn = document.getElementById('share-copy-link');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', async () => {
+                    try {
+                        await navigator.clipboard.writeText(window.location.href);
+                        const originalHTML = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="fa-solid fa-check"></i><span>Copied!</span>';
+                        copyBtn.classList.add('!text-emerald-500');
+                        setTimeout(() => {
+                            copyBtn.innerHTML = originalHTML;
+                            copyBtn.classList.remove('!text-emerald-500');
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Failed to copy link:', err);
+                    }
+                });
+            }
+        });
+
+
+        // ============================================================
+        // 5. MOBILE CTA BAR: Hide on scroll up, show on scroll down
+        //    (Subtle behavior — keeps bar visible most of the time,
+        //     hides when user is scrolling up to read content)
+        // ============================================================
+        (function () {
+            const ctaBar = document.getElementById('mobile-cta-bar');
+            if (!ctaBar) return;
+
+            let lastScrollY = window.scrollY;
+            let ticking = false;
+
+            function onScroll() {
+                const currentScrollY = window.scrollY;
+
+                // Always show at top of page or near bottom
+                if (currentScrollY < 100 || (window.innerHeight + currentScrollY) >= document.body.scrollHeight - 100) {
+                    ctaBar.classList.remove('translate-y-full');
+                } else if (currentScrollY > lastScrollY + 10) {
+                    // Scrolling down significantly — show CTA
+                    ctaBar.classList.remove('translate-y-full');
+                } else if (currentScrollY < lastScrollY - 30) {
+                    // Scrolling up significantly — hide CTA to reveal content
+                    ctaBar.classList.add('translate-y-full');
+                }
+
+                lastScrollY = currentScrollY;
+                ticking = false;
+            }
+
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(onScroll);
+                    ticking = true;
+                }
+            }, { passive: true });
+        })();
+
+
+        // ============================================================
+        // 6. COUNTDOWN TIMER (Days remaining until deadline)
+        // ============================================================
+        (function () {
+            const deadlineStr = '2026-07-31T23:59:59+07:00';
+            const countdownEl = document.getElementById('countdown-text');
+            if (!countdownEl) return;
+
+            function updateCountdown() {
+                const now = new Date();
+                const deadline = new Date(deadlineStr);
+                const diff = deadline - now;
+
+                if (diff <= 0) {
+                    countdownEl.textContent = 'ปิดรับสมัครแล้ว';
+                    return;
+                }
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                if (days > 0) {
+                    countdownEl.textContent = `เหลืออีก ${days} วัน ${hours} ชั่วโมง`;
+                } else {
+                    countdownEl.textContent = `เหลืออีก ${hours} ชั่วโมง`;
+                }
+            }
+
+            updateCountdown();
+            // Update every minute
+            setInterval(updateCountdown, 60000);
+        })();
+
+    </script>
+</body>
+
+</html>
