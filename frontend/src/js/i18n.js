@@ -37,7 +37,7 @@ async function initI18n() {
  */
 async function loadTranslations(lang) {
     try {
-        const response = await fetch(`./locales/${lang}/common.json`);
+        const basePath = window.location.pathname.includes('/client') ? '../locales' : './locales';\n        const response = await fetch(`${basePath}/${lang}/common.json`);
         if (!response.ok) {
             throw new Error(`Failed to load translations for ${lang}`);
         }
