@@ -32,6 +32,11 @@
         'community': 'community',
         'event-detail': 'opportunities', // event detail ยังอยู่ใต้ Opportunities
         'teams': 'teams',
+        // Auto-detect maps based on filename
+        'index.html': 'opportunities',
+        'community.html': 'community',
+        'event-detail.html': 'opportunities',
+        'create.html': 'create'
     };
 
     /* ----------------------------------------------------------
@@ -95,7 +100,13 @@
        2. NAV HIGHLIGHT — ตรวจ data-nav-key แล้วเพิ่ม active class
     ---------------------------------------------------------- */
     function initPageNav(pageKey) {
-        const targetKey = NAV_KEY_MAP[pageKey] || pageKey;
+        let targetKey = pageKey ? (NAV_KEY_MAP[pageKey] || pageKey) : null;
+        
+        // ถ้าไม่ส่ง pageKey มา ให้ดึงชื่อไฟล์จาก URL (Auto-detect)
+        if (!targetKey) {
+            const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+            targetKey = NAV_KEY_MAP[currentFile] || currentFile.replace('.html', '');
+        }
 
         // ── Mobile sidebar links (data-nav-key)
         document.querySelectorAll('[data-nav-key]').forEach(link => {
