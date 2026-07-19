@@ -157,5 +157,41 @@
     "introGoals": "Introduction & Goals",
     "introGoalsPlaceholder": "Tell us about your experience and what kind of project you want to build...",
     "submitBtn": "Publish Post"
+  },
+  "profile": {
+    "title": "Innovation Profile",
+    "name": "Somchai Developer",
+    "bio": "Full-stack Developer & IoT Enthusiast passionate about building smart city solutions and always ready to learn new technologies.",
+    "location": "Bangkok, Thailand",
+    "chatBtn": "Chat",
+    "editBtn": "Edit Profile",
+    "addBtn": "Add Post",
+    "innovationProfile": "Innovation Profile",
+    "toolsExpertise": "Tools & Expertise",
+    "tabShowcase": "Showcase",
+    "tabRecruitment": "Recruitment Posts",
+    "emptyShowcase": "No showcase available",
+    "emptyRecruitment": "No recruitment posts available",
+    "skillHacker": "Hacker",
+    "skillHustler": "Hustler",
+    "skillHipster": "Hipster",
+    "portfolio": {
+      "p1Title": "Smart City Dashboard",
+      "p1Desc": "Real-time city energy consumption display system built to analyze resource usage in municipal areas.",
+      "p2Title": "IoT Plant Monitor",
+      "p2Desc": "Automated plant care system via moisture and light sensors, notifying through a mobile application.",
+      "p3Title": "E-Commerce App Redesign",
+      "p3Desc": "Redesigned user experience (UX) for a second-hand trading application focusing on ease of use.",
+      "p4Title": "FinTech Platform Prototype",
+      "p4Desc": "Prototype of a peer-to-peer micro-lending platform for students."
+    },
+    "recruit": {
+      "typeTeam": "Looking for Team",
+      "typeMembers": "Looking for Members",
+      "statusOpen": "Open",
+      "statusClosed": "Closed",
+      "r1Summary": "Looking for a team needing a Full-stack Developer (React/Node) or interested in Smart City & IoT projects. Ready to start immediately.",
+      "r2Summary": "Our team lacks a Hustler who can analyze Business Models and create great Pitch Decks to compete in the FinTech category."
+    }
   }
 }

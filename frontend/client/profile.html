@@ -9,7 +9,9 @@
     <!-- Google Fonts: Outfit & Prompt -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -44,6 +46,29 @@
                     fontFamily: {
                         outfit: ['Outfit', 'sans-serif'],
                     },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'float-fast': 'float 4s ease-in-out infinite',
+                        'pulse-soft': 'pulse-soft 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'pulse-soft': {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.6' },
+                        },
+                    }
                 }
             }
         }
@@ -53,12 +78,17 @@
     <script src="../src/js/theme.js"></script>
     <script src="../src/js/i18n.js"></script>
 
-    <title>Innovation Profile — INNEX</title>
+    <title data-i18n="profile.title">Innovation Profile — INNEX</title>
 
     <style>
         /* Base Typography */
-        body { font-family: 'Outfit', sans-serif; }
-        body:lang(th) { font-family: 'Prompt', 'Outfit', sans-serif; }
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body:lang(th) {
+            font-family: 'Prompt', 'Outfit', sans-serif;
+        }
 
         /* Wavy Pattern Background */
         .wave-bg {
@@ -67,27 +97,37 @@
             z-index: 0;
             opacity: 0.45;
             pointer-events: none;
-            background-color: #D0E7E6;
             background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='wave' x='0' y='0' width='120' height='24' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 12 Q 30 24 60 12 T 120 12' fill='none' stroke='%2395CCDD' stroke-width='1.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='url(%23wave)'/%3E%3C/svg%3E");
         }
 
         .dark .wave-bg {
-            background-color: #0f172a;
-            opacity: 0.15;
-            background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='wave' x='0' y='0' width='120' height='24' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 12 Q 30 24 60 12 T 120 12' fill='none' stroke='%23293681' stroke-width='1.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='url(%23wave)'/%3E%3C/svg%3E");
+            opacity: 0.12;
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 7px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #95CCDD; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #4274D9; }
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #95CCDD;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4274D9;
+        }
 
         /* Tab active border transition */
         .tab-btn {
             position: relative;
             transition: color 0.2s ease;
         }
+
         .tab-btn::after {
             content: '';
             position: absolute;
@@ -100,40 +140,75 @@
             transition: transform 0.2s ease;
             border-radius: 3px 3px 0 0;
         }
+
         .tab-btn.active {
             color: #4274D9;
             font-weight: 700;
         }
+
         .dark .tab-btn.active {
             color: #95CCDD;
         }
+
         .tab-btn.active::after {
             transform: scaleX(1);
         }
+
         .dark .tab-btn.active::after {
             background-color: #95CCDD;
         }
 
         /* Card Hover Effects */
-        .portfolio-card, .recruit-post-card {
+        .portfolio-card,
+        .recruit-post-card {
             transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
         }
-        .portfolio-card:hover, .recruit-post-card:hover {
+
+        .portfolio-card:hover,
+        .recruit-post-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 10px 25px rgba(41, 54, 129, 0.08);
             border-color: #95CCDD;
         }
-        .dark .portfolio-card:hover, .dark .recruit-post-card:hover {
+
+        .dark .portfolio-card:hover,
+        .dark .recruit-post-card:hover {
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             border-color: #4274D9;
         }
     </style>
 </head>
 
-<body class="text-gray-800 dark:text-gray-200 transition-colors duration-300 min-h-screen">
+<body
+    class="relative min-h-screen flex flex-col bg-bglight text-darkblue dark:bg-gray-900 dark:text-gray-100 overflow-x-hidden selection:bg-royalblue selection:text-white transition-colors duration-300">
 
     <!-- Wavy Background Pattern -->
     <div class="wave-bg" aria-hidden="true"></div>
+
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="hidden lg:flex absolute top-32 left-8 animate-float opacity-40">
+            <div
+                class="w-20 h-20 bg-darkblue dark:bg-royalblue rounded-[2rem] rotate-12 shadow-2xl flex items-center justify-center border-4 border-white/30">
+                <div class="w-8 h-8 rounded-full border-4 border-white/50 border-t-transparent"></div>
+            </div>
+        </div>
+        <div class="hidden lg:flex absolute bottom-24 right-16 animate-float-delayed opacity-30">
+            <div class="w-24 h-12 bg-lightblue border-4 border-white/30 rounded-full shadow-xl"></div>
+        </div>
+        <div class="hidden md:block absolute top-1/4 right-1/3 animate-float-fast opacity-20">
+            <div class="w-8 h-8 bg-accent rounded-full"></div>
+        </div>
+        <div class="hidden md:block absolute bottom-1/3 left-1/4 animate-float opacity-20">
+            <div class="w-6 h-6 bg-royalblue rounded-full"></div>
+        </div>
+        <div
+            class="absolute top-0 -left-10 w-96 h-96 bg-lightblue rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-20 animate-blob">
+        </div>
+        <div class="absolute top-1/2 -right-10 w-96 h-96 bg-accent rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-15 animate-blob"
+            style="animation-delay:2s"></div>
+        <div class="absolute -bottom-8 left-1/3 w-96 h-96 bg-royalblue rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-15 animate-blob"
+            style="animation-delay:4s"></div>
+    </div>
 
     <!-- ===== SHARED COMPONENT PLACEHOLDERS ===== -->
     <div id="navbar-placeholder"></div>
@@ -147,41 +222,47 @@
              1. UNIFIED PROFILE HEADER CARD
         ======================================== -->
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden mb-8 transition-colors">
-            
+
             <!-- Cover Banner Image -->
             <div class="h-56 md:h-72 w-full overflow-hidden bg-gray-200 dark:bg-gray-700 relative">
-                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=2000&h=600" 
-                     alt="Cover Banner" 
-                     class="w-full h-full object-cover">
+                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=2000&h=600"
+                    alt="Cover Banner" class="w-full h-full object-cover">
                 <!-- Optional gradient overlay for better contrast if needed, but keeping it clean here -->
             </div>
 
             <!-- Content Info Area (Solid White Background) -->
             <div class="px-6 md:px-10 pb-8 relative bg-white dark:bg-gray-800">
                 <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-                    
+
                     <!-- Avatar & Identity -->
-                    <div class="flex flex-col sm:flex-row items-center sm:items-end text-center sm:text-left gap-6 -mt-16 sm:-mt-20 relative z-10">
+                    <div
+                        class="flex flex-col sm:flex-row items-center sm:items-end text-center sm:text-left gap-6 relative z-10">
                         <!-- Avatar -->
-                        <div class="relative flex-shrink-0">
-                            <img src="https://ui-avatars.com/api/?name=Somchai+Dev&background=95CCDD&color=293681&size=256" 
-                                 alt="Profile Avatar" 
-                                 class="h-32 w-32 md:h-40 md:w-40 rounded-full border-4 border-white dark:border-gray-800 shadow-md object-cover bg-bgteal dark:bg-gray-700">
+                        <div class="relative flex-shrink-0 -mt-16 sm:-mt-20">
+                            <img src="https://ui-avatars.com/api/?name=Somchai+Dev&background=95CCDD&color=293681&size=256"
+                                alt="Profile Avatar"
+                                class="h-32 w-32 md:h-40 md:w-40 rounded-full border-4 border-white dark:border-gray-800 shadow-md object-cover bg-bgteal dark:bg-gray-700">
                         </div>
-                        
+
                         <!-- Details -->
-                        <div class="pb-2">
-                            <h1 class="text-3xl md:text-4xl font-bold text-darkblue dark:text-white mb-2">
+                        <div class="pb-2 pt-4 sm:pt-0">
+                            <h1 class="text-3xl md:text-4xl font-bold text-darkblue dark:text-white mb-2"
+                                data-i18n="profile.name">
                                 สมชาย นักพัฒนา
                             </h1>
-                            <p class="text-gray-600 dark:text-gray-400 text-lg max-w-xl leading-relaxed">
-                                Full-stack Developer & IoT Enthusiast ที่หลงใหลในการสร้างสรรค์โซลูชันเพื่อเมืองอัจฉริยะ พร้อมเรียนรู้เทคโนโลยีใหม่ๆ เสมอ
+                            <p class="text-gray-600 dark:text-gray-400 text-lg max-w-xl leading-relaxed"
+                                data-i18n="profile.bio">
+                                Full-stack Developer & IoT Enthusiast ที่หลงใหลในการสร้างสรรค์โซลูชันเพื่อเมืองอัจฉริยะ
+                                พร้อมเรียนรู้เทคโนโลยีใหม่ๆ เสมอ
                             </p>
-                            
+
                             <!-- Location & Link -->
-                            <div class="flex flex-wrap items-center justify-center sm:justify-start gap-4 mt-4 text-sm font-medium text-gray-500 dark:text-gray-400">
-                                <span class="flex items-center gap-1.5"><i class="fas fa-map-marker-alt"></i> กรุงเทพฯ, ไทย</span>
-                                <a href="#" class="flex items-center gap-1.5 hover:text-royalblue transition-colors"><i class="fas fa-link"></i> github.com/somchai-dev</a>
+                            <div
+                                class="flex flex-wrap items-center justify-center sm:justify-start gap-4 mt-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                <span class="flex items-center gap-1.5"><i class="fas fa-map-marker-alt"></i> <span
+                                        data-i18n="profile.location">กรุงเทพฯ, ไทย</span></span>
+                                <a href="#" class="flex items-center gap-1.5 hover:text-royalblue transition-colors"><i
+                                        class="fas fa-link"></i> github.com/somchai-dev</a>
                             </div>
                         </div>
                     </div>
@@ -189,19 +270,22 @@
                     <!-- Action Controls -->
                     <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3 pb-2 flex-shrink-0">
                         <!-- Primary Chat Action -->
-                        <button class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-royalblue hover:bg-blue-700 text-white text-base font-bold transition-all shadow-sm focus:outline-none active:scale-95">
+                        <button
+                            class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-royalblue hover:bg-blue-700 text-white text-base font-bold transition-all shadow-sm focus:outline-none active:scale-95">
                             <i class="fas fa-comment-dots"></i>
-                            <span>ทักแชท</span>
+                            <span data-i18n="profile.chatBtn">ทักแชท</span>
                         </button>
-                        
+
                         <!-- Management Actions -->
-                        <button class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-transparent border-2 border-gray-200 dark:border-gray-700 hover:border-royalblue dark:hover:border-lightblue text-gray-700 dark:text-gray-300 hover:text-royalblue dark:hover:text-lightblue text-sm font-bold transition-all focus:outline-none active:scale-95">
+                        <button
+                            class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-transparent border-2 border-gray-200 dark:border-gray-700 hover:border-royalblue dark:hover:border-lightblue text-gray-700 dark:text-gray-300 hover:text-royalblue dark:hover:text-lightblue text-sm font-bold transition-all focus:outline-none active:scale-95">
                             <i class="fas fa-pen-to-square"></i>
-                            <span>แก้ไขโปรไฟล์</span>
+                            <span data-i18n="profile.editBtn">แก้ไขโปรไฟล์</span>
                         </button>
-                        <button class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-transparent border-2 border-gray-200 dark:border-gray-700 hover:border-royalblue dark:hover:border-lightblue text-gray-700 dark:text-gray-300 hover:text-royalblue dark:hover:text-lightblue text-sm font-bold transition-all focus:outline-none active:scale-95">
+                        <button
+                            class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-transparent border-2 border-gray-200 dark:border-gray-700 hover:border-royalblue dark:hover:border-lightblue text-gray-700 dark:text-gray-300 hover:text-royalblue dark:hover:text-lightblue text-sm font-bold transition-all focus:outline-none active:scale-95">
                             <i class="fas fa-plus"></i>
-                            <span>เพิ่มโพสต์</span>
+                            <span data-i18n="profile.addBtn">เพิ่มโพสต์</span>
                         </button>
                     </div>
                 </div>
@@ -217,23 +301,15 @@
                  2. EXPERTISE & STATS AREA (Left)
             ==================================== -->
             <aside class="space-y-6 lg:col-span-1">
-                
-                <!-- Skill Radar Graph -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 lg:p-8 transition-colors">
-                    <h2 class="text-lg font-bold text-darkblue dark:text-white mb-6 flex items-center gap-2 border-b border-gray-100 dark:border-gray-700 pb-3">
-                        <i class="fas fa-chart-radar text-royalblue"></i>
-                        Innovation Profile
-                    </h2>
-                    <div class="relative w-full aspect-square flex justify-center items-center">
-                        <canvas id="skillRadarChart"></canvas>
-                    </div>
-                </div>
+
+
 
                 <!-- Expertise Stack -->
                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 lg:p-8 transition-colors">
-                    <h2 class="text-lg font-bold text-darkblue dark:text-white mb-6 flex items-center gap-2 border-b border-gray-100 dark:border-gray-700 pb-3">
+                    <h2
+                        class="text-lg font-bold text-darkblue dark:text-white mb-6 flex items-center gap-2 border-b border-gray-100 dark:border-gray-700 pb-3">
                         <i class="fas fa-layer-group text-royalblue"></i>
-                        Tools & Expertise
+                        <span data-i18n="profile.toolsExpertise">Tools & Expertise</span>
                     </h2>
                     <div class="flex flex-wrap gap-2.5" id="expertise-tags">
                         <!-- Tags rendered by JS -->
@@ -246,37 +322,41 @@
                  3. CONTENT STREAM (Right)
             ==================================== -->
             <div class="lg:col-span-2">
-                
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden transition-colors flex flex-col h-full">
-                    
+
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden transition-colors flex flex-col h-full">
+
                     <!-- Navigation Tabs -->
-                    <div class="flex border-b border-gray-200 dark:border-gray-700 px-4 md:px-8 bg-white dark:bg-gray-800 overflow-x-auto" role="tablist">
+                    <div class="flex border-b border-gray-200 dark:border-gray-700 px-4 md:px-8 bg-white dark:bg-gray-800 overflow-x-auto"
+                        role="tablist">
                         <button id="tab-showcase" role="tab" aria-selected="true" aria-controls="panel-showcase"
                             class="tab-btn active whitespace-nowrap py-5 px-6 text-base text-gray-500 dark:text-gray-400 flex items-center gap-2 focus:outline-none"
                             data-tab="showcase">
                             <i class="fas fa-folder-open"></i>
-                            ผลงาน (Showcase)
+                            <span data-i18n="profile.tabShowcase">ผลงาน (Showcase)</span>
                         </button>
                         <button id="tab-recruitment" role="tab" aria-selected="false" aria-controls="panel-recruitment"
                             class="tab-btn whitespace-nowrap py-5 px-6 text-base text-gray-500 dark:text-gray-400 flex items-center gap-2 focus:outline-none"
                             data-tab="recruitment">
                             <i class="fas fa-bullhorn"></i>
-                            ประวัติประกาศหาทีม (Recruitment Posts)
+                            <span data-i18n="profile.tabRecruitment">ประวัติประกาศหาทีม (Recruitment Posts)</span>
                         </button>
                     </div>
 
                     <!-- Tab Panels Container -->
                     <div class="p-6 md:p-8 flex-1 bg-gray-50/50 dark:bg-gray-900/20">
-                        
+
                         <!-- ── Tab A: Showcase ── -->
-                        <div id="panel-showcase" role="tabpanel" aria-labelledby="tab-showcase" class="block animate-[fade-in_0.3s_ease-out]">
+                        <div id="panel-showcase" role="tabpanel" aria-labelledby="tab-showcase"
+                            class="block animate-[fade-in_0.3s_ease-out]">
                             <div id="showcase-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <!-- Portfolio cards rendered by JS -->
                             </div>
                         </div>
 
                         <!-- ── Tab B: Recruitment Posts ── -->
-                        <div id="panel-recruitment" role="tabpanel" aria-labelledby="tab-recruitment" class="hidden animate-[fade-in_0.3s_ease-out]">
+                        <div id="panel-recruitment" role="tabpanel" aria-labelledby="tab-recruitment"
+                            class="hidden animate-[fade-in_0.3s_ease-out]">
                             <div id="recruitment-list" class="space-y-5">
                                 <!-- Recruitment cards rendered by JS -->
                             </div>
@@ -297,111 +377,114 @@
 
     <!-- ===== PAGE MODULE ===== -->
     <script>
-    (function () {
-        'use strict';
+            (function () {
+                'use strict';
 
-        /* ============================================================
-           DATA
-        ============================================================ */
-        const PROFILE_DATA = {
-            skills: {
-                hacker: 90,
-                hustler: 50,
-                hipster: 70,
-            },
-            expertiseTags: [
-                { label: 'React', icon: 'fab fa-react' },
-                { label: 'Tailwind CSS', icon: 'fab fa-css3-alt' },
-                { label: 'Node.js', icon: 'fab fa-node-js' },
-                { label: 'Python', icon: 'fab fa-python' },
-                { label: 'Figma', icon: 'fab fa-figma' },
-                { label: 'IoT', icon: 'fas fa-microchip' },
-                { label: 'UX/UI', icon: 'fas fa-pen-nib' },
-            ],
-            portfolio: [
-                {
-                    id: 'p1',
-                    title: 'Smart City Dashboard',
-                    description: 'ระบบแสดงผลข้อมูลการใช้พลังงานของเมืองแบบเรียลไทม์ สร้างเพื่อวิเคราะห์การใช้ทรัพยากรในเขตเทศบาล',
-                    tags: ['React', 'D3.js', 'Node.js'],
-                    thumb: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800',
-                },
-                {
-                    id: 'p2',
-                    title: 'IoT Plant Monitor',
-                    description: 'ระบบดูแลต้นไม้อัตโนมัติผ่านเซ็นเซอร์วัดความชื้นและแสงสว่าง แจ้งเตือนผ่านแอปพลิเคชันมือถือ',
-                    tags: ['Python', 'IoT', 'Hardware'],
-                    thumb: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800',
-                },
-                {
-                    id: 'p3',
-                    title: 'E-Commerce App Redesign',
-                    description: 'ออกแบบประสบการณ์ผู้ใช้ (UX) ใหม่สำหรับแอปพลิเคชันซื้อขายของมือสอง เน้นความง่ายในการใช้งาน',
-                    tags: ['Figma', 'UX Research'],
-                    thumb: 'https://images.unsplash.com/photo-1618761714954-0b8cd0026356?auto=format&fit=crop&q=80&w=800',
-                },
-                {
-                    id: 'p4',
-                    title: 'FinTech Platform Prototype',
-                    description: 'ต้นแบบแพลตฟอร์มการกู้ยืมเงินรายย่อยแบบ Peer-to-peer สำหรับนักศึกษา',
-                    tags: ['Next.js', 'FinTech'],
-                    thumb: 'https://images.unsplash.com/photo-1551033406-611cf9a28f67?auto=format&fit=crop&q=80&w=800',
-                },
-            ],
-            recruitmentPosts: [
-                {
-                    id: 'r1',
-                    type: 'looking-for-team',
-                    typeLabel: 'กำลังหาทีม',
-                    typeIcon: 'fas fa-search',
-                    event: 'National Hackathon 2026',
-                    eventIcon: 'fas fa-flag',
-                    summary: 'ตามหาทีมที่ขาด Full-stack Developer (React/Node) หรือมีความสนใจทำโปรเจกต์ด้าน Smart City & IoT ครับ พร้อมเริ่มงานทันที',
-                    date: '15 มี.ค. 2026',
-                    status: 'open',
-                    statusLabel: 'กำลังหา',
-                },
-                {
-                    id: 'r2',
-                    type: 'looking-for-members',
-                    typeLabel: 'หาสมาชิกเพิ่ม',
-                    typeIcon: 'fas fa-user-plus',
-                    event: 'FinTech Ideathon 2025',
-                    eventIcon: 'fas fa-landmark',
-                    summary: 'ทีมเราขาด Hustler ที่สามารถวิเคราะห์ Business Model และทำ Pitch Deck เก่งๆ มาร่วมชิงรางวัลหมวด FinTech ครับ',
-                    date: '2 ต.ค. 2025',
-                    status: 'closed',
-                    statusLabel: 'ได้ทีมแล้ว',
-                },
-            ],
-        };
+                /* ============================================================
+                   DATA
+                ============================================================ */
+                const PROFILE_DATA = {
+                    skills: {
+                        hacker: 90,
+                        hustler: 50,
+                        hipster: 70,
+                    },
+                    expertiseTags: [
+                        { label: 'React', icon: 'fab fa-react' },
+                        { label: 'Tailwind CSS', icon: 'fab fa-css3-alt' },
+                        { label: 'Node.js', icon: 'fab fa-node-js' },
+                        { label: 'Python', icon: 'fab fa-python' },
+                        { label: 'Figma', icon: 'fab fa-figma' },
+                        { label: 'IoT', icon: 'fas fa-microchip' },
+                        { label: 'UX/UI', icon: 'fas fa-pen-nib' },
+                    ],
+                    portfolio: [
+                        {
+                            id: 'p1',
+                            title: 'Smart City Dashboard',
+                            description: 'ระบบแสดงผลข้อมูลการใช้พลังงานของเมืองแบบเรียลไทม์ สร้างเพื่อวิเคราะห์การใช้ทรัพยากรในเขตเทศบาล',
+                            tags: ['React', 'D3.js', 'Node.js'],
+                            thumb: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800',
+                        },
+                        {
+                            id: 'p2',
+                            title: 'IoT Plant Monitor',
+                            description: 'ระบบดูแลต้นไม้อัตโนมัติผ่านเซ็นเซอร์วัดความชื้นและแสงสว่าง แจ้งเตือนผ่านแอปพลิเคชันมือถือ',
+                            tags: ['Python', 'IoT', 'Hardware'],
+                            thumb: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=800',
+                        },
+                        {
+                            id: 'p3',
+                            title: 'E-Commerce App Redesign',
+                            description: 'ออกแบบประสบการณ์ผู้ใช้ (UX) ใหม่สำหรับแอปพลิเคชันซื้อขายของมือสอง เน้นความง่ายในการใช้งาน',
+                            tags: ['Figma', 'UX Research'],
+                            thumb: 'https://images.unsplash.com/photo-1618761714954-0b8cd0026356?auto=format&fit=crop&q=80&w=800',
+                        },
+                        {
+                            id: 'p4',
+                            title: 'FinTech Platform Prototype',
+                            description: 'ต้นแบบแพลตฟอร์มการกู้ยืมเงินรายย่อยแบบ Peer-to-peer สำหรับนักศึกษา',
+                            tags: ['Next.js', 'FinTech'],
+                            thumb: 'https://images.unsplash.com/photo-1551033406-611cf9a28f67?auto=format&fit=crop&q=80&w=800',
+                        },
+                    ],
+                    recruitmentPosts: [
+                        {
+                            id: 'r1',
+                            type: 'looking-for-team',
+                            typeLabel: 'กำลังหาทีม',
+                            typeIcon: 'fas fa-search',
+                            event: 'National Hackathon 2026',
+                            eventIcon: 'fas fa-flag',
+                            summary: 'ตามหาทีมที่ขาด Full-stack Developer (React/Node) หรือมีความสนใจทำโปรเจกต์ด้าน Smart City & IoT ครับ พร้อมเริ่มงานทันที',
+                            date: '15 มี.ค. 2026',
+                            status: 'open',
+                            statusLabel: 'กำลังหา',
+                        },
+                        {
+                            id: 'r2',
+                            type: 'looking-for-members',
+                            typeLabel: 'หาสมาชิกเพิ่ม',
+                            typeIcon: 'fas fa-user-plus',
+                            event: 'FinTech Ideathon 2025',
+                            eventIcon: 'fas fa-landmark',
+                            summary: 'ทีมเราขาด Hustler ที่สามารถวิเคราะห์ Business Model และทำ Pitch Deck เก่งๆ มาร่วมชิงรางวัลหมวด FinTech ครับ',
+                            date: '2 ต.ค. 2025',
+                            status: 'closed',
+                            statusLabel: 'ได้ทีมแล้ว',
+                        },
+                    ],
+                };
 
-        /* ============================================================
-           RENDERERS
-        ============================================================ */
+                /* ============================================================
+                   RENDERERS
+                ============================================================ */
 
-        function renderExpertiseTags() {
-            const container = document.getElementById('expertise-tags');
-            if (!container) return;
+                function renderExpertiseTags() {
+                    const container = document.getElementById('expertise-tags');
+                    if (!container) return;
 
-            container.innerHTML = PROFILE_DATA.expertiseTags.map(tag => `
+                    container.innerHTML = PROFILE_DATA.expertiseTags.map(tag => `
                 <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm font-semibold border border-gray-200 dark:border-gray-600 shadow-sm">
                     <i class="${tag.icon} text-royalblue dark:text-lightblue"></i>
                     ${tag.label}
                 </span>
             `).join('');
-        }
+                }
 
-        function renderPortfolioGrid() {
-            const grid = document.getElementById('showcase-grid');
-            if (!grid) return;
+                function renderPortfolioGrid() {
+                    const grid = document.getElementById('showcase-grid');
+                    if (!grid) return;
 
-            if (PROFILE_DATA.portfolio.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500">ไม่มีผลงานแสดง</div>`;
-                return;
-            }
+                    if (PROFILE_DATA.portfolio.length === 0) {
+                        grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500" data-i18n="profile.emptyShowcase">${window.t ? window.t('profile.emptyShowcase') : 'ไม่มีผลงานแสดง'}</div>`;
+                        return;
+                    }
 
-            grid.innerHTML = PROFILE_DATA.portfolio.map(item => `
+                    grid.innerHTML = PROFILE_DATA.portfolio.map((item, idx) => {
+                        const titleKey = `profile.portfolio.p${idx + 1}Title`;
+                        const descKey = `profile.portfolio.p${idx + 1}Desc`;
+                        return `
                 <article class="portfolio-card flex flex-col bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden cursor-pointer h-full">
                     <div class="aspect-video w-full overflow-hidden bg-gray-100 relative group">
                         <img src="${item.thumb}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy">
@@ -409,47 +492,52 @@
                     </div>
                     <div class="p-6 flex-1 flex flex-col justify-between gap-4">
                         <div>
-                            <h3 class="font-bold text-xl text-darkblue dark:text-white mb-2 leading-snug group-hover:text-royalblue transition-colors">${item.title}</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">${item.description}</p>
+                            <h3 class="font-bold text-xl text-darkblue dark:text-white mb-2 leading-snug group-hover:text-royalblue transition-colors" data-i18n="${titleKey}">${window.t ? window.t(titleKey) : item.title}</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed" data-i18n="${descKey}">${window.t ? window.t(descKey) : item.description}</p>
                         </div>
                         <div class="flex flex-wrap gap-2 pt-2 border-t border-gray-100 dark:border-gray-700">
                             ${item.tags.map(t => `<span class="px-2.5 py-1 rounded-md bg-bglight dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-semibold border border-gray-200 dark:border-gray-600">${t}</span>`).join('')}
                         </div>
                     </div>
                 </article>
-            `).join('');
-        }
+            `;
+                    }).join('');
+                }
 
-        function renderRecruitmentPosts() {
-            const list = document.getElementById('recruitment-list');
-            if (!list) return;
+                function renderRecruitmentPosts() {
+                    const list = document.getElementById('recruitment-list');
+                    if (!list) return;
 
-            if (PROFILE_DATA.recruitmentPosts.length === 0) {
-                list.innerHTML = `<div class="text-center py-12 text-gray-500">ไม่มีประวัติการตั้งโพสต์</div>`;
-                return;
-            }
+                    if (PROFILE_DATA.recruitmentPosts.length === 0) {
+                        list.innerHTML = `<div class="text-center py-12 text-gray-500" data-i18n="profile.emptyRecruitment">${window.t ? window.t('profile.emptyRecruitment') : 'ไม่มีประวัติการตั้งโพสต์'}</div>`;
+                        return;
+                    }
 
-            list.innerHTML = PROFILE_DATA.recruitmentPosts.map(post => {
-                const isOpen = post.status === 'open';
-                const typeColor = post.type === 'looking-for-team' 
-                    ? 'text-royalblue bg-royalblue/10 border-royalblue/20' 
-                    : 'text-darkblue bg-darkblue/10 border-darkblue/20';
-                
-                const statusColor = isOpen 
-                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border-green-200' 
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 border-gray-200';
+                    list.innerHTML = PROFILE_DATA.recruitmentPosts.map((post, idx) => {
+                        const isOpen = post.status === 'open';
+                        const typeColor = post.type === 'looking-for-team'
+                            ? 'text-royalblue bg-royalblue/10 border-royalblue/20'
+                            : 'text-darkblue bg-darkblue/10 border-darkblue/20';
 
-                return `
+                        const statusColor = isOpen
+                            ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border-green-200'
+                            : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 border-gray-200';
+
+                        const typeLabelKey = post.type === 'looking-for-team' ? 'profile.recruit.typeTeam' : 'profile.recruit.typeMembers';
+                        const statusLabelKey = isOpen ? 'profile.recruit.statusOpen' : 'profile.recruit.statusClosed';
+                        const summaryKey = `profile.recruit.r${idx + 1}Summary`;
+
+                        return `
                 <article class="recruit-post-card bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 relative">
                     
                     <!-- Header -->
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                         <div class="flex items-center gap-3">
                             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm font-bold ${typeColor} dark:text-white dark:bg-gray-700 dark:border-gray-600">
-                                <i class="${post.typeIcon}"></i> ${post.typeLabel}
+                                <i class="${post.typeIcon}"></i> <span data-i18n="${typeLabelKey}">${window.t ? window.t(typeLabelKey) : post.typeLabel}</span>
                             </span>
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold ${statusColor} dark:border-gray-600">
-                                ${post.statusLabel}
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold ${statusColor} dark:border-gray-600" data-i18n="${statusLabelKey}">
+                                ${window.t ? window.t(statusLabelKey) : post.statusLabel}
                             </span>
                         </div>
                         <span class="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
@@ -464,145 +552,75 @@
                     </div>
 
                     <!-- Content -->
-                    <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-base">
-                        ${post.summary}
+                    <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-base" data-i18n="${summaryKey}">
+                        ${window.t ? window.t(summaryKey) : post.summary}
                     </p>
                 </article>`;
-            }).join('');
-        }
-
-        /* ============================================================
-           INTERACTION & CHARTS
-        ============================================================ */
-        function initTabs() {
-            const tabBtns = document.querySelectorAll('.tab-btn[data-tab]');
-            const panels = {
-                showcase: document.getElementById('panel-showcase'),
-                recruitment: document.getElementById('panel-recruitment'),
-            };
-
-            tabBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const target = btn.getAttribute('data-tab');
-
-                    tabBtns.forEach(b => {
-                        b.classList.remove('active');
-                        b.setAttribute('aria-selected', 'false');
-                    });
-                    btn.classList.add('active');
-                    btn.setAttribute('aria-selected', 'true');
-
-                    Object.entries(panels).forEach(([key, panel]) => {
-                        if (!panel) return;
-                        if (key === target) {
-                            panel.classList.remove('hidden');
-                            panel.classList.add('block');
-                        } else {
-                            panel.classList.add('hidden');
-                            panel.classList.remove('block');
-                        }
-                    });
-                });
-            });
-        }
-
-        function initRadarChart() {
-            const canvas = document.getElementById('skillRadarChart');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-
-            const isDark = () => document.documentElement.classList.contains('dark');
-            const getGridColor  = () => isDark() ? '#374151' : '#e5e7eb';
-            const getLabelColor = () => isDark() ? '#9ca3af' : '#4b5563';
-
-            const chart = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: ['Hacker', 'Hustler', 'Hipster'],
-                    datasets: [{
-                        label: 'Skill Level',
-                        data: [
-                            PROFILE_DATA.skills.hacker,
-                            PROFILE_DATA.skills.hustler,
-                            PROFILE_DATA.skills.hipster,
-                        ],
-                        backgroundColor: 'rgba(66, 116, 217, 0.2)', // royalblue with opacity
-                        borderColor: '#4274D9', // royalblue
-                        pointBackgroundColor: '#293681', // darkblue
-                        pointBorderColor: '#ffffff',
-                        pointHoverBackgroundColor: '#ffffff',
-                        pointHoverBorderColor: '#4274D9',
-                        pointRadius: 5,
-                        pointHoverRadius: 7,
-                        borderWidth: 3,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            min: 0,
-                            max: 100,
-                            angleLines: { color: getGridColor(), lineWidth: 1.5 },
-                            grid:       { color: getGridColor(), lineWidth: 1.5 },
-                            pointLabels: {
-                                color: getLabelColor(),
-                                font: { family: "'Outfit', sans-serif", size: 14, weight: '700' },
-                                padding: 15
-                            },
-                            ticks: { display: false },
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: isDark() ? '#1f2937' : '#ffffff',
-                            titleColor: isDark() ? '#ffffff' : '#111827',
-                            bodyColor: getLabelColor(),
-                            borderColor: getGridColor(),
-                            borderWidth: 1,
-                            padding: 12,
-                            displayColors: false,
-                            bodyFont: { size: 14, weight: 'bold' }
-                        }
-                    }
+                    }).join('');
                 }
-            });
 
-            const observer = new MutationObserver(() => {
-                chart.options.scales.r.angleLines.color = getGridColor();
-                chart.options.scales.r.grid.color = getGridColor();
-                chart.options.scales.r.pointLabels.color = getLabelColor();
-                chart.options.plugins.tooltip.backgroundColor = isDark() ? '#1f2937' : '#ffffff';
-                chart.options.plugins.tooltip.titleColor = isDark() ? '#ffffff' : '#111827';
-                chart.options.plugins.tooltip.bodyColor = getLabelColor();
-                chart.options.plugins.tooltip.borderColor = getGridColor();
-                chart.update('none');
-            });
-            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-        }
+                /* ============================================================
+                   INTERACTION & CHARTS
+                ============================================================ */
+                function initTabs() {
+                    const tabBtns = document.querySelectorAll('.tab-btn[data-tab]');
+                    const panels = {
+                        showcase: document.getElementById('panel-showcase'),
+                        recruitment: document.getElementById('panel-recruitment'),
+                    };
 
-        /* ============================================================
-           INIT
-        ============================================================ */
-        function init() {
-            if (window.INNEX && typeof window.INNEX.loadComponents === 'function') {
-                window.INNEX.loadComponents();
-            }
-            renderExpertiseTags();
-            renderPortfolioGrid();
-            renderRecruitmentPosts();
-            initTabs();
-            initRadarChart();
-        }
+                    tabBtns.forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            const target = btn.getAttribute('data-tab');
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
-    })();
+                            tabBtns.forEach(b => {
+                                b.classList.remove('active');
+                                b.setAttribute('aria-selected', 'false');
+                            });
+                            btn.classList.add('active');
+                            btn.setAttribute('aria-selected', 'true');
+
+                            Object.entries(panels).forEach(([key, panel]) => {
+                                if (!panel) return;
+                                if (key === target) {
+                                    panel.classList.remove('hidden');
+                                    panel.classList.add('block');
+                                } else {
+                                    panel.classList.add('hidden');
+                                    panel.classList.remove('block');
+                                }
+                            });
+                        });
+                    });
+                }
+
+
+
+                /* ============================================================
+                   INIT
+                ============================================================ */
+                function init() {
+                    if (window.INNEX && typeof window.INNEX.loadComponents === 'function') {
+                        window.INNEX.loadComponents();
+                    }
+                    renderExpertiseTags();
+                    renderPortfolioGrid();
+                    renderRecruitmentPosts();
+                    initTabs();
+
+                    window.addEventListener('i18n-updated', () => {
+                        renderPortfolioGrid();
+                        renderRecruitmentPosts();
+                    });
+                }
+
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', init);
+                } else {
+                    init();
+                }
+            })();
     </script>
 </body>
+
 </html>

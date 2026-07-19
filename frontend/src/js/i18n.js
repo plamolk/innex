@@ -37,7 +37,8 @@ async function initI18n() {
  */
 async function loadTranslations(lang) {
     try {
-        const basePath = window.location.pathname.includes('/client') ? '../locales' : './locales';\n        const response = await fetch(`${basePath}/${lang}/common.json`);
+        const basePath = window.location.pathname.includes('/client') ? '../locales' : './locales';
+        const response = await fetch(`${basePath}/${lang}/common.json`);
         if (!response.ok) {
             throw new Error(`Failed to load translations for ${lang}`);
         }
@@ -91,6 +92,36 @@ async function loadTranslations(lang) {
                     "event4Title": "Web Dev Bootcamp", "event4Desc": "2-week intensive bootcamp covering React, Node.js, and cloud deployment. Free for students.",
                     "event5Title": "AI Innovation Hackathon", "event5Desc": "Develop cutting-edge AI solutions for healthcare and sustainability. ฿300,000 prize pool.",
                     "event6Title": "Young Innovators Ideathon", "event6Desc": "An ideathon exclusively for high school students to solve community challenges using tech."
+                },
+                "profile": {
+                    "title": "Innovation Profile",
+                    "name": "Somchai Developer",
+                    "bio": "Full-stack Developer & IoT Enthusiast passionate about building smart city solutions and always ready to learn new technologies.",
+                    "location": "Bangkok, Thailand",
+                    "chatBtn": "Chat",
+                    "editBtn": "Edit Profile",
+                    "addBtn": "Add Post",
+                    "innovationProfile": "Innovation Profile",
+                    "toolsExpertise": "Tools & Expertise",
+                    "tabShowcase": "Showcase",
+                    "tabRecruitment": "Recruitment Posts",
+                    "emptyShowcase": "No showcase available",
+                    "emptyRecruitment": "No recruitment posts available",
+                    "skillHacker": "Hacker",
+                    "skillHustler": "Hustler",
+                    "skillHipster": "Hipster",
+                    "portfolio": {
+                        "p1Title": "Smart City Dashboard", "p1Desc": "Real-time city energy consumption display system built to analyze resource usage in municipal areas.",
+                        "p2Title": "IoT Plant Monitor", "p2Desc": "Automated plant care system via moisture and light sensors, notifying through a mobile application.",
+                        "p3Title": "E-Commerce App Redesign", "p3Desc": "Redesigned user experience (UX) for a second-hand trading application focusing on ease of use.",
+                        "p4Title": "FinTech Platform Prototype", "p4Desc": "Prototype of a peer-to-peer micro-lending platform for students."
+                    },
+                    "recruit": {
+                        "typeTeam": "Looking for Team", "typeMembers": "Looking for Members",
+                        "statusOpen": "Open", "statusClosed": "Closed",
+                        "r1Summary": "Looking for a team needing a Full-stack Developer (React/Node) or interested in Smart City & IoT projects. Ready to start immediately.",
+                        "r2Summary": "Our team lacks a Hustler who can analyze Business Models and create great Pitch Decks to compete in the FinTech category."
+                    }
                 }
             },
             'th': {
@@ -137,6 +168,36 @@ async function loadTranslations(lang) {
                     "event4Title": "บูทแคมป์พัฒนาเว็บ", "event4Desc": "บูทแคมป์เข้มข้น 2 สัปดาห์ ครอบคลุม React, Node.js และ Cloud Deployment ฟรีสำหรับนักเรียน",
                     "event5Title": "แฮกกาธอน AI นวัตกรรม", "event5Desc": "พัฒนาโซลูชัน AI ล้ำสมัยด้านสุขภาพและความยั่งยืน เงินรางวัลรวม ฿300,000",
                     "event6Title": "ไอเดียธอนนักนวัตกรรุ่นเยาว์", "event6Desc": "ไอเดียธอนสำหรับนักเรียนมัธยมศึกษาโดยเฉพาะ เพื่อแก้ปัญหาชุมชนด้วยเทคโนโลยี"
+                },
+                "profile": {
+                    "title": "Innovation Profile",
+                    "name": "สมชาย นักพัฒนา",
+                    "bio": "Full-stack Developer & IoT Enthusiast ที่หลงใหลในการสร้างสรรค์โซลูชันเพื่อเมืองอัจฉริยะ พร้อมเรียนรู้เทคโนโลยีใหม่ๆ เสมอ",
+                    "location": "กรุงเทพฯ, ไทย",
+                    "chatBtn": "ทักแชท",
+                    "editBtn": "แก้ไขโปรไฟล์",
+                    "addBtn": "เพิ่มโพสต์",
+                    "innovationProfile": "Innovation Profile",
+                    "toolsExpertise": "Tools & Expertise",
+                    "tabShowcase": "ผลงาน (Showcase)",
+                    "tabRecruitment": "ประวัติประกาศหาทีม (Recruitment Posts)",
+                    "emptyShowcase": "ไม่มีผลงานแสดง",
+                    "emptyRecruitment": "ไม่มีประวัติการตั้งโพสต์",
+                    "skillHacker": "Hacker",
+                    "skillHustler": "Hustler",
+                    "skillHipster": "Hipster",
+                    "portfolio": {
+                        "p1Title": "Smart City Dashboard", "p1Desc": "ระบบแสดงผลข้อมูลการใช้พลังงานของเมืองแบบเรียลไทม์ สร้างเพื่อวิเคราะห์การใช้ทรัพยากรในเขตเทศบาล",
+                        "p2Title": "IoT Plant Monitor", "p2Desc": "ระบบดูแลต้นไม้อัตโนมัติผ่านเซ็นเซอร์วัดความชื้นและแสงสว่าง แจ้งเตือนผ่านแอปพลิเคชันมือถือ",
+                        "p3Title": "E-Commerce App Redesign", "p3Desc": "ออกแบบประสบการณ์ผู้ใช้ (UX) ใหม่สำหรับแอปพลิเคชันซื้อขายของมือสอง เน้นความง่ายในการใช้งาน",
+                        "p4Title": "FinTech Platform Prototype", "p4Desc": "ต้นแบบแพลตฟอร์มการกู้ยืมเงินรายย่อยแบบ Peer-to-peer สำหรับนักศึกษา"
+                    },
+                    "recruit": {
+                        "typeTeam": "กำลังหาทีม", "typeMembers": "หาสมาชิกเพิ่ม",
+                        "statusOpen": "กำลังหา", "statusClosed": "ได้ทีมแล้ว",
+                        "r1Summary": "ตามหาทีมที่ขาด Full-stack Developer (React/Node) หรือมีความสนใจทำโปรเจกต์ด้าน Smart City & IoT ครับ พร้อมเริ่มงานทันที",
+                        "r2Summary": "ทีมเราขาด Hustler ที่สามารถวิเคราะห์ Business Model และทำ Pitch Deck เก่งๆ มาร่วมชิงรางวัลหมวด FinTech ครับ"
+                    }
                 }
             }
         };
@@ -187,6 +248,7 @@ async function switchLanguage(newLang) {
 
 // Ensure it's globally available
 window.switchLanguage = switchLanguage;
+window.setLang = switchLanguage;
 window.t = (key) => key.split('.').reduce((obj, k) => (obj || {})[k], translations) || key;
 
 // Initialize when DOM is ready

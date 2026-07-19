@@ -157,5 +157,41 @@
     "introGoals": "แนะนำตัวและเป้าหมาย (Introduction & Goals)",
     "introGoalsPlaceholder": "บอกเล่าประสบการณ์ของคุณ และโปรเจกต์แบบไหนที่คุณอยากทำ...",
     "submitBtn": "สร้างโพสต์ (Publish Post)"
+  },
+  "profile": {
+    "title": "Innovation Profile",
+    "name": "สมชาย นักพัฒนา",
+    "bio": "Full-stack Developer & IoT Enthusiast ที่หลงใหลในการสร้างสรรค์โซลูชันเพื่อเมืองอัจฉริยะ พร้อมเรียนรู้เทคโนโลยีใหม่ๆ เสมอ",
+    "location": "กรุงเทพฯ, ไทย",
+    "chatBtn": "ทักแชท",
+    "editBtn": "แก้ไขโปรไฟล์",
+    "addBtn": "เพิ่มโพสต์",
+    "innovationProfile": "Innovation Profile",
+    "toolsExpertise": "Tools & Expertise",
+    "tabShowcase": "ผลงาน (Showcase)",
+    "tabRecruitment": "ประวัติประกาศหาทีม (Recruitment Posts)",
+    "emptyShowcase": "ไม่มีผลงานแสดง",
+    "emptyRecruitment": "ไม่มีประวัติการตั้งโพสต์",
+    "skillHacker": "Hacker",
+    "skillHustler": "Hustler",
+    "skillHipster": "Hipster",
+    "portfolio": {
+      "p1Title": "Smart City Dashboard",
+      "p1Desc": "ระบบแสดงผลข้อมูลการใช้พลังงานของเมืองแบบเรียลไทม์ สร้างเพื่อวิเคราะห์การใช้ทรัพยากรในเขตเทศบาล",
+      "p2Title": "IoT Plant Monitor",
+      "p2Desc": "ระบบดูแลต้นไม้อัตโนมัติผ่านเซ็นเซอร์วัดความชื้นและแสงสว่าง แจ้งเตือนผ่านแอปพลิเคชันมือถือ",
+      "p3Title": "E-Commerce App Redesign",
+      "p3Desc": "ออกแบบประสบการณ์ผู้ใช้ (UX) ใหม่สำหรับแอปพลิเคชันซื้อขายของมือสอง เน้นความง่ายในการใช้งาน",
+      "p4Title": "FinTech Platform Prototype",
+      "p4Desc": "ต้นแบบแพลตฟอร์มการกู้ยืมเงินรายย่อยแบบ Peer-to-peer สำหรับนักศึกษา"
+    },
+    "recruit": {
+      "typeTeam": "กำลังหาทีม",
+      "typeMembers": "หาสมาชิกเพิ่ม",
+      "statusOpen": "กำลังหา",
+      "statusClosed": "ได้ทีมแล้ว",
+      "r1Summary": "ตามหาทีมที่ขาด Full-stack Developer (React/Node) หรือมีความสนใจทำโปรเจกต์ด้าน Smart City & IoT ครับ พร้อมเริ่มงานทันที",
+      "r2Summary": "ทีมเราขาด Hustler ที่สามารถวิเคราะห์ Business Model และทำ Pitch Deck เก่งๆ มาร่วมชิงรางวัลหมวด FinTech ครับ"
+    }
   }
 }

@@ -67,7 +67,7 @@
             initThemeToggle();
             initMobileNavScroll();
             initFAB();
-            initMobileLangMenu();
+            initLangMenus();
             initPageNav(pageKey);
 
             // Re-run i18n updateDOM so injected component text also gets translated
@@ -101,7 +101,7 @@
     ---------------------------------------------------------- */
     function initPageNav(pageKey) {
         let targetKey = pageKey ? (NAV_KEY_MAP[pageKey] || pageKey) : null;
-        
+
         // ถ้าไม่ส่ง pageKey มา ให้ดึงชื่อไฟล์จาก URL (Auto-detect)
         if (!targetKey) {
             const currentFile = window.location.pathname.split('/').pop() || 'index.html';
@@ -250,25 +250,106 @@
     }
 
     /* ----------------------------------------------------------
-       6. MOBILE LANGUAGE DROPDOWN (inside FAB popover)
+       6. LANGUAGE DROPDOWN LOGIC (Desktop & Mobile)
     ---------------------------------------------------------- */
-    function initMobileLangMenu() {
-        const mobileLangBtn = document.getElementById('mobile-lang-btn');
-        const mobileLangMenu = document.getElementById('mobile-lang-menu');
-        if (!mobileLangBtn || !mobileLangMenu) return;
-
-        mobileLangBtn.addEventListener('click', e => {
-            e.stopPropagation();
-            const isOpen = !mobileLangMenu.classList.contains('opacity-0');
-            if (isOpen) {
-                mobileLangMenu.classList.add('opacity-0', 'invisible', 'scale-95');
-                mobileLangMenu.classList.remove('opacity-100', 'scale-100');
-            } else {
-                mobileLangMenu.classList.remove('opacity-0', 'invisible', 'scale-95');
-                mobileLangMenu.classList.add('opacity-100', 'scale-100');
+    function closeLangDropdown() {
+        const menus = [
+            document.getElementById('language-dropdown-menu'),
+            document.getElementById('mobile-lang-menu')
+        ];
+        menus.forEach(menu => {
+            if (menu && !menu.classList.contains('opacity-0')) {
+                menu.classList.add('opacity-0', 'invisible', 'scale-95');
+                menu.classList.remove('opacity-100', 'visible', 'scale-100');
             }
         });
     }
+
+    function initLangMenus() {
+        document.addEventListener('click', (e) => {
+            const target = e.target;
+            
+            // Desktop Nav Language Dropdown
+            const desktopBtn = target.closest('#language-dropdown-btn');
+            if (desktopBtn) {
+                const menu = document.getElementById('language-dropdown-menu');
+                if (menu) {
+                    menu.classList.toggle('opacity-0');
+                    menu.classList.toggle('invisible');
+                    menu.classList.toggle('scale-95');
+                    menu.classList.toggle('opacity-100');
+                    menu.classList.toggle('visible');
+                    menu.classList.toggle('scale-100');
+                }
+                e.stopPropagation();
+                return;
+            }
+
+            // Mobile Nav Language Dropdown
+            const mobileBtn = target.closest('#mobile-lang-btn');
+            if (mobileBtn) {
+                const menu = document.getElementById('mobile-lang-menu');
+                if (menu) {
+                    menu.classList.toggle('opacity-0');
+                    menu.classList.toggle('invisible');
+                    menu.classList.toggle('scale-95');
+                    menu.classList.toggle('opacity-100');
+                    menu.classList.toggle('visible');
+                    menu.classList.toggle('scale-100');
+                }
+                e.stopPropagation();
+                return;
+            }
+
+            // Close when clicking outside
+            closeLangDropdown();
+        });
+
+        setTimeout(() => { // slight delay to let i18n logic pick up first
+            const lang = localStorage.getItem('language') || 'en';
+            if (typeof global.setLang === 'function') {
+                global.setLang(lang);
+            }
+        }, 50);
+    }
+
+    global.setLang = function(lang) {
+        try {
+            // Update display text
+            const display = document.getElementById('current-lang-display');
+            if (display) display.innerText = lang.toUpperCase();
+            
+            const sidebarDisplay = document.getElementById('mobile-lang-display');
+            if (sidebarDisplay) {
+                sidebarDisplay.innerText = lang.toUpperCase();
+            }
+
+            // Reset styles
+            const enBtn = document.getElementById('lang-btn-en');
+            const thBtn = document.getElementById('lang-btn-th');
+
+            if (enBtn && thBtn) {
+                enBtn.className = "w-full text-left px-4 py-2.5 text-sm font-bold text-darkblue dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors";
+                thBtn.className = "w-full text-left px-4 py-2.5 text-sm font-bold text-darkblue dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700";
+            }
+
+            // Set active styles
+            const activeBtn = document.getElementById('lang-btn-' + lang);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-darkblue', 'dark:text-white', 'hover:bg-gray-50', 'dark:hover:bg-gray-700');
+                activeBtn.classList.add('bg-royalblue', 'text-white', 'hover:bg-darkblue');
+            }
+
+            // Trigger actual language switch
+            if (typeof window.switchLanguage === 'function') {
+                window.switchLanguage(lang);
+            }
+        } catch (e) {
+            console.error("Error setting language: ", e);
+        } finally {
+            closeLangDropdown();
+        }
+    };
 
     /* ----------------------------------------------------------
        7. onReady — queue callbacks until loadComponents() done
