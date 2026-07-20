@@ -1,14 +1,18 @@
 /**
  * theme.js
- * Handles the Dark/Light Mode toggle.
- * Note: Initial theme loading (FOUC prevention) is handled inline in the <head> of index.html.
+ * ============================================================
+ * Standalone theme toggle for pages that DON'T use app.js
+ * (login.html, regis.html).
+ * 
+ * For client/ pages (index, community, profile, etc.), theme
+ * toggling is handled by app.js via .theme-toggle-btn class.
+ * ============================================================
  */
 
 function toggleTheme() {
     const htmlEl = document.documentElement;
     const isDark = htmlEl.classList.contains('dark');
     
-    // Toggle the 'dark' class and save user preference to localStorage
     if (isDark) {
         htmlEl.classList.remove('dark');
         localStorage.setItem('theme', 'light');
@@ -18,6 +22,10 @@ function toggleTheme() {
     }
 }
 
+/**
+ * Sync moon/sun icons for standalone pages (login, regis).
+ * Uses getElementById for #icon-moon / #icon-sun (the IDs used in those pages).
+ */
 function syncThemeIcons() {
     const isDark = document.documentElement.classList.contains('dark');
     const moonIcon = document.getElementById('icon-moon');
@@ -28,7 +36,6 @@ function syncThemeIcons() {
     }
 }
 
-// Ensure the DOM is fully loaded before attaching the event listener
 document.addEventListener('DOMContentLoaded', () => {
     syncThemeIcons();
     const themeToggleBtn = document.getElementById('theme-toggle');
@@ -39,7 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Also use mutation observer just in case there are other things triggering it
+    // Keep icons in sync if another script also toggles dark class
     const observer = new MutationObserver(syncThemeIcons);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 });
+

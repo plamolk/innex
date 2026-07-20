@@ -1,13 +1,15 @@
 const express = require('express');
 const path = require('path');
+require('dotenv').config();
+
 const app = express();
-const env = require('dotenv').config();
-const port = env.parsed.PORT;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(express.static(__dirname));
+
+// Serve only the frontend directory — never expose backend files
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.listen(port, () => {
-    console.log('run server port :' + port);
-})
+    console.log(`[INNEX] Server running on http://localhost:${port}`);
+});

@@ -13,7 +13,7 @@
  * 
  * วิธีใช้ในแต่ละ page (เรียกหลัง AOS/i18n):
  *   INNEX.loadComponents('opportunities');  // index.html
- *   INNEX.loadComponents('community');      // community.html
+ *   INNEX.loadComponents('findteam');      // findteam.html
  *   INNEX.loadComponents('event-detail');   // event-detail.html
  * 
  * จากนั้นใน callback ที่ต้องการ init logic เฉพาะหน้า ให้ใช้:
@@ -34,7 +34,7 @@
         'teams': 'teams',
         // Auto-detect maps based on filename
         'index.html': 'opportunities',
-        'community.html': 'community',
+        'findteam.html': 'teams',
         'event-detail.html': 'opportunities',
         'create.html': 'create'
     };
