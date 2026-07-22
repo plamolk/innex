@@ -54,11 +54,16 @@
 
     <!-- Shared JS -->
     <script src="../src/js/theme.js"></script>
-    <script src="../src/js/i18n.js"></script>
 
     <title data-i18n="messages.pageTitle">ข้อความและคำร้องขอ (Messages) — INNEX</title>
 
     <style>
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             font-family: 'Outfit', sans-serif;
         }
@@ -144,10 +149,11 @@
             background-color: rgba(66, 116, 217, 0.16);
         }
 
-        /* List <-> Detail slide panels (mobile only; md+ resets via responsive utilities) */
+        /* List <-> Detail slide panels (below lg only; lg+ resets via responsive utilities) */
         #msg-list-panel,
         #msg-detail-panel {
             transition: transform 0.3s ease;
+            max-width: 100%;
         }
     </style>
 </head>
@@ -163,14 +169,17 @@
     <div id="sidebar-placeholder"></div>
 
     <!-- ===== MAIN PAGE CONTENT ===== -->
-    <main class="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-24 pb-8 flex-1 flex flex-col">
+    <main
+        class="relative z-10 max-w-[1600px] mx-auto w-full px-4 sm:px-6 lg:px-8 pt-20 lg:pt-24 pb-6 lg:pb-8 flex-1 flex flex-col min-w-0">
 
         <!-- Page Header -->
-        <div class="mb-6 flex-shrink-0">
-            <h1 class="text-3xl md:text-4xl font-bold text-darkblue dark:text-white mb-2" data-i18n="messages.pageTitle">
+        <div class="mb-6 flex-shrink-0 min-w-0 hidden xl:block">
+            <h1 class="text-3xl md:text-4xl font-bold text-darkblue dark:text-white mb-2 break-words"
+                data-i18n="messages.pageTitle">
                 ข้อความและคำร้องขอ (Messages)
             </h1>
-            <p class="text-gray-600 dark:text-gray-400 text-sm font-medium" data-i18n="messages.pageSubtitle">
+            <p class="text-gray-600 dark:text-gray-400 text-sm font-medium break-words"
+                data-i18n="messages.pageSubtitle">
                 จัดการบทสนทนาและคำร้องขอเข้าร่วมทีมของคุณได้ในที่เดียว
             </p>
         </div>
@@ -178,14 +187,15 @@
         <!-- ========================================
              SPLIT-PANE WORKSPACE CARD
         ======================================== -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm flex-1 overflow-hidden transition-colors">
-            <div class="relative md:flex h-[calc(100vh-320px)] xl:h-[calc(100vh-230px)] min-h-[420px] overflow-hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm flex-1 flex flex-col overflow-hidden transition-colors min-w-0">
+            <div
+                class="relative flex-1 lg:flex min-h-[420px] overflow-hidden">
 
                 <!-- ====================================
                      LEFT COLUMN: Navigation List
                 ==================================== -->
                 <div id="msg-list-panel"
-                    class="absolute inset-0 md:static md:w-[360px] lg:w-[400px] md:flex-shrink-0 border-gray-100 dark:border-gray-700 md:border-r flex flex-col bg-white dark:bg-gray-800 translate-x-0 md:translate-x-0">
+                    class="absolute inset-0 lg:static lg:w-[340px] xl:w-[400px] lg:flex-shrink-0 border-gray-100 dark:border-gray-700 lg:border-r flex flex-col bg-white dark:bg-gray-800 translate-x-0 lg:translate-x-0 min-w-0">
 
                     <!-- Sub-tabs -->
                     <div class="flex border-b border-gray-100 dark:border-gray-700 px-4 flex-shrink-0" role="tablist">
@@ -202,43 +212,79 @@
                     </div>
 
                     <!-- Scrollable Feed -->
-                    <div id="msg-list-feed" class="flex-1 overflow-y-auto divide-y divide-gray-100 dark:divide-gray-700"></div>
+                    <div id="msg-list-feed"
+                        class="flex-1 overflow-y-auto overflow-x-hidden divide-y divide-gray-100 dark:divide-gray-700">
+                    </div>
                 </div>
 
                 <!-- ====================================
                      RIGHT COLUMN: Active Content Display
                 ==================================== -->
                 <div id="msg-detail-panel"
-                    class="absolute inset-0 md:static md:flex-1 flex flex-col bg-white dark:bg-gray-800 translate-x-full md:translate-x-0">
+                    class="absolute inset-0 lg:static lg:flex-1 flex flex-col bg-white dark:bg-gray-800 translate-x-full lg:translate-x-0 min-w-0">
 
                     <!-- State A: Empty placeholder -->
                     <div id="msg-state-empty" class="flex-1 flex flex-col items-center justify-center text-center px-6">
                         <i class="fas fa-comments text-6xl text-gray-200 dark:text-gray-700 mb-5"></i>
-                        <p class="text-gray-500 dark:text-gray-400 font-medium max-w-xs" data-i18n="messages.emptyState">
+                        <p class="text-gray-500 dark:text-gray-400 font-medium max-w-xs break-words"
+                            data-i18n="messages.emptyState">
                             เลือกการสนทนาหรือคำร้องเพื่อเริ่มต้นติดต่อ
                         </p>
                     </div>
 
                     <!-- State B: Chat interface -->
-                    <div id="msg-state-chat" class="hidden flex-1 flex-col min-h-0">
+                    <div id="msg-state-chat" class="hidden flex-1 flex-col min-h-0 min-w-0">
                         <!-- Chat header -->
-                        <div class="flex items-center gap-3 px-4 md:px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex-shrink-0">
-                            <button type="button" class="msg-back-btn md:hidden w-9 h-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-300 transition-colors flex-shrink-0">
+                        <div
+                            class="flex items-center gap-3 px-4 sm:px-5 lg:px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex-shrink-0 min-w-0">
+                            <button type="button"
+                                class="msg-back-btn lg:hidden w-9 h-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-300 transition-colors flex-shrink-0">
                                 <i class="fas fa-arrow-left"></i>
                             </button>
-                            <img id="chat-header-avatar" src="" alt="" class="w-10 h-10 rounded-full object-cover flex-shrink-0 bg-bgteal dark:bg-gray-700">
-                            <div class="min-w-0">
+                            <img id="chat-header-avatar" src="" alt=""
+                                class="w-10 h-10 rounded-full object-cover flex-shrink-0 bg-bglight dark:bg-gray-700">
+                            <div class="min-w-0 flex-1">
                                 <p id="chat-header-name" class="font-bold text-darkblue dark:text-white truncate"></p>
                                 <p id="chat-header-event" class="text-xs text-gray-500 dark:text-gray-400 truncate"></p>
                             </div>
                         </div>
                         <!-- Message bubbles -->
-                        <div id="chat-messages" class="flex-1 overflow-y-auto px-4 md:px-6 py-4 space-y-3"></div>
+                        <div id="chat-messages"
+                            class="flex-1 overflow-y-auto overflow-x-hidden px-4 sm:px-5 lg:px-6 py-4 space-y-3"></div>
+
+                        <!-- Attachment preview chip (shown when a file is staged) -->
+                        <div id="chat-attach-preview"
+                            class="hidden items-center gap-3 mx-4 sm:mx-5 lg:mx-6 mb-2 p-3 rounded-lg border-0 bg-gray-100 dark:bg-gray-900/40 max-w-full">
+                            <i id="chat-attach-preview-icon"
+                                class="fas fa-paperclip text-royalblue dark:text-lightblue flex-shrink-0"></i>
+                            <span id="chat-attach-preview-name"
+                                class="text-xs font-semibold text-gray-600 dark:text-gray-300 truncate min-w-0 flex-1"></span>
+                            <button type="button" id="chat-attach-remove-btn"
+                                class="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                                <i class="fas fa-xmark text-xs"></i>
+                            </button>
+                        </div>
+
                         <!-- Input bar -->
-                        <div class="flex items-center gap-3 px-4 md:px-6 py-4 border-t border-gray-100 dark:border-gray-700 flex-shrink-0">
+                        <div
+                            class="flex items-center gap-2 sm:gap-3 px-4 sm:px-5 lg:px-6 py-4 border-t border-gray-100 dark:border-gray-700 flex-shrink-0 min-w-0">
+                            <input type="file" id="chat-image-input" accept="image/*" class="sr-only">
+                            <button type="button" id="chat-image-btn" aria-label="Attach image"
+                                class="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                <i
+                                    class="fas fa-image text-gray-500 dark:text-gray-400 hover:text-[#4274D9] cursor-pointer"></i>
+                            </button>
+
+                            <input type="file" id="chat-file-input" class="sr-only">
+                            <button type="button" id="chat-file-btn" aria-label="Attach file"
+                                class="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                <i
+                                    class="fas fa-paperclip text-gray-500 dark:text-gray-400 hover:text-[#4274D9] cursor-pointer"></i>
+                            </button>
+
                             <input type="text" id="chat-input" data-i18n="messages.chatInputPlaceholder"
                                 placeholder="พิมพ์ข้อความ..."
-                                class="flex-1 bg-gray-50 dark:bg-gray-900/40 border-2 border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2.5 text-sm font-medium text-darkblue dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-[#4274D9] focus:outline-none focus:border-royalblue transition-all">
+                                class="flex-1 min-w-0 bg-gray-50 dark:bg-gray-900/40 border-2 border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2.5 text-sm font-medium text-darkblue dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-all">
                             <button type="button" id="chat-send-btn"
                                 class="w-11 h-11 flex-shrink-0 flex items-center justify-center rounded-full bg-royalblue hover:bg-blue-700 text-white transition-all focus:ring-2 focus:ring-[#4274D9] focus:outline-none active:scale-95">
                                 <i class="fas fa-paper-plane"></i>
@@ -247,54 +293,66 @@
                     </div>
 
                     <!-- State C: Team request review sheet -->
-                    <div id="msg-state-request" class="hidden flex-1 flex-col min-h-0">
+                    <div id="msg-state-request" class="hidden flex-1 flex-col min-h-0 min-w-0">
                         <!-- Request header -->
-                        <div class="flex items-center gap-3 px-4 md:px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex-shrink-0">
-                            <button type="button" class="msg-back-btn md:hidden w-9 h-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-300 transition-colors flex-shrink-0">
+                        <div
+                            class="flex items-center gap-3 px-4 sm:px-5 lg:px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex-shrink-0 min-w-0">
+                            <button type="button"
+                                class="msg-back-btn lg:hidden w-9 h-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-300 transition-colors flex-shrink-0">
                                 <i class="fas fa-arrow-left"></i>
                             </button>
-                            <p class="font-bold text-darkblue dark:text-white" data-i18n="messages.requestHeader">คำร้องขอเข้าร่วมทีม</p>
+                            <p class="font-bold text-darkblue dark:text-white truncate"
+                                data-i18n="messages.requestHeader">คำร้องขอเข้าร่วมทีม</p>
                         </div>
 
                         <!-- Request body (scrollable) -->
-                        <div class="flex-1 overflow-y-auto min-h-0 p-6 md:p-8 space-y-6">
-                            <div class="flex items-center gap-4">
-                                <img id="req-avatar" src="" alt="" class="w-16 h-16 rounded-full object-cover flex-shrink-0 bg-bgteal dark:bg-gray-700">
-                                <div class="min-w-0">
-                                    <p id="req-name" class="text-lg font-bold text-darkblue dark:text-white truncate"></p>
-                                    <p id="req-role" class="text-sm text-royalblue dark:text-lightblue font-semibold truncate"></p>
+                        <div class="flex-1 overflow-y-auto overflow-x-hidden min-h-0 min-w-0 p-6 lg:p-8 space-y-6">
+                            <div class="flex items-center gap-4 min-w-0">
+                                <img id="req-avatar" src="" alt=""
+                                    class="w-16 h-16 rounded-full object-cover flex-shrink-0 bg-bglight dark:bg-gray-700">
+                                <div class="min-w-0 flex-1">
+                                    <p id="req-name"
+                                        class="text-lg font-bold text-darkblue dark:text-white break-words"></p>
+                                    <p id="req-role"
+                                        class="text-sm text-royalblue dark:text-lightblue font-semibold break-words">
+                                    </p>
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div class="bg-gray-50 dark:bg-gray-900/40 rounded-xl p-4">
-                                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-1" data-i18n="messages.requestEventLabel">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 min-w-0">
+                                <div class="bg-gray-50 dark:bg-gray-900/40 rounded-xl p-4 min-w-0">
+                                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-1"
+                                        data-i18n="messages.requestEventLabel">
                                         กิจกรรมที่เกี่ยวข้อง
                                     </p>
-                                    <p id="req-event" class="text-sm font-bold text-darkblue dark:text-white flex items-center gap-2">
-                                        <i class="fas fa-trophy text-royalblue dark:text-lightblue"></i>
+                                    <p id="req-event"
+                                        class="text-sm font-bold text-darkblue dark:text-white flex items-center gap-2 break-words">
+                                        <i class="fas fa-trophy text-royalblue dark:text-lightblue flex-shrink-0"></i>
                                     </p>
                                 </div>
-                                <div class="bg-gray-50 dark:bg-gray-900/40 rounded-xl p-4">
-                                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-1" data-i18n="messages.requestRoleLabel">
+                                <div class="bg-gray-50 dark:bg-gray-900/40 rounded-xl p-4 min-w-0">
+                                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-1"
+                                        data-i18n="messages.requestRoleLabel">
                                         ตำแหน่งที่สมัคร
                                     </p>
-                                    <p id="req-role-detail" class="text-sm font-bold text-darkblue dark:text-white"></p>
+                                    <p id="req-role-detail"
+                                        class="text-sm font-bold text-darkblue dark:text-white break-words"></p>
                                 </div>
                             </div>
 
-                            <div>
-                                <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2" data-i18n="messages.requestNoteLabel">
+                            <div class="min-w-0">
+                                <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2"
+                                    data-i18n="messages.requestNoteLabel">
                                     ข้อความจากผู้สมัคร
                                 </p>
                                 <blockquote id="req-note"
-                                    class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed bg-gray-50 dark:bg-gray-900/40 border-l-4 border-royalblue rounded-r-xl p-4">
+                                    class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed bg-gray-50 dark:bg-gray-900/40 border-l-4 border-royalblue rounded-r-xl p-4 break-words whitespace-pre-wrap">
                                 </blockquote>
                             </div>
                         </div>
 
                         <!-- Action footer (pinned, always visible) -->
-                        <div class="flex-shrink-0 border-t border-gray-100 dark:border-gray-700 p-4 md:p-6">
+                        <div class="flex-shrink-0 border-t border-gray-100 dark:border-gray-700 p-4 lg:p-6">
                             <div id="req-actions" class="flex flex-col sm:flex-row gap-3">
                                 <button type="button" id="req-approve-btn"
                                     class="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-royalblue hover:bg-blue-700 text-white text-sm font-bold transition-all shadow-sm focus:ring-2 focus:ring-[#4274D9] focus:outline-none active:scale-95">
@@ -307,7 +365,8 @@
                                     <span data-i18n="messages.declineBtn">ปฏิเสธ</span>
                                 </button>
                             </div>
-                            <div id="req-status-badge" class="hidden items-center gap-2 px-4 py-3 rounded-xl text-sm font-bold"></div>
+                            <div id="req-status-badge"
+                                class="hidden items-center gap-2 px-4 py-3 rounded-xl text-sm font-bold"></div>
                         </div>
                     </div>
 
@@ -317,15 +376,15 @@
     </main>
 
     <!-- ===== SHARED APP LOGIC ===== -->
+    <script src="../src/js/i18n.js"></script>
     <script src="../src/js/ui.js"></script>
     <script src="../src/js/app.js"></script>
 
     <script>
-        // 1. Boot the global components (Navbar & Sidebar)
-        INNEX.loadComponents('messages');
-
-        // 2. Local Page Logic (Wait for components & i18n to be ready)
-        INNEX.onReady(function () {
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.INNEX && typeof window.INNEX.loadComponents === 'function') {
+                window.INNEX.loadComponents('messages');
+            }
             'use strict';
 
             /* ============================================================
@@ -399,17 +458,23 @@
             /* ============================================================
                LIST RENDERING
             ============================================================ */
+            function escapeHtml(str) {
+                return String(str).replace(/[&<>"']/g, (c) => ({
+                    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+                }[c]));
+            }
+
             function renderList() {
                 const items = activeTab === 'messages' ? CONVERSATIONS : REQUESTS;
                 listFeed.innerHTML = items.map(item => `
                     <button type="button" class="msg-row w-full text-left flex items-center gap-3 px-4 py-3.5 hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors ${item.id === activeItemId ? 'active' : ''}" data-id="${item.id}">
-                        <img src="${item.avatar}" alt="${item.name}" class="w-12 h-12 rounded-full object-cover flex-shrink-0 bg-bgteal dark:bg-gray-700">
+                        <img src="${item.avatar}" alt="${escapeHtml(item.name)}" class="w-12 h-12 rounded-full object-cover flex-shrink-0 bg-bglight dark:bg-gray-700">
                         <div class="min-w-0 flex-1">
-                            <div class="flex items-center justify-between gap-2">
-                                <p class="font-bold text-darkblue dark:text-white text-sm truncate">${item.name}</p>
+                            <div class="flex items-center justify-between gap-2 min-w-0">
+                                <p class="font-bold text-darkblue dark:text-white text-sm truncate">${escapeHtml(item.name)}</p>
                             </div>
-                            <p class="text-xs text-royalblue dark:text-lightblue font-semibold truncate mb-0.5">${item.event}</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 truncate">${item.snippet}</p>
+                            <p class="text-xs text-royalblue dark:text-lightblue font-semibold truncate mb-0.5">${escapeHtml(item.event)}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 truncate">${escapeHtml(item.snippet)}</p>
                         </div>
                     </button>
                 `).join('');
@@ -480,37 +545,119 @@
                 document.getElementById('chat-header-event').textContent = item.event;
 
                 const messagesEl = document.getElementById('chat-messages');
-                messagesEl.innerHTML = item.messages.map(m => `
-                    <div class="flex ${m.from === 'me' ? 'justify-end' : 'justify-start'}">
-                        <div class="max-w-[75%] px-4 py-2.5 text-sm font-medium leading-relaxed ${m.from === 'me'
+                messagesEl.innerHTML = item.messages.map(m => {
+                    const bubbleColor = m.from === 'me'
                         ? 'bg-royalblue text-white rounded-2xl rounded-br-sm'
-                        : 'bg-gray-100 dark:bg-gray-700 text-darkblue dark:text-white rounded-2xl rounded-bl-sm'}">
-                            ${m.text}
-                        </div>
-                    </div>
-                `).join('');
+                        : 'bg-gray-100 dark:bg-gray-700 text-darkblue dark:text-white rounded-2xl rounded-bl-sm';
+
+                    let parts = [];
+
+                    if (m.attachment) {
+                        let attachContent = '';
+                        if (m.attachment.type === 'image') {
+                            attachContent = `<a href="${m.attachment.dataUrl}" target="_blank" rel="noopener" class="block max-w-[70%] sm:max-w-[240px]"><img src="${m.attachment.dataUrl}" alt="${escapeHtml(m.attachment.name)}" class="w-full rounded-2xl ${m.from === 'me' ? 'rounded-br-sm' : 'rounded-bl-sm'} border-0 cursor-pointer block shadow-sm"></a>`;
+                        } else {
+                            attachContent = `<div class="flex items-center gap-3 p-3 ${bubbleColor} shadow-sm max-w-[70%] sm:max-w-xs">
+                                <div class="w-10 h-10 rounded-full bg-black/10 dark:bg-white/10 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-paperclip text-lg"></i>
+                                </div>
+                                <span class="text-sm font-semibold truncate min-w-0 pr-2">${escapeHtml(m.attachment.name)}</span>
+                            </div>`;
+                        }
+                        parts.push(`<div class="flex ${m.from === 'me' ? 'justify-end' : 'justify-start'} w-full">${attachContent}</div>`);
+                    }
+
+                    if (m.text) {
+                        parts.push(`<div class="flex ${m.from === 'me' ? 'justify-end' : 'justify-start'} w-full">
+                            <div class="max-w-[70%] px-4 py-2 text-sm font-medium leading-normal break-words ${bubbleColor}">
+                                <p class="whitespace-pre-wrap">${escapeHtml(m.text)}</p>
+                            </div>
+                        </div>`);
+                    }
+
+                    const innerContent = `<div class="flex flex-col space-y-1 w-full">${parts.join('')}</div>`;
+
+                    if (m.from === 'me') {
+                        return `<div class="flex w-full">${innerContent}</div>`;
+                    } else {
+                        return `<div class="flex w-full items-end gap-2">
+                            <img src="${item.avatar}" class="w-7 h-7 rounded-full flex-shrink-0 object-cover shadow-sm bg-bglight dark:bg-gray-700" alt="avatar">
+                            ${innerContent}
+                        </div>`;
+                    }
+                }).join('');
                 messagesEl.scrollTop = messagesEl.scrollHeight;
 
                 document.getElementById('chat-input').value = '';
                 document.getElementById('chat-input').dataset.conversationId = item.id;
+                clearPendingAttachment();
             }
+
+            /* ============================================================
+               ATTACHMENTS (image / file)
+            ============================================================ */
+            let pendingAttachment = null;
+
+            const attachPreview = document.getElementById('chat-attach-preview');
+            const attachPreviewIcon = document.getElementById('chat-attach-preview-icon');
+            const attachPreviewName = document.getElementById('chat-attach-preview-name');
+
+            function stageAttachment(file, type) {
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    pendingAttachment = { type, name: file.name, dataUrl: e.target.result };
+                    attachPreviewIcon.className = type === 'image'
+                        ? 'fas fa-image text-royalblue dark:text-lightblue flex-shrink-0'
+                        : 'fas fa-paperclip text-royalblue dark:text-lightblue flex-shrink-0';
+                    attachPreviewName.textContent = file.name;
+                    attachPreview.classList.remove('hidden');
+                    attachPreview.classList.add('flex');
+                };
+                reader.readAsDataURL(file);
+            }
+
+            function clearPendingAttachment() {
+                pendingAttachment = null;
+                attachPreview.classList.add('hidden');
+                attachPreview.classList.remove('flex');
+                document.getElementById('chat-image-input').value = '';
+                document.getElementById('chat-file-input').value = '';
+            }
+
+            document.getElementById('chat-image-btn').addEventListener('click', () => document.getElementById('chat-image-input').click());
+            document.getElementById('chat-image-input').addEventListener('change', (e) => stageAttachment(e.target.files && e.target.files[0], 'image'));
+
+            document.getElementById('chat-file-btn').addEventListener('click', () => document.getElementById('chat-file-input').click());
+            document.getElementById('chat-file-input').addEventListener('change', (e) => stageAttachment(e.target.files && e.target.files[0], 'file'));
+
+            document.getElementById('chat-attach-remove-btn').addEventListener('click', clearPendingAttachment);
 
             document.getElementById('chat-send-btn').addEventListener('click', sendChatMessage);
             document.getElementById('chat-input').addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') sendChatMessage();
             });
 
+            // Subtle background shift on focus — no ring/glow, just a gentle lightening.
+            document.getElementById('chat-input').addEventListener('focus', (e) => {
+                e.target.style.backgroundColor = document.documentElement.classList.contains('dark') ? '#1f2937' : '#ffffff';
+            });
+            document.getElementById('chat-input').addEventListener('blur', (e) => {
+                e.target.style.backgroundColor = '';
+            });
+
             function sendChatMessage() {
                 const input = document.getElementById('chat-input');
                 const text = input.value.trim();
                 const convoId = input.dataset.conversationId;
-                if (!text || !convoId) return;
+                if (!text && !pendingAttachment) return;
+                if (!convoId) return;
 
                 const convo = CONVERSATIONS.find(c => c.id === convoId);
                 if (!convo) return;
 
-                convo.messages.push({ from: 'me', text });
-                convo.snippet = text;
+                convo.messages.push({ from: 'me', text, attachment: pendingAttachment });
+                convo.snippet = text || (pendingAttachment && pendingAttachment.type === 'image' ? 'Sent an image' : 'Sent a file');
                 input.value = '';
                 renderChat(convo);
                 if (activeTab === 'messages') renderList();
@@ -523,7 +670,7 @@
                 document.getElementById('req-avatar').src = item.avatar;
                 document.getElementById('req-name').textContent = item.name;
                 document.getElementById('req-role').textContent = item.role;
-                document.getElementById('req-event').innerHTML = `<i class="fas fa-trophy text-royalblue dark:text-lightblue"></i> ${item.event}`;
+                document.getElementById('req-event').innerHTML = `<i class="fas fa-trophy text-royalblue dark:text-lightblue flex-shrink-0"></i> <span class="break-words">${escapeHtml(item.event)}</span>`;
                 document.getElementById('req-role-detail').textContent = item.role;
                 document.getElementById('req-note').textContent = item.note;
 
@@ -558,18 +705,24 @@
             }
 
             /* ============================================================
-               MOBILE LIST <-> DETAIL SLIDE NAVIGATION
+               LIST <-> DETAIL SLIDE NAVIGATION (below lg)
             ============================================================ */
             function goToDetailView() {
                 listPanel.classList.add('-translate-x-full');
                 detailPanel.classList.remove('translate-x-full');
                 detailPanel.classList.add('translate-x-0');
+                
+                const sidebar = document.getElementById('sidebar-placeholder');
+                if (sidebar) sidebar.classList.add('hidden', 'xl:block');
             }
 
             function goToListView() {
                 listPanel.classList.remove('-translate-x-full');
                 detailPanel.classList.remove('translate-x-0');
                 detailPanel.classList.add('translate-x-full');
+                
+                const sidebar = document.getElementById('sidebar-placeholder');
+                if (sidebar) sidebar.classList.remove('hidden', 'xl:block');
             }
 
             document.querySelectorAll('.msg-back-btn').forEach(btn => {
