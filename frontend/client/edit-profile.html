@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" class="light scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="INNEX Edit Profile — จัดการโปรไฟล์นวัตกรรมของคุณในที่เดียว">
+
+    <!-- Google Fonts: Outfit & Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome (Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- FOUC Prevention: Apply saved theme BEFORE paint -->
+    <script>
+        (function () {
+            try {
+                const t = localStorage.getItem('theme');
+                if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { }
+        })();
+    </script>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkblue: '#293681',
+                        royalblue: '#4274D9',
+                        lightblue: '#95CCDD',
+                        accent: '#D07E66',
+                        bglight: '#f6f9fc',
+                        bgteal: '#D0E7E6',
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                        prompt: ['Prompt', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Shared JS -->
+    <script src="../src/js/theme.js"></script>
+    <script src="../src/js/i18n.js"></script>
+
+    <title data-i18n="editProfile.pageTitle">แก้ไขโปรไฟล์ (Edit Profile) — INNEX</title>
+
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body:lang(th) {
+            font-family: 'Prompt', 'Outfit', sans-serif;
+        }
+
+        /* Wavy Pattern Background */
+        .wave-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            opacity: 0.45;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='wave' x='0' y='0' width='120' height='24' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 12 Q 30 24 60 12 T 120 12' fill='none' stroke='%2395CCDD' stroke-width='1.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='url(%23wave)'/%3E%3C/svg%3E");
+        }
+
+        .dark .wave-bg {
+            opacity: 0.12;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #95CCDD;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4274D9;
+        }
+
+        /* Cover / Avatar upload overlay */
+        .upload-overlay-btn {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(41, 54, 129, 0.55);
+            color: #ffffff;
+            cursor: pointer;
+            transition: background 0.2s ease, opacity 0.2s ease;
+        }
+
+        .upload-overlay-btn:hover {
+            background: rgba(41, 54, 129, 0.75);
+        }
+    </style>
+</head>
+
+<body
+    class="relative min-h-screen flex flex-col bg-bglight text-darkblue dark:bg-gray-900 dark:text-gray-100 overflow-x-hidden selection:bg-royalblue selection:text-white transition-colors duration-300">
+
+    <!-- Wavy Background Pattern -->
+    <div class="wave-bg" aria-hidden="true"></div>
+
+    <!-- ===== SHARED COMPONENT PLACEHOLDERS ===== -->
+    <div id="navbar-placeholder"></div>
+    <div id="sidebar-placeholder"></div>
+
+    <!-- ===== MAIN PAGE CONTENT ===== -->
+    <main class="relative z-10 max-w-4xl mx-auto pt-28 pb-20 px-4">
+
+        <!-- Page Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-darkblue dark:text-white mb-2" data-i18n="editProfile.pageTitle">
+                แก้ไขโปรไฟล์ (Edit Profile)
+            </h1>
+            <p class="text-gray-600 dark:text-gray-400 text-sm font-medium" data-i18n="editProfile.pageSubtitle">
+                อัปเดตข้อมูลส่วนตัว โซเชียล และความถนัดของคุณให้เป็นปัจจุบัน
+            </p>
+        </div>
+
+        <form id="edit-profile-form" class="space-y-8">
+
+            <!-- ========================================
+                 CARD 1: VISUAL IDENTITY
+            ======================================== -->
+            <section class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden transition-colors">
+                <div class="px-6 md:px-8 pt-6">
+                    <h2 class="text-lg font-bold text-darkblue dark:text-white flex items-center gap-2 pb-4 border-b border-gray-100 dark:border-gray-700">
+                        <i class="fas fa-image text-royalblue"></i>
+                        <span data-i18n="editProfile.visualIdentity">ภาพลักษณ์ (Visual Identity)</span>
+                    </h2>
+                </div>
+
+                <!-- Cover Image -->
+                <div class="relative h-48 w-full overflow-hidden bg-gray-100 dark:bg-gray-700 mt-4">
+                    <img id="cover-preview"
+                        src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=2000&h=600"
+                        alt="Cover Preview" class="w-full h-full object-cover">
+                    <label for="cover-input"
+                        class="upload-overlay-btn absolute inset-0 opacity-0 hover:opacity-100">
+                        <span class="flex items-center gap-2 text-sm font-bold">
+                            <i class="fas fa-camera text-lg"></i>
+                            <span data-i18n="editProfile.changeCover">เปลี่ยนภาพปก</span>
+                        </span>
+                    </label>
+                    <input type="file" id="cover-input" accept="image/*" class="sr-only">
+                </div>
+
+                <!-- Avatar (overlapping the cover) -->
+                <div class="px-6 md:px-8 pb-8">
+                    <div class="relative z-10 -mt-16 ml-8 h-32 w-32 rounded-full border-4 border-white dark:border-gray-800 overflow-hidden shadow-md bg-bgteal dark:bg-gray-700">
+                        <img id="avatar-preview"
+                            src="https://ui-avatars.com/api/?name=Somchai+Dev&background=95CCDD&color=293681&size=256"
+                            alt="Avatar Preview" class="w-full h-full object-cover">
+                        <label for="avatar-input"
+                            class="upload-overlay-btn absolute inset-0 rounded-full opacity-0 hover:opacity-100">
+                            <i class="fas fa-camera text-lg"></i>
+                        </label>
+                        <input type="file" id="avatar-input" accept="image/*" class="sr-only">
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================
+                 CARD 2: BASIC INFO & SOCIAL LINKS
+            ======================================== -->
+            <section class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 md:p-8 transition-colors space-y-6">
+                <h2 class="text-lg font-bold text-darkblue dark:text-white flex items-center gap-2 pb-4 border-b border-gray-100 dark:border-gray-700">
+                    <i class="fas fa-id-card text-royalblue"></i>
+                    <span data-i18n="editProfile.basicInfo">ข้อมูลพื้นฐานและโซเชียล (Basic Info & Social Links)</span>
+                </h2>
+
+                <!-- Full Name / Location -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label for="full-name" class="block text-sm font-bold text-gray-700 dark:text-gray-300"
+                            data-i18n="editProfile.fullName">ชื่อ-นามสกุล (Full Name)</label>
+                        <input type="text" id="full-name" name="fullName" value="สมชาย นักพัฒนา"
+                            class="w-full bg-white dark:bg-gray-900/40 border-2 border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-darkblue dark:text-white focus:ring-2 focus:ring-[#4274D9] focus:outline-none focus:border-royalblue transition-all">
+                    </div>
+                    <div class="space-y-2">
+                        <label for="location" class="block text-sm font-bold text-gray-700 dark:text-gray-300"
+                            data-i18n="editProfile.location">ตำแหน่ง / พิกัด (Location)</label>
+                        <input type="text" id="location" name="location"
+                            placeholder="เช่น กรุงเทพฯ, ประเทศไทย" data-i18n="editProfile.locationPlaceholder"
+                            class="w-full bg-white dark:bg-gray-900/40 border-2 border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-darkblue dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-[#4274D9] focus:outline-none focus:border-royalblue transition-all">
+                    </div>
+                </div>
+
+                <!-- Social Links -->
+                <div class="space-y-3 pt-2">
+                    <label class="block text-sm font-bold text-gray-700 dark:text-gray-300"
+                        data-i18n="editProfile.socialLinks">ลิงก์โซเชียล (Social Links)</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label for="github-link" class="block text-xs font-semibold text-gray-500 dark:text-gray-400"
+                                data-i18n="editProfile.githubLabel">ลิงก์โปรไฟล์ GitHub (GitHub Profile Link)</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 dark:text-gray-500">
+                                    <i class="fab fa-github"></i>
+                                </div>
+                                <input type="url" id="github-link" name="githubLink"
+                                    placeholder="https://github.com/username" data-i18n="editProfile.githubPlaceholder"
+                                    class="w-full bg-white dark:bg-gray-900/40 border-2 border-gray-200 dark:border-gray-700 rounded-xl pl-11 pr-4 py-3 text-sm font-medium text-darkblue dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-[#4274D9] focus:outline-none focus:border-royalblue transition-all">
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label for="linkedin-link" class="block text-xs font-semibold text-gray-500 dark:text-gray-400"
+                                data-i18n="editProfile.linkedinLabel">ลิงก์โปรไฟล์ LinkedIn (LinkedIn Profile Link)</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 dark:text-gray-500">
+                                    <i class="fab fa-linkedin"></i>
+                                </div>
+                                <input type="url" id="linkedin-link" name="linkedinLink"
+                                    placeholder="https://linkedin.com/in/username" data-i18n="editProfile.linkedinPlaceholder"
+                                    class="w-full bg-white dark:bg-gray-900/40 border-2 border-gray-200 dark:border-gray-700 rounded-xl pl-11 pr-4 py-3 text-sm font-medium text-darkblue dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-[#4274D9] focus:outline-none focus:border-royalblue transition-all">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================
+                 CARD 3: EXPERTISE & BIO
+            ======================================== -->
+            <section class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 md:p-8 transition-colors space-y-6">
+                <h2 class="text-lg font-bold text-darkblue dark:text-white flex items-center gap-2 pb-4 border-b border-gray-100 dark:border-gray-700">
+                    <i class="fas fa-star text-royalblue"></i>
+                    <span data-i18n="editProfile.expertiseBio">ความถนัดและแนะนำตัว (Expertise & Bio)</span>
+                </h2>
+
+                <!-- Interests / Expertise -->
+                <div class="space-y-2">
+                    <label for="interests" class="block text-sm font-bold text-gray-700 dark:text-gray-300"
+                        data-i18n="editProfile.interests">ความสนใจ / ความถนัด (Interests & Expertise)</label>
+                    <textarea id="interests" name="interests" rows="3"
+                        placeholder="เช่น Smart City, IoT, UX Research..." data-i18n="editProfile.interestsPlaceholder"
+                        class="w-full bg-white dark:bg-gray-900/40 border-2 border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-darkblue dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-[#4274D9] focus:outline-none focus:border-royalblue transition-all resize-none"></textarea>
+                </div>
+
+                <!-- Skills & Tools -->
+                <div class="space-y-2">
+                    <label for="tools-skills" class="block text-sm font-bold text-gray-700 dark:text-gray-300"
+                        data-i18n="editProfile.toolsSkills">ทักษะและเครื่องมือ (Skills & Tools)</label>
+                    <input type="text" id="tools-skills" name="toolsSkills"
+                        placeholder="เช่น React, Figma, Business Model Canvas..." data-i18n="editProfile.toolsSkillsPlaceholder"
+                        class="w-full bg-white dark:bg-gray-900/40 border-2 border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-darkblue dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-[#4274D9] focus:outline-none focus:border-royalblue transition-all">
+                </div>
+
+                <!-- Bio -->
+                <div class="space-y-2">
+                    <label for="bio" class="block text-sm font-bold text-gray-700 dark:text-gray-300"
+                        data-i18n="editProfile.bio">แนะนำตัว (Bio / About me)</label>
+                    <textarea id="bio" name="bio" rows="6"
+                        placeholder="เล่าเกี่ยวกับตัวคุณ ความสนใจ และประสบการณ์..." data-i18n="editProfile.bioPlaceholder"
+                        class="w-full bg-white dark:bg-gray-900/40 border-2 border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-darkblue dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-[#4274D9] focus:outline-none focus:border-royalblue transition-all resize-none"></textarea>
+                </div>
+            </section>
+
+            <!-- ========================================
+                 ACTION BAR
+            ======================================== -->
+            <div class="flex flex-col-reverse sm:flex-row items-center justify-end gap-3 pt-2">
+                <button type="button" id="cancel-btn"
+                    class="w-full sm:w-auto inline-flex items-center justify-center bg-white gap-2 px-6 py-3 rounded-xl bg-transparent border-2 border-gray-200 dark:border-gray-700 hover:border-royalblue dark:hover:border-lightblue text-gray-700 dark:text-gray-600 hover:text-royalblue dark:hover:text-lightblue text-sm font-bold transition-all focus:ring-2 focus:ring-[#4274D9] focus:outline-none active:scale-95">
+                    <span data-i18n="editProfile.cancelBtn">ยกเลิก (Cancel)</span>
+                </button>
+                <button type="submit"
+                    class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-royalblue hover:bg-blue-700 text-white text-sm font-bold transition-all shadow-sm focus:ring-2 focus:ring-[#4274D9] focus:outline-none active:scale-95">
+                    <i class="fas fa-save"></i>
+                    <span data-i18n="editProfile.saveBtn">บันทึกข้อมูล (Save Changes)</span>
+                </button>
+            </div>
+
+        </form>
+    </main>
+
+    <!-- Save success banner -->
+    <div id="save-toast"
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-24 opacity-0 z-[60] px-6 py-3.5 rounded-xl bg-darkblue dark:bg-royalblue text-white text-sm font-bold shadow-lg flex items-center gap-2 transition-all duration-300">
+        <i class="fas fa-circle-check"></i>
+        <span data-i18n="editProfile.saveSuccess">บันทึกข้อมูลสำเร็จ!</span>
+    </div>
+
+    <!-- ===== SHARED APP LOGIC ===== -->
+    <script src="../src/js/app.js"></script>
+
+    <script>
+        // 1. Boot the global components (Navbar & Sidebar)
+        INNEX.loadComponents('profile');
+
+        // 2. Local Page Logic (Wait for components & i18n to be ready)
+        INNEX.onReady(function () {
+            'use strict';
+
+            /* ---- Image preview (Cover / Avatar) ---- */
+            function bindImagePreview(inputId, previewId) {
+                const input = document.getElementById(inputId);
+                const preview = document.getElementById(previewId);
+                if (!input || !preview) return;
+
+                input.addEventListener('change', () => {
+                    const file = input.files && input.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (e) => { preview.src = e.target.result; };
+                    reader.readAsDataURL(file);
+                });
+            }
+            bindImagePreview('cover-input', 'cover-preview');
+            bindImagePreview('avatar-input', 'avatar-preview');
+
+            /* ---- Cancel button: back to profile ---- */
+            const cancelBtn = document.getElementById('cancel-btn');
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', () => {
+                    window.location.href = 'profile.html';
+                });
+            }
+
+            /* ---- Save: front-end only feedback ---- */
+            const form = document.getElementById('edit-profile-form');
+            const toast = document.getElementById('save-toast');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    if (!toast) return;
+                    toast.classList.remove('translate-y-24', 'opacity-0');
+                    toast.classList.add('translate-y-0', 'opacity-100');
+                    setTimeout(() => {
+                        toast.classList.add('translate-y-24', 'opacity-0');
+                        toast.classList.remove('translate-y-0', 'opacity-100');
+                    }, 2500);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

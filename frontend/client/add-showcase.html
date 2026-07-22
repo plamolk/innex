@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" class="light scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="INNEX Add Showcase — เพิ่มผลงานของคุณลงในโปรไฟล์นวัตกรรม">
+
+    <!-- Google Fonts: Outfit & Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome (Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- FOUC Prevention: Apply saved theme BEFORE paint -->
+    <script>
+        (function () {
+            try {
+                const t = localStorage.getItem('theme');
+                if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { }
+        })();
+    </script>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkblue: '#293681',
+                        royalblue: '#4274D9',
+                        lightblue: '#95CCDD',
+                        accent: '#D07E66',
+                        bglight: '#f6f9fc',
+                        bgteal: '#D0E7E6',
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                        prompt: ['Prompt', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Shared JS -->
+    <script src="../src/js/theme.js"></script>
+    <script src="../src/js/i18n.js"></script>
+
+    <title data-i18n="addShowcase.pageTitle">เพิ่มผลงาน (Add Showcase) — INNEX</title>
+
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body:lang(th) {
+            font-family: 'Prompt', 'Outfit', sans-serif;
+        }
+
+        /* Wavy Pattern Background */
+        .wave-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            opacity: 0.45;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='wave' x='0' y='0' width='120' height='24' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 12 Q 30 24 60 12 T 120 12' fill='none' stroke='%2395CCDD' stroke-width='1.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='url(%23wave)'/%3E%3C/svg%3E");
+        }
+
+        .dark .wave-bg {
+            opacity: 0.12;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #95CCDD;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4274D9;
+        }
+
+        /* Drag & drop zone */
+        .dropzone.drag-active {
+            border-color: #4274D9;
+            background-color: rgba(66, 116, 217, 0.06);
+        }
+    </style>
+</head>
+
+<body
+    class="relative min-h-screen flex flex-col bg-bgteal text-darkblue dark:bg-gray-900 dark:text-gray-100 overflow-x-hidden selection:bg-royalblue selection:text-white transition-colors duration-300">
+
+    <!-- Wavy Background Pattern -->
+    <div class="wave-bg" aria-hidden="true"></div>
+
+    <!-- ===== SHARED COMPONENT PLACEHOLDERS ===== -->
+    <div id="navbar-placeholder"></div>
+    <div id="sidebar-placeholder"></div>
+
+    <!-- ===== MAIN PAGE CONTENT ===== -->
+    <main class="relative z-10 max-w-3xl mx-auto py-10 px-4 pt-24">
+
+        <!-- Page Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-darkblue dark:text-white mb-2" data-i18n="addShowcase.pageTitle">
+                เพิ่มผลงาน (Add Showcase)
+            </h1>
+            <p class="text-gray-600 dark:text-gray-400 text-sm font-medium" data-i18n="addShowcase.pageSubtitle">
+                แชร์ผลงานที่คุณภูมิใจให้ชุมชน INNEX ได้เห็น
+            </p>
+        </div>
+
+        <form id="add-showcase-form" class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 md:p-8 transition-colors space-y-8">
+
+            <!-- ========================================
+                 1. MEDIA UPLOAD ZONE (Drag & Drop)
+            ======================================== -->
+            <div id="showcase-dropzone"
+                class="dropzone relative border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-900/40 hover:border-royalblue dark:hover:border-lightblue transition-colors p-10 text-center cursor-pointer">
+                <input type="file" id="showcase-file-input" accept="image/*" class="sr-only">
+
+                <div id="showcase-dropzone-content">
+                    <i class="fas fa-cloud-upload-alt fa-3x text-gray-400 dark:text-gray-500 mb-4"></i>
+                    <p class="text-sm font-semibold text-gray-600 dark:text-gray-300" data-i18n="addShowcase.dropzoneText">
+                        ลากและวางรูปภาพที่นี่ หรือคลิกเพื่ออัปโหลด (แนะนำขนาด 16:9)
+                    </p>
+                </div>
+
+                <div id="showcase-dropzone-preview" class="hidden flex-col items-center gap-3">
+                    <img id="showcase-preview-img" src="" alt="Preview"
+                        class="w-full max-h-64 rounded-xl object-cover shadow-sm aspect-video">
+                    <span class="inline-flex items-center gap-2 text-xs font-bold text-royalblue dark:text-lightblue">
+                        <i class="fas fa-rotate"></i>
+                        <span data-i18n="addShowcase.dropzoneChange">เปลี่ยนรูปภาพ</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- ========================================
+                 2. PROJECT DETAILS
+            ======================================== -->
+            <div class="space-y-2">
+                <label for="project-title" class="block text-sm font-bold text-gray-700 dark:text-gray-300"
+                    data-i18n="addShowcase.projectTitle">ชื่อผลงาน / โปรเจกต์ (Project Title)</label>
+                <input type="text" id="project-title" name="projectTitle"
+                    placeholder="เช่น Smart City Dashboard..." data-i18n="addShowcase.projectTitlePlaceholder"
+                    class="w-full bg-white dark:bg-gray-900/40 border-2 border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-darkblue dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-[#4274D9] focus:outline-none focus:border-royalblue transition-all">
+            </div>
+
+            <div class="space-y-2">
+                <label for="project-desc" class="block text-sm font-bold text-gray-700 dark:text-gray-300"
+                    data-i18n="addShowcase.description">คำอธิบายผลงาน (Description)</label>
+                <textarea id="project-desc" name="projectDesc" rows="7"
+                    placeholder="อธิบายรายละเอียดผลงาน แรงบันดาลใจ และเทคโนโลยีที่ใช้..." data-i18n="addShowcase.descriptionPlaceholder"
+                    class="w-full bg-white dark:bg-gray-900/40 border-2 border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-darkblue dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-[#4274D9] focus:outline-none focus:border-royalblue transition-all resize-none"></textarea>
+            </div>
+
+            <!-- ========================================
+                 3. META INFO & LINKS
+            ======================================== -->
+            <div class="space-y-2">
+                <label for="tech-stack" class="block text-sm font-bold text-gray-700 dark:text-gray-300"
+                    data-i18n="addShowcase.techStack">ทักษะที่ใช้ (Tech Stack / Tools)</label>
+                <input type="text" id="tech-stack" name="techStack"
+                    placeholder="เช่น IoT, Node.js, UI/UX..." data-i18n="addShowcase.techStackPlaceholder"
+                    class="w-full bg-white dark:bg-gray-900/40 border-2 border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-darkblue dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-[#4274D9] focus:outline-none focus:border-royalblue transition-all">
+            </div>
+
+            <div class="space-y-2">
+                <label for="external-link" class="block text-sm font-bold text-gray-700 dark:text-gray-300"
+                    data-i18n="addShowcase.externalLink">ลิงก์ผลงานภายนอก (External Link)</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 dark:text-gray-500">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <input type="url" id="external-link" name="externalLink"
+                        placeholder="https://github.com/... หรือ https://figma.com/..." data-i18n="addShowcase.externalLinkPlaceholder"
+                        class="w-full bg-white dark:bg-gray-900/40 border-2 border-gray-200 dark:border-gray-700 rounded-xl pl-11 pr-4 py-3 text-sm font-medium text-darkblue dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-[#4274D9] focus:outline-none focus:border-royalblue transition-all">
+                </div>
+            </div>
+
+            <!-- ========================================
+                 ACTION BAR
+            ======================================== -->
+            <div class="flex flex-col-reverse sm:flex-row items-center justify-end gap-3 pt-4 border-t border-gray-100 dark:border-gray-700">
+                <button type="button" id="cancel-btn"
+                    class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-transparent border-2 border-gray-200 dark:border-gray-700 hover:border-royalblue dark:hover:border-lightblue text-gray-700 dark:text-gray-300 hover:text-royalblue dark:hover:text-lightblue text-sm font-bold transition-all focus:ring-2 focus:ring-[#4274D9] focus:outline-none active:scale-95">
+                    <span data-i18n="addShowcase.cancelBtn">ยกเลิก (Cancel)</span>
+                </button>
+                <button type="submit"
+                    class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-royalblue hover:bg-blue-700 text-white text-sm font-bold transition-all shadow-sm focus:ring-2 focus:ring-[#4274D9] focus:outline-none active:scale-95">
+                    <i class="fas fa-paper-plane"></i>
+                    <span data-i18n="addShowcase.publishBtn">เผยแพร่ผลงาน (Publish)</span>
+                </button>
+            </div>
+
+        </form>
+    </main>
+
+    <!-- Publish success banner -->
+    <div id="publish-toast"
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-24 opacity-0 z-[60] px-6 py-3.5 rounded-xl bg-darkblue dark:bg-royalblue text-white text-sm font-bold shadow-lg flex items-center gap-2 transition-all duration-300">
+        <i class="fas fa-circle-check"></i>
+        <span data-i18n="addShowcase.publishSuccess">เผยแพร่ผลงานสำเร็จ!</span>
+    </div>
+
+    <!-- ===== SHARED APP LOGIC ===== -->
+    <script src="../src/js/app.js"></script>
+
+    <script>
+        // 1. Boot the global components (Navbar & Sidebar)
+        INNEX.loadComponents('profile');
+
+        // 2. Local Page Logic (Wait for components & i18n to be ready)
+        INNEX.onReady(function () {
+            'use strict';
+
+            /* ---- Drag & drop / click-to-upload media zone ---- */
+            const dropzone = document.getElementById('showcase-dropzone');
+            const dropzoneInput = document.getElementById('showcase-file-input');
+            const dropzoneContent = document.getElementById('showcase-dropzone-content');
+            const dropzonePreview = document.getElementById('showcase-dropzone-preview');
+            const dropzonePreviewImg = document.getElementById('showcase-preview-img');
+
+            function handleShowcaseFile(file) {
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    dropzonePreviewImg.src = e.target.result;
+                    dropzoneContent.classList.add('hidden');
+                    dropzonePreview.classList.remove('hidden');
+                    dropzonePreview.classList.add('flex');
+                };
+                reader.readAsDataURL(file);
+            }
+
+            if (dropzone) {
+                dropzone.addEventListener('click', () => dropzoneInput.click());
+                dropzoneInput.addEventListener('change', () => handleShowcaseFile(dropzoneInput.files && dropzoneInput.files[0]));
+
+                ['dragenter', 'dragover'].forEach(evt => {
+                    dropzone.addEventListener(evt, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dropzone.classList.add('drag-active');
+                    });
+                });
+                ['dragleave', 'dragend'].forEach(evt => {
+                    dropzone.addEventListener(evt, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dropzone.classList.remove('drag-active');
+                    });
+                });
+                dropzone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropzone.classList.remove('drag-active');
+                    const file = e.dataTransfer.files && e.dataTransfer.files[0];
+                    handleShowcaseFile(file);
+                });
+            }
+
+            /* ---- Cancel button: back to profile ---- */
+            const cancelBtn = document.getElementById('cancel-btn');
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', () => {
+                    window.location.href = 'profile.html';
+                });
+            }
+
+            /* ---- Publish: front-end only feedback ---- */
+            const form = document.getElementById('add-showcase-form');
+            const toast = document.getElementById('publish-toast');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    if (!toast) return;
+                    toast.classList.remove('translate-y-24', 'opacity-0');
+                    toast.classList.add('translate-y-0', 'opacity-100');
+                    setTimeout(() => {
+                        toast.classList.add('translate-y-24', 'opacity-0');
+                        toast.classList.remove('translate-y-0', 'opacity-100');
+                    }, 2500);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

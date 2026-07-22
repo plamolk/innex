@@ -193,5 +193,47 @@
       "r1Summary": "Looking for a team needing a Full-stack Developer (React/Node) or interested in Smart City & IoT projects. Ready to start immediately.",
       "r2Summary": "Our team lacks a Hustler who can analyze Business Models and create great Pitch Decks to compete in the FinTech category."
     }
+  },
+  "editProfile": {
+    "pageTitle": "Edit Profile",
+    "pageSubtitle": "Update your personal info, social links, and expertise to keep your profile current.",
+    "visualIdentity": "Visual Identity",
+    "changeCover": "Change Cover",
+    "basicInfo": "Basic Info & Social Links",
+    "fullName": "Full Name",
+    "location": "Location",
+    "locationPlaceholder": "e.g., Bangkok, Thailand",
+    "socialLinks": "Social Links",
+    "githubLabel": "GitHub Profile Link",
+    "githubPlaceholder": "https://github.com/username",
+    "linkedinLabel": "LinkedIn Profile Link",
+    "linkedinPlaceholder": "https://linkedin.com/in/username",
+    "expertiseBio": "Expertise & Bio",
+    "interests": "Interests & Expertise",
+    "interestsPlaceholder": "e.g., Smart City, IoT, UX Research...",
+    "toolsSkills": "Skills & Tools",
+    "toolsSkillsPlaceholder": "e.g., React, Figma, Business Model Canvas...",
+    "bio": "Bio / About me",
+    "bioPlaceholder": "Tell us about yourself, your interests, and experience...",
+    "saveBtn": "Save Changes",
+    "cancelBtn": "Cancel",
+    "saveSuccess": "Profile updated successfully!"
+  },
+  "addShowcase": {
+    "pageTitle": "Add Showcase",
+    "pageSubtitle": "Share your proud work with the INNEX community.",
+    "dropzoneText": "Drag & drop an image here, or click to upload (16:9 recommended)",
+    "dropzoneChange": "Change Image",
+    "projectTitle": "Project Title",
+    "projectTitlePlaceholder": "e.g., Smart City Dashboard...",
+    "description": "Description",
+    "descriptionPlaceholder": "Describe the project details, inspiration, and technologies used...",
+    "techStack": "Tech Stack / Tools",
+    "techStackPlaceholder": "e.g., IoT, Node.js, UI/UX...",
+    "externalLink": "External Link",
+    "externalLinkPlaceholder": "https://github.com/... or https://figma.com/...",
+    "publishBtn": "Publish",
+    "cancelBtn": "Cancel",
+    "publishSuccess": "Showcase published successfully!"
   }
 }

@@ -193,5 +193,47 @@
       "r1Summary": "ตามหาทีมที่ขาด Full-stack Developer (React/Node) หรือมีความสนใจทำโปรเจกต์ด้าน Smart City & IoT ครับ พร้อมเริ่มงานทันที",
       "r2Summary": "ทีมเราขาด Hustler ที่สามารถวิเคราะห์ Business Model และทำ Pitch Deck เก่งๆ มาร่วมชิงรางวัลหมวด FinTech ครับ"
     }
+  },
+  "editProfile": {
+    "pageTitle": "แก้ไขโปรไฟล์ (Edit Profile)",
+    "pageSubtitle": "อัปเดตข้อมูลส่วนตัว โซเชียล และความถนัดของคุณให้เป็นปัจจุบัน",
+    "visualIdentity": "ภาพลักษณ์ (Visual Identity)",
+    "changeCover": "เปลี่ยนภาพปก",
+    "basicInfo": "ข้อมูลพื้นฐานและโซเชียล (Basic Info & Social Links)",
+    "fullName": "ชื่อ-นามสกุล (Full Name)",
+    "location": "ตำแหน่ง / พิกัด (Location)",
+    "locationPlaceholder": "เช่น กรุงเทพฯ, ประเทศไทย",
+    "socialLinks": "ลิงก์โซเชียล (Social Links)",
+    "githubLabel": "ลิงก์โปรไฟล์ GitHub (GitHub Profile Link)",
+    "githubPlaceholder": "https://github.com/username",
+    "linkedinLabel": "ลิงก์โปรไฟล์ LinkedIn (LinkedIn Profile Link)",
+    "linkedinPlaceholder": "https://linkedin.com/in/username",
+    "expertiseBio": "ความถนัดและแนะนำตัว (Expertise & Bio)",
+    "interests": "ความสนใจ / ความถนัด (Interests & Expertise)",
+    "interestsPlaceholder": "เช่น Smart City, IoT, UX Research...",
+    "toolsSkills": "ทักษะและเครื่องมือ (Skills & Tools)",
+    "toolsSkillsPlaceholder": "เช่น React, Figma, Business Model Canvas...",
+    "bio": "แนะนำตัว (Bio / About me)",
+    "bioPlaceholder": "เล่าเกี่ยวกับตัวคุณ ความสนใจ และประสบการณ์...",
+    "saveBtn": "บันทึกข้อมูล (Save Changes)",
+    "cancelBtn": "ยกเลิก (Cancel)",
+    "saveSuccess": "บันทึกข้อมูลสำเร็จ!"
+  },
+  "addShowcase": {
+    "pageTitle": "เพิ่มผลงาน (Add Showcase)",
+    "pageSubtitle": "แชร์ผลงานที่คุณภูมิใจให้ชุมชน INNEX ได้เห็น",
+    "dropzoneText": "ลากและวางรูปภาพที่นี่ หรือคลิกเพื่ออัปโหลด (แนะนำขนาด 16:9)",
+    "dropzoneChange": "เปลี่ยนรูปภาพ",
+    "projectTitle": "ชื่อผลงาน / โปรเจกต์ (Project Title)",
+    "projectTitlePlaceholder": "เช่น Smart City Dashboard...",
+    "description": "คำอธิบายผลงาน (Description)",
+    "descriptionPlaceholder": "อธิบายรายละเอียดผลงาน แรงบันดาลใจ และเทคโนโลยีที่ใช้...",
+    "techStack": "ทักษะที่ใช้ (Tech Stack / Tools)",
+    "techStackPlaceholder": "เช่น IoT, Node.js, UI/UX...",
+    "externalLink": "ลิงก์ผลงานภายนอก (External Link)",
+    "externalLinkPlaceholder": "https://github.com/... หรือ https://figma.com/...",
+    "publishBtn": "เผยแพร่ผลงาน (Publish)",
+    "cancelBtn": "ยกเลิก (Cancel)",
+    "publishSuccess": "เผยแพร่ผลงานสำเร็จ!"
   }
 }
