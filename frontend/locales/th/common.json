@@ -235,5 +235,21 @@
     "publishBtn": "เผยแพร่ผลงาน (Publish)",
     "cancelBtn": "ยกเลิก (Cancel)",
     "publishSuccess": "เผยแพร่ผลงานสำเร็จ!"
+  },
+  "messages": {
+    "pageTitle": "ข้อความและคำร้องขอ (Messages)",
+    "pageSubtitle": "จัดการบทสนทนาและคำร้องขอเข้าร่วมทีมของคุณได้ในที่เดียว",
+    "tabMessages": "ข้อความ สนทนา",
+    "tabRequests": "คำร้องขอเข้าทีม",
+    "emptyState": "เลือกการสนทนาหรือคำร้องเพื่อเริ่มต้นติดต่อ",
+    "chatInputPlaceholder": "พิมพ์ข้อความ...",
+    "requestHeader": "คำร้องขอเข้าร่วมทีม",
+    "requestEventLabel": "กิจกรรมที่เกี่ยวข้อง",
+    "requestRoleLabel": "ตำแหน่งที่สมัคร",
+    "requestNoteLabel": "ข้อความจากผู้สมัคร",
+    "approveBtn": "อนุมัติรับเข้าทีม",
+    "declineBtn": "ปฏิเสธ",
+    "approvedStatus": "อนุมัติรับเข้าทีมแล้ว",
+    "declinedStatus": "ปฏิเสธคำร้องแล้ว"
   }
 }

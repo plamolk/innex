@@ -235,5 +235,21 @@
     "publishBtn": "Publish",
     "cancelBtn": "Cancel",
     "publishSuccess": "Showcase published successfully!"
+  },
+  "messages": {
+    "pageTitle": "Messages",
+    "pageSubtitle": "Manage your conversations and team requests in one place.",
+    "tabMessages": "Messages",
+    "tabRequests": "Team Requests",
+    "emptyState": "Select a chat or request to get started",
+    "chatInputPlaceholder": "Type a message...",
+    "requestHeader": "Team Join Request",
+    "requestEventLabel": "Related Event",
+    "requestRoleLabel": "Applied Role",
+    "requestNoteLabel": "Message from Applicant",
+    "approveBtn": "Approve",
+    "declineBtn": "Decline",
+    "approvedStatus": "Approved into the team",
+    "declinedStatus": "Request declined"
   }
 }

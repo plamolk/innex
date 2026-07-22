@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en" class="light scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="INNEX Messages — ข้อความสนทนาและคำร้องขอเข้าร่วมทีม">
+
+    <!-- Google Fonts: Outfit & Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome (Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- FOUC Prevention: Apply saved theme BEFORE paint -->
+    <script>
+        (function () {
+            try {
+                const t = localStorage.getItem('theme');
+                if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { }
+        })();
+    </script>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkblue: '#293681',
+                        royalblue: '#4274D9',
+                        lightblue: '#95CCDD',
+                        accent: '#D07E66',
+                        bglight: '#f6f9fc',
+                        bgteal: '#D0E7E6',
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                        prompt: ['Prompt', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Shared JS -->
+    <script src="../src/js/theme.js"></script>
+    <script src="../src/js/i18n.js"></script>
+
+    <title data-i18n="messages.pageTitle">ข้อความและคำร้องขอ (Messages) — INNEX</title>
+
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body:lang(th) {
+            font-family: 'Prompt', 'Outfit', sans-serif;
+        }
+
+        /* Wavy Pattern Background */
+        .wave-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            opacity: 0.45;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='wave' x='0' y='0' width='120' height='24' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 12 Q 30 24 60 12 T 120 12' fill='none' stroke='%2395CCDD' stroke-width='1.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='url(%23wave)'/%3E%3C/svg%3E");
+        }
+
+        .dark .wave-bg {
+            opacity: 0.12;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #95CCDD;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4274D9;
+        }
+
+        /* Sub-tab active indicator */
+        .msg-tab-btn {
+            position: relative;
+            transition: color 0.2s ease;
+        }
+
+        .msg-tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #4274D9;
+            transform: scaleX(0);
+            transition: transform 0.2s ease;
+            border-radius: 2px 2px 0 0;
+        }
+
+        .msg-tab-btn.active {
+            color: #4274D9;
+            font-weight: 700;
+        }
+
+        .dark .msg-tab-btn.active {
+            color: #95CCDD;
+        }
+
+        .msg-tab-btn.active::after {
+            transform: scaleX(1);
+        }
+
+        .dark .msg-tab-btn.active::after {
+            background-color: #95CCDD;
+        }
+
+        /* List row active state */
+        .msg-row.active {
+            background-color: rgba(66, 116, 217, 0.08);
+        }
+
+        .dark .msg-row.active {
+            background-color: rgba(66, 116, 217, 0.16);
+        }
+
+        /* List <-> Detail slide panels (mobile only; md+ resets via responsive utilities) */
+        #msg-list-panel,
+        #msg-detail-panel {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+
+<body
+    class="relative min-h-screen flex flex-col bg-bglight text-darkblue dark:bg-gray-900 dark:text-gray-100 overflow-x-hidden selection:bg-royalblue selection:text-white transition-colors duration-300">
+
+    <!-- Wavy Background Pattern -->
+    <div class="wave-bg" aria-hidden="true"></div>
+
+    <!-- ===== SHARED COMPONENT PLACEHOLDERS ===== -->
+    <div id="navbar-placeholder"></div>
+    <div id="sidebar-placeholder"></div>
+
+    <!-- ===== MAIN PAGE CONTENT ===== -->
+    <main class="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-24 pb-8 flex-1 flex flex-col">
+
+        <!-- Page Header -->
+        <div class="mb-6 flex-shrink-0">
+            <h1 class="text-3xl md:text-4xl font-bold text-darkblue dark:text-white mb-2" data-i18n="messages.pageTitle">
+                ข้อความและคำร้องขอ (Messages)
+            </h1>
+            <p class="text-gray-600 dark:text-gray-400 text-sm font-medium" data-i18n="messages.pageSubtitle">
+                จัดการบทสนทนาและคำร้องขอเข้าร่วมทีมของคุณได้ในที่เดียว
+            </p>
+        </div>
+
+        <!-- ========================================
+             SPLIT-PANE WORKSPACE CARD
+        ======================================== -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm flex-1 overflow-hidden transition-colors">
+            <div class="relative md:flex h-[calc(100vh-320px)] xl:h-[calc(100vh-230px)] min-h-[420px] overflow-hidden">
+
+                <!-- ====================================
+                     LEFT COLUMN: Navigation List
+                ==================================== -->
+                <div id="msg-list-panel"
+                    class="absolute inset-0 md:static md:w-[360px] lg:w-[400px] md:flex-shrink-0 border-gray-100 dark:border-gray-700 md:border-r flex flex-col bg-white dark:bg-gray-800 translate-x-0 md:translate-x-0">
+
+                    <!-- Sub-tabs -->
+                    <div class="flex border-b border-gray-100 dark:border-gray-700 px-4 flex-shrink-0" role="tablist">
+                        <button type="button" id="msg-tab-messages" data-tab="messages"
+                            class="msg-tab-btn active py-4 px-4 text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2 focus:outline-none">
+                            <i class="fas fa-comment-dots"></i>
+                            <span data-i18n="messages.tabMessages">ข้อความ สนทนา</span>
+                        </button>
+                        <button type="button" id="msg-tab-requests" data-tab="requests"
+                            class="msg-tab-btn py-4 px-4 text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2 focus:outline-none">
+                            <i class="fas fa-user-plus"></i>
+                            <span data-i18n="messages.tabRequests">คำร้องขอเข้าทีม</span>
+                        </button>
+                    </div>
+
+                    <!-- Scrollable Feed -->
+                    <div id="msg-list-feed" class="flex-1 overflow-y-auto divide-y divide-gray-100 dark:divide-gray-700"></div>
+                </div>
+
+                <!-- ====================================
+                     RIGHT COLUMN: Active Content Display
+                ==================================== -->
+                <div id="msg-detail-panel"
+                    class="absolute inset-0 md:static md:flex-1 flex flex-col bg-white dark:bg-gray-800 translate-x-full md:translate-x-0">
+
+                    <!-- State A: Empty placeholder -->
+                    <div id="msg-state-empty" class="flex-1 flex flex-col items-center justify-center text-center px-6">
+                        <i class="fas fa-comments text-6xl text-gray-200 dark:text-gray-700 mb-5"></i>
+                        <p class="text-gray-500 dark:text-gray-400 font-medium max-w-xs" data-i18n="messages.emptyState">
+                            เลือกการสนทนาหรือคำร้องเพื่อเริ่มต้นติดต่อ
+                        </p>
+                    </div>
+
+                    <!-- State B: Chat interface -->
+                    <div id="msg-state-chat" class="hidden flex-1 flex-col min-h-0">
+                        <!-- Chat header -->
+                        <div class="flex items-center gap-3 px-4 md:px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex-shrink-0">
+                            <button type="button" class="msg-back-btn md:hidden w-9 h-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-300 transition-colors flex-shrink-0">
+                                <i class="fas fa-arrow-left"></i>
+                            </button>
+                            <img id="chat-header-avatar" src="" alt="" class="w-10 h-10 rounded-full object-cover flex-shrink-0 bg-bgteal dark:bg-gray-700">
+                            <div class="min-w-0">
+                                <p id="chat-header-name" class="font-bold text-darkblue dark:text-white truncate"></p>
+                                <p id="chat-header-event" class="text-xs text-gray-500 dark:text-gray-400 truncate"></p>
+                            </div>
+                        </div>
+                        <!-- Message bubbles -->
+                        <div id="chat-messages" class="flex-1 overflow-y-auto px-4 md:px-6 py-4 space-y-3"></div>
+                        <!-- Input bar -->
+                        <div class="flex items-center gap-3 px-4 md:px-6 py-4 border-t border-gray-100 dark:border-gray-700 flex-shrink-0">
+                            <input type="text" id="chat-input" data-i18n="messages.chatInputPlaceholder"
+                                placeholder="พิมพ์ข้อความ..."
+                                class="flex-1 bg-gray-50 dark:bg-gray-900/40 border-2 border-gray-200 dark:border-gray-700 rounded-xl px-4 py-2.5 text-sm font-medium text-darkblue dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-[#4274D9] focus:outline-none focus:border-royalblue transition-all">
+                            <button type="button" id="chat-send-btn"
+                                class="w-11 h-11 flex-shrink-0 flex items-center justify-center rounded-full bg-royalblue hover:bg-blue-700 text-white transition-all focus:ring-2 focus:ring-[#4274D9] focus:outline-none active:scale-95">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- State C: Team request review sheet -->
+                    <div id="msg-state-request" class="hidden flex-1 flex-col min-h-0">
+                        <!-- Request header -->
+                        <div class="flex items-center gap-3 px-4 md:px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex-shrink-0">
+                            <button type="button" class="msg-back-btn md:hidden w-9 h-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-300 transition-colors flex-shrink-0">
+                                <i class="fas fa-arrow-left"></i>
+                            </button>
+                            <p class="font-bold text-darkblue dark:text-white" data-i18n="messages.requestHeader">คำร้องขอเข้าร่วมทีม</p>
+                        </div>
+
+                        <!-- Request body (scrollable) -->
+                        <div class="flex-1 overflow-y-auto min-h-0 p-6 md:p-8 space-y-6">
+                            <div class="flex items-center gap-4">
+                                <img id="req-avatar" src="" alt="" class="w-16 h-16 rounded-full object-cover flex-shrink-0 bg-bgteal dark:bg-gray-700">
+                                <div class="min-w-0">
+                                    <p id="req-name" class="text-lg font-bold text-darkblue dark:text-white truncate"></p>
+                                    <p id="req-role" class="text-sm text-royalblue dark:text-lightblue font-semibold truncate"></p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="bg-gray-50 dark:bg-gray-900/40 rounded-xl p-4">
+                                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-1" data-i18n="messages.requestEventLabel">
+                                        กิจกรรมที่เกี่ยวข้อง
+                                    </p>
+                                    <p id="req-event" class="text-sm font-bold text-darkblue dark:text-white flex items-center gap-2">
+                                        <i class="fas fa-trophy text-royalblue dark:text-lightblue"></i>
+                                    </p>
+                                </div>
+                                <div class="bg-gray-50 dark:bg-gray-900/40 rounded-xl p-4">
+                                    <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-1" data-i18n="messages.requestRoleLabel">
+                                        ตำแหน่งที่สมัคร
+                                    </p>
+                                    <p id="req-role-detail" class="text-sm font-bold text-darkblue dark:text-white"></p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2" data-i18n="messages.requestNoteLabel">
+                                    ข้อความจากผู้สมัคร
+                                </p>
+                                <blockquote id="req-note"
+                                    class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed bg-gray-50 dark:bg-gray-900/40 border-l-4 border-royalblue rounded-r-xl p-4">
+                                </blockquote>
+                            </div>
+                        </div>
+
+                        <!-- Action footer (pinned, always visible) -->
+                        <div class="flex-shrink-0 border-t border-gray-100 dark:border-gray-700 p-4 md:p-6">
+                            <div id="req-actions" class="flex flex-col sm:flex-row gap-3">
+                                <button type="button" id="req-approve-btn"
+                                    class="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-royalblue hover:bg-blue-700 text-white text-sm font-bold transition-all shadow-sm focus:ring-2 focus:ring-[#4274D9] focus:outline-none active:scale-95">
+                                    <i class="fas fa-check"></i>
+                                    <span data-i18n="messages.approveBtn">อนุมัติรับเข้าทีม</span>
+                                </button>
+                                <button type="button" id="req-decline-btn"
+                                    class="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-transparent border-2 border-red-200 dark:border-red-900/50 hover:border-red-400 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 text-sm font-bold transition-all focus:ring-2 focus:ring-[#4274D9] focus:outline-none active:scale-95">
+                                    <i class="fas fa-xmark"></i>
+                                    <span data-i18n="messages.declineBtn">ปฏิเสธ</span>
+                                </button>
+                            </div>
+                            <div id="req-status-badge" class="hidden items-center gap-2 px-4 py-3 rounded-xl text-sm font-bold"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== SHARED APP LOGIC ===== -->
+    <script src="../src/js/ui.js"></script>
+    <script src="../src/js/app.js"></script>
+
+    <script>
+        // 1. Boot the global components (Navbar & Sidebar)
+        INNEX.loadComponents('messages');
+
+        // 2. Local Page Logic (Wait for components & i18n to be ready)
+        INNEX.onReady(function () {
+            'use strict';
+
+            /* ============================================================
+               DEMO DATA
+            ============================================================ */
+            const CONVERSATIONS = [
+                {
+                    id: 'c1', type: 'message', name: 'Suda Innovate', event: 'National Hackathon 2026',
+                    avatar: 'https://ui-avatars.com/api/?name=Suda+Innovate&background=95CCDD&color=293681&size=128',
+                    snippet: 'พรุ่งนี้เจอกันตอนไหนดีครับ?',
+                    messages: [
+                        { from: 'them', text: 'สวัสดีครับ สนใจร่วมทีม Smart City Dashboard ไหมครับ?' },
+                        { from: 'me', text: 'สนใจครับ ผมถนัด React กับ Node.js' },
+                        { from: 'them', text: 'เยี่ยมเลย พรุ่งนี้เจอกันตอนไหนดีครับ?' },
+                    ],
+                },
+                {
+                    id: 'c2', type: 'message', name: 'Krit Thanawat', event: 'FinTech Ideathon 2025',
+                    avatar: 'https://ui-avatars.com/api/?name=Krit+Thanawat&background=4274D9&color=fff&size=128',
+                    snippet: 'ขอบคุณสำหรับ feedback นะครับ',
+                    messages: [
+                        { from: 'them', text: 'ช่วยดู pitch deck ให้หน่อยได้ไหมครับ' },
+                        { from: 'me', text: 'ได้เลย ส่งลิงก์มาได้เลยครับ' },
+                        { from: 'them', text: 'ขอบคุณสำหรับ feedback นะครับ' },
+                    ],
+                },
+                {
+                    id: 'c3', type: 'message', name: 'Ploy Nattakan', event: 'Young Innovators Ideathon',
+                    avatar: 'https://ui-avatars.com/api/?name=Ploy+Nattakan&background=293681&color=fff&size=128',
+                    snippet: 'โอเคค่ะ งั้นนัดคุยกันวันเสาร์นะคะ',
+                    messages: [
+                        { from: 'me', text: 'สวัสดีครับ สนใจไอเดียเรื่องขยะรีไซเคิลไหมครับ' },
+                        { from: 'them', text: 'สนใจค่ะ โอเคค่ะ งั้นนัดคุยกันวันเสาร์นะคะ' },
+                    ],
+                },
+            ];
+
+            const REQUESTS = [
+                {
+                    id: 'r1', type: 'request', name: 'Nathan Wongsa', event: 'National Hackathon 2026',
+                    avatar: 'https://ui-avatars.com/api/?name=Nathan+Wongsa&background=D07E66&color=fff&size=128',
+                    snippet: 'สมัครตำแหน่ง Front-end Developer',
+                    role: 'Front-end Developer',
+                    note: 'สวัสดีครับ ผมมีประสบการณ์ React มา 2 ปี อยากร่วมทีมทำ Smart City Dashboard ครับ ยินดีเริ่มงานได้ทันที',
+                },
+                {
+                    id: 'r2', type: 'request', name: 'Ammy Chutimon', event: 'FinTech Ideathon 2025',
+                    avatar: 'https://ui-avatars.com/api/?name=Ammy+Chutimon&background=95CCDD&color=293681&size=128',
+                    snippet: 'สมัครตำแหน่ง Business / Hustler',
+                    role: 'Business / Hustler',
+                    note: 'มีประสบการณ์ทำ Business Model Canvas และ Pitch Deck มาก่อน อยากช่วยวางกลยุทธ์ทีมค่ะ',
+                },
+            ];
+
+            const ALL_ITEMS = [...CONVERSATIONS, ...REQUESTS];
+
+            /* ============================================================
+               ELEMENTS
+            ============================================================ */
+            const listFeed = document.getElementById('msg-list-feed');
+            const listPanel = document.getElementById('msg-list-panel');
+            const detailPanel = document.getElementById('msg-detail-panel');
+            const stateEmpty = document.getElementById('msg-state-empty');
+            const stateChat = document.getElementById('msg-state-chat');
+            const stateRequest = document.getElementById('msg-state-request');
+            const tabButtons = document.querySelectorAll('.msg-tab-btn[data-tab]');
+
+            let activeTab = 'messages';
+            let activeItemId = null;
+
+            /* ============================================================
+               LIST RENDERING
+            ============================================================ */
+            function renderList() {
+                const items = activeTab === 'messages' ? CONVERSATIONS : REQUESTS;
+                listFeed.innerHTML = items.map(item => `
+                    <button type="button" class="msg-row w-full text-left flex items-center gap-3 px-4 py-3.5 hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors ${item.id === activeItemId ? 'active' : ''}" data-id="${item.id}">
+                        <img src="${item.avatar}" alt="${item.name}" class="w-12 h-12 rounded-full object-cover flex-shrink-0 bg-bgteal dark:bg-gray-700">
+                        <div class="min-w-0 flex-1">
+                            <div class="flex items-center justify-between gap-2">
+                                <p class="font-bold text-darkblue dark:text-white text-sm truncate">${item.name}</p>
+                            </div>
+                            <p class="text-xs text-royalblue dark:text-lightblue font-semibold truncate mb-0.5">${item.event}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 truncate">${item.snippet}</p>
+                        </div>
+                    </button>
+                `).join('');
+
+                listFeed.querySelectorAll('.msg-row').forEach(row => {
+                    row.addEventListener('click', () => selectItem(row.getAttribute('data-id')));
+                });
+            }
+
+            /* ============================================================
+               TAB SWITCHING
+            ============================================================ */
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    activeTab = btn.getAttribute('data-tab');
+                    activeItemId = null;
+                    tabButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderList();
+                    showState('empty');
+                });
+            });
+
+            /* ============================================================
+               DETAIL STATE SWITCHING
+            ============================================================ */
+            function showState(state) {
+                stateEmpty.classList.add('hidden');
+                stateChat.classList.add('hidden');
+                stateChat.classList.remove('flex');
+                stateRequest.classList.add('hidden');
+                stateRequest.classList.remove('flex');
+
+                if (state === 'chat') {
+                    stateChat.classList.remove('hidden');
+                    stateChat.classList.add('flex');
+                } else if (state === 'request') {
+                    stateRequest.classList.remove('hidden');
+                    stateRequest.classList.add('flex');
+                } else {
+                    stateEmpty.classList.remove('hidden');
+                }
+            }
+
+            function selectItem(id) {
+                const item = ALL_ITEMS.find(i => i.id === id);
+                if (!item) return;
+                activeItemId = id;
+                renderList();
+
+                if (item.type === 'message') {
+                    renderChat(item);
+                    showState('chat');
+                } else {
+                    renderRequest(item);
+                    showState('request');
+                }
+
+                goToDetailView();
+            }
+
+            /* ============================================================
+               CHAT RENDERING
+            ============================================================ */
+            function renderChat(item) {
+                document.getElementById('chat-header-avatar').src = item.avatar;
+                document.getElementById('chat-header-name').textContent = item.name;
+                document.getElementById('chat-header-event').textContent = item.event;
+
+                const messagesEl = document.getElementById('chat-messages');
+                messagesEl.innerHTML = item.messages.map(m => `
+                    <div class="flex ${m.from === 'me' ? 'justify-end' : 'justify-start'}">
+                        <div class="max-w-[75%] px-4 py-2.5 text-sm font-medium leading-relaxed ${m.from === 'me'
+                        ? 'bg-royalblue text-white rounded-2xl rounded-br-sm'
+                        : 'bg-gray-100 dark:bg-gray-700 text-darkblue dark:text-white rounded-2xl rounded-bl-sm'}">
+                            ${m.text}
+                        </div>
+                    </div>
+                `).join('');
+                messagesEl.scrollTop = messagesEl.scrollHeight;
+
+                document.getElementById('chat-input').value = '';
+                document.getElementById('chat-input').dataset.conversationId = item.id;
+            }
+
+            document.getElementById('chat-send-btn').addEventListener('click', sendChatMessage);
+            document.getElementById('chat-input').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') sendChatMessage();
+            });
+
+            function sendChatMessage() {
+                const input = document.getElementById('chat-input');
+                const text = input.value.trim();
+                const convoId = input.dataset.conversationId;
+                if (!text || !convoId) return;
+
+                const convo = CONVERSATIONS.find(c => c.id === convoId);
+                if (!convo) return;
+
+                convo.messages.push({ from: 'me', text });
+                convo.snippet = text;
+                input.value = '';
+                renderChat(convo);
+                if (activeTab === 'messages') renderList();
+            }
+
+            /* ============================================================
+               REQUEST RENDERING
+            ============================================================ */
+            function renderRequest(item) {
+                document.getElementById('req-avatar').src = item.avatar;
+                document.getElementById('req-name').textContent = item.name;
+                document.getElementById('req-role').textContent = item.role;
+                document.getElementById('req-event').innerHTML = `<i class="fas fa-trophy text-royalblue dark:text-lightblue"></i> ${item.event}`;
+                document.getElementById('req-role-detail').textContent = item.role;
+                document.getElementById('req-note').textContent = item.note;
+
+                const actions = document.getElementById('req-actions');
+                const badge = document.getElementById('req-status-badge');
+                actions.classList.remove('hidden');
+                actions.classList.add('flex');
+                badge.classList.add('hidden');
+                badge.classList.remove('flex');
+            }
+
+            document.getElementById('req-approve-btn').addEventListener('click', () => resolveRequest('approved'));
+            document.getElementById('req-decline-btn').addEventListener('click', () => resolveRequest('declined'));
+
+            function resolveRequest(status) {
+                const actions = document.getElementById('req-actions');
+                const badge = document.getElementById('req-status-badge');
+
+                actions.classList.add('hidden');
+                actions.classList.remove('flex');
+                badge.classList.remove('hidden');
+                badge.classList.add('flex');
+
+                if (status === 'approved') {
+                    badge.className = 'flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-bold bg-royalblue/10 text-royalblue dark:bg-royalblue/20 dark:text-lightblue';
+                    badge.innerHTML = `<i class="fas fa-circle-check"></i> <span data-i18n="messages.approvedStatus">อนุมัติรับเข้าทีมแล้ว</span>`;
+                } else {
+                    badge.className = 'flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-bold bg-red-50 text-red-500 dark:bg-red-900/20 dark:text-red-400';
+                    badge.innerHTML = `<i class="fas fa-circle-xmark"></i> <span data-i18n="messages.declinedStatus">ปฏิเสธคำร้องแล้ว</span>`;
+                }
+                if (typeof updateDOM === 'function') updateDOM();
+            }
+
+            /* ============================================================
+               MOBILE LIST <-> DETAIL SLIDE NAVIGATION
+            ============================================================ */
+            function goToDetailView() {
+                listPanel.classList.add('-translate-x-full');
+                detailPanel.classList.remove('translate-x-full');
+                detailPanel.classList.add('translate-x-0');
+            }
+
+            function goToListView() {
+                listPanel.classList.remove('-translate-x-full');
+                detailPanel.classList.remove('translate-x-0');
+                detailPanel.classList.add('translate-x-full');
+            }
+
+            document.querySelectorAll('.msg-back-btn').forEach(btn => {
+                btn.addEventListener('click', goToListView);
+            });
+
+            /* ============================================================
+               INIT
+            ============================================================ */
+            renderList();
+            showState('empty');
+        });
+    </script>
+</body>
+
+</html>
