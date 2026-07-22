@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="createRecruitment.pageTitle">Create Recruitment - INNEX</title>
+    <meta name="description" content="Create a new recruitment post and configure AI matching for your hackathon team.">
+
+    <!-- Google Fonts: Outfit & Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- FOUC Prevention: Apply saved theme BEFORE paint -->
+    <script>
+        (function () {
+            try {
+                const t = localStorage.getItem('theme');
+                if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { }
+        })();
+    </script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkblue: '#293681',
+                        royalblue: '#4274D9',
+                        lightblue: '#95CCDD',
+                        accent: '#D07E66',
+                        bglight: '#f6f9fc',
+                        bgteal: '#D0E7E6',
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                        sans: ['Outfit', 'Prompt', 'sans-serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'float-fast': 'float 4s ease-in-out infinite',
+                        'pulse-soft': 'pulse-soft 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'pulse-soft': {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.6' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body:lang(th) {
+            font-family: 'Prompt', 'Outfit', sans-serif;
+        }
+
+        /* Wavy Background Pattern */
+        .wave-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            opacity: 0.45;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='wave' x='0' y='0' width='120' height='24' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 12 Q 30 24 60 12 T 120 12' fill='none' stroke='%2395CCDD' stroke-width='1.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='url(%23wave)'/%3E%3C/svg%3E");
+        }
+
+        .dark .wave-bg {
+            opacity: 0.12;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .dark ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #95CCDD;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4274D9;
+        }
+
+        /* Custom Inputs (No blue glow) */
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(149, 204, 221, 0.3);
+            border-color: #95CCDD;
+        }
+
+        /* Hide standard checkbox visually for role cards */
+        .role-checkbox {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* Role card checked state */
+        .role-checkbox:checked + .role-card {
+            border-color: #4274D9;
+            background-color: #f4fafa;
+            color: #293681;
+        }
+
+        .dark .role-checkbox:checked + .role-card {
+            border-color: #4274D9;
+            background-color: rgba(66, 116, 217, 0.15);
+            color: #ffffff;
+        }
+
+        .role-checkbox:checked + .role-card i {
+            color: #4274D9;
+        }
+    </style>
+</head>
+
+<body class="relative min-h-screen flex flex-col bg-bglight text-darkblue dark:bg-gray-900 dark:text-gray-100 overflow-x-hidden selection:bg-royalblue selection:text-white transition-colors duration-300">
+
+    <!-- ========================================
+         BACKGROUND DECORATIONS (z-0)
+    ======================================== -->
+    <div class="wave-bg"></div>
+
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="hidden lg:flex absolute top-32 left-8 animate-float opacity-40">
+            <div class="w-20 h-20 bg-darkblue dark:bg-royalblue rounded-[2rem] rotate-12 shadow-2xl flex items-center justify-center border-4 border-white/30">
+                <div class="w-8 h-8 rounded-full border-4 border-white/50 border-t-transparent"></div>
+            </div>
+        </div>
+        <div class="hidden lg:flex absolute bottom-24 right-16 animate-float-delayed opacity-30">
+            <div class="w-24 h-12 bg-lightblue border-4 border-white/30 rounded-full shadow-xl"></div>
+        </div>
+        <div class="hidden md:block absolute top-1/4 right-1/3 animate-float-fast opacity-20">
+            <div class="w-8 h-8 bg-accent rounded-full"></div>
+        </div>
+        <div class="hidden md:block absolute bottom-1/3 left-1/4 animate-float opacity-20">
+            <div class="w-6 h-6 bg-royalblue rounded-full"></div>
+        </div>
+        <div class="absolute top-0 -left-10 w-96 h-96 bg-lightblue rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-20 animate-blob"></div>
+        <div class="absolute top-1/2 -right-10 w-96 h-96 bg-accent rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-15 animate-blob" style="animation-delay:2s"></div>
+        <div class="absolute -bottom-8 left-1/3 w-96 h-96 bg-royalblue rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-15 animate-blob" style="animation-delay:4s"></div>
+    </div>
+
+    <!-- ===== SHARED COMPONENT PLACEHOLDERS ===== -->
+    <div id="navbar-placeholder"></div>
+    <div id="sidebar-placeholder"></div>
+
+    <!-- ===== MAIN PAGE CONTENT ===== -->
+    <main class="relative z-10 w-full flex-1 pt-24 pb-24">
+        
+        <!-- Focused Workspace -->
+        <div class="max-w-4xl mx-auto py-10 px-4">
+            
+            <!-- Header -->
+            <div class="mb-8 text-center sm:text-left">
+                <h1 class="text-3xl sm:text-4xl font-bold text-darkblue dark:text-white flex items-center justify-center sm:justify-start gap-3" data-i18n="createRecruitment.heading">
+                    <i class="fas fa-bullhorn text-royalblue"></i> 
+                    ประกาศหาทีม & ตั้งค่า AI Matching
+                </h1>
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-400 mt-2" data-i18n="createRecruitment.subheading">
+                    สร้างประกาศรับสมัครเพื่อนร่วมทีม พร้อมให้ระบบ AI คัดกรองผู้สมัครที่ตรงสเปกที่สุด
+                </p>
+            </div>
+
+            <!-- Form Container Card -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-transparent dark:border-gray-700 overflow-hidden">
+                
+                <form id="recruitment-form" class="flex flex-col">
+                    
+                    <!-- Form Body -->
+                    <div class="p-6 sm:p-8 space-y-10">
+                        
+                        <!-- ========================================
+                             SECTION 1: Project Details
+                        ======================================== -->
+                        <section>
+                            <div class="flex items-center gap-2 mb-4 border-b border-gray-100 dark:border-gray-700 pb-3">
+                                <div class="w-8 h-8 rounded-full bg-[#f4fafa] dark:bg-gray-700 flex items-center justify-center text-royalblue font-bold">1</div>
+                                <h2 class="text-lg font-bold text-darkblue dark:text-white" data-i18n="createRecruitment.sectionProject">
+                                    ข้อมูลโปรเจกต์ (Project Details)
+                                </h2>
+                            </div>
+
+                            <div class="space-y-5">
+                                <!-- Target Event -->
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2" data-i18n="createRecruitment.targetEvent">
+                                        รายการแข่งขันเป้าหมาย (Target Event/Hackathon) <span class="text-red-500">*</span>
+                                    </label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-trophy text-gray-400"></i>
+                                        </div>
+                                        <select class="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white text-sm font-medium transition-colors cursor-pointer appearance-none" required>
+                                            <option value="" disabled selected data-i18n="createRecruitment.selectEventPlaceholder">เลือกรายการแข่งขัน...</option>
+                                            <option value="1">National Hackathon 2026</option>
+                                            <option value="2">Creative Ideathon Challenge</option>
+                                            <option value="3">Startup Pitch Arena 2026</option>
+                                            <option value="4">ไม่มีรายการแข่งขัน (ทำโปรเจกต์อิสระ)</option>
+                                        </select>
+                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Project Concept -->
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2" data-i18n="createRecruitment.projectConcept">
+                                        รายละเอียดไอเดียหรือโปรเจกต์สั้นๆ (Project Pitch / Concept) <span class="text-red-500">*</span>
+                                    </label>
+                                    <textarea rows="4" class="block w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white text-sm font-medium transition-colors resize-y" placeholder="อธิบายไอเดียหลักของคุณ เช่น เรากำลังทำแอปสาย FinTech ที่ช่วยนักศึกษาจัดการหนี้ กยศ..." required data-i18n-placeholder="createRecruitment.projectConceptPlaceholder"></textarea>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- ========================================
+                             SECTION 2: AI Matching Criteria
+                        ======================================== -->
+                        <section>
+                            <div class="flex items-center gap-2 mb-4 border-b border-gray-100 dark:border-gray-700 pb-3">
+                                <div class="w-8 h-8 rounded-full bg-[#f4fafa] dark:bg-gray-700 flex items-center justify-center text-royalblue font-bold">2</div>
+                                <h2 class="text-lg font-bold text-darkblue dark:text-white flex items-center gap-2" data-i18n="createRecruitment.sectionCriteria">
+                                    สเปกคนที่ตามหา (AI Matching Criteria)
+                                    <span class="text-[10px] bg-gradient-to-r from-[#4274D9] to-[#95CCDD] text-white px-2 py-0.5 rounded-full uppercase tracking-wider">AI Powered</span>
+                                </h2>
+                            </div>
+
+                            <div class="space-y-6">
+                                <!-- Core Role Needed -->
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3" data-i18n="createRecruitment.coreRole">
+                                        บทบาทหลักที่ต้องการ (เลือกได้มากกว่า 1) <span class="text-red-500">*</span>
+                                    </label>
+                                    
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                        <!-- Hacker -->
+                                        <label class="relative cursor-pointer group">
+                                            <input type="checkbox" name="roles" value="hacker" class="role-checkbox" />
+                                            <div class="role-card flex flex-col items-center justify-center p-5 border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 transition-all duration-200 group-hover:border-[#95CCDD] text-center h-full">
+                                                <i class="fas fa-laptop-code text-3xl mb-3 transition-colors"></i>
+                                                <span class="font-bold text-sm">Hacker</span>
+                                                <span class="text-xs mt-1 font-medium opacity-80">(สายเทค/Dev)</span>
+                                            </div>
+                                        </label>
+
+                                        <!-- Hustler -->
+                                        <label class="relative cursor-pointer group">
+                                            <input type="checkbox" name="roles" value="hustler" class="role-checkbox" />
+                                            <div class="role-card flex flex-col items-center justify-center p-5 border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 transition-all duration-200 group-hover:border-[#95CCDD] text-center h-full">
+                                                <i class="fas fa-chart-line text-3xl mb-3 transition-colors"></i>
+                                                <span class="font-bold text-sm">Hustler</span>
+                                                <span class="text-xs mt-1 font-medium opacity-80">(สายธุรกิจ/Pitch)</span>
+                                            </div>
+                                        </label>
+
+                                        <!-- Hipster -->
+                                        <label class="relative cursor-pointer group">
+                                            <input type="checkbox" name="roles" value="hipster" class="role-checkbox" />
+                                            <div class="role-card flex flex-col items-center justify-center p-5 border-2 border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 transition-all duration-200 group-hover:border-[#95CCDD] text-center h-full">
+                                                <i class="fas fa-paint-brush text-3xl mb-3 transition-colors"></i>
+                                                <span class="font-bold text-sm">Hipster</span>
+                                                <span class="text-xs mt-1 font-medium opacity-80">(สายออกแบบ/UX)</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Specific Skills -->
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2" data-i18n="createRecruitment.specificSkills">
+                                        ทักษะเฉพาะทางที่ต้องการ (Specific Skills)
+                                    </label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-tags text-gray-400"></i>
+                                        </div>
+                                        <input type="text" id="skill-input" class="block w-full pl-10 px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white text-sm font-medium transition-colors" placeholder="เช่น React, Figma, Data Analysis (กด Enter เพื่อเพิ่ม Tag)" data-i18n-placeholder="createRecruitment.specificSkillsPlaceholder">
+                                    </div>
+                                    <!-- Tag Container -->
+                                    <div id="skills-container" class="flex flex-wrap gap-2 mt-3 min-h-[32px]">
+                                        <!-- Mock existing tag -->
+                                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f4fafa] dark:bg-gray-700 border border-[#95CCDD] dark:border-gray-600 text-darkblue dark:text-gray-200 text-xs font-bold">
+                                            React <button type="button" class="text-gray-400 hover:text-red-500 focus:outline-none"><i class="fas fa-times"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Experience Level -->
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2" data-i18n="createRecruitment.experienceLevel">
+                                        ระดับประสบการณ์ (Experience Level)
+                                    </label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-layer-group text-gray-400"></i>
+                                        </div>
+                                        <select class="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white text-sm font-medium transition-colors cursor-pointer appearance-none">
+                                            <option value="all" selected data-i18n="createRecruitment.levelAny">รับทุกระดับ (Any Level)</option>
+                                            <option value="beginner" data-i18n="createRecruitment.levelBeginner">ผู้เริ่มต้น (Beginner)</option>
+                                            <option value="intermediate" data-i18n="createRecruitment.levelIntermediate">ระดับกลาง (Intermediate)</option>
+                                            <option value="advanced" data-i18n="createRecruitment.levelAdvanced">ระดับสูง (Advanced)</option>
+                                        </select>
+                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                            <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </section>
+
+                    </div>
+
+                    <!-- ========================================
+                         SECTION 3: Action Bar
+                    ======================================== -->
+                    <div class="px-6 py-5 bg-gray-50 dark:bg-gray-800/80 border-t border-gray-100 dark:border-gray-700 flex flex-col-reverse sm:flex-row items-center justify-end gap-3 sm:gap-4 mt-auto">
+                        <button type="button" class="w-full sm:w-auto px-6 py-2.5 bg-transparent border-2 border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-500 font-bold text-sm rounded-xl transition-colors outline-none">
+                            <span data-i18n="createRecruitment.cancel">ยกเลิก (Cancel)</span>
+                        </button>
+                        <button type="submit" class="w-full sm:w-auto px-8 py-2.5 bg-royalblue hover:bg-darkblue text-white font-bold text-sm rounded-xl transition-colors shadow-sm outline-none flex items-center justify-center gap-2">
+                            <i class="fas fa-magic"></i>
+                            <span data-i18n="createRecruitment.postMatch">โพสต์และให้ AI หาคนให้</span>
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== CHAT POPUP PLACEHOLDER ===== -->
+    <div id="chat-popup-placeholder"></div>
+
+    <!-- ===== APPLICATION SCRIPTS ===== -->
+    <script src="../src/js/i18n.js"></script>
+    <script src="../src/js/ui.js"></script>
+    <script src="../src/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load global modular components
+            if (window.INNEX && typeof window.INNEX.loadComponents === 'function') {
+                window.INNEX.loadComponents('create-recruitment');
+            }
+
+            'use strict';
+
+            // Tag input logic
+            const skillInput = document.getElementById('skill-input');
+            const skillsContainer = document.getElementById('skills-container');
+
+            function createTag(text) {
+                const span = document.createElement('span');
+                span.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f4fafa] dark:bg-gray-700 border border-[#95CCDD] dark:border-gray-600 text-darkblue dark:text-gray-200 text-xs font-bold animate-pulse-soft';
+                span.style.animationIterationCount = '1';
+                
+                span.innerHTML = `
+                    ${text} <button type="button" class="text-gray-400 hover:text-red-500 focus:outline-none"><i class="fas fa-times"></i></button>
+                `;
+
+                // Add delete listener
+                span.querySelector('button').addEventListener('click', () => {
+                    span.remove();
+                });
+
+                return span;
+            }
+
+            // Existing mock tag delete listener
+            skillsContainer.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.currentTarget.parentElement.remove();
+                });
+            });
+
+            if (skillInput) {
+                skillInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const val = skillInput.value.trim();
+                        if (val) {
+                            skillsContainer.appendChild(createTag(val));
+                            skillInput.value = '';
+                        }
+                    }
+                });
+            }
+
+            // Form Submit Mock
+            const form = document.getElementById('recruitment-form');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    // Mock success transition
+                    const btn = form.querySelector('button[type="submit"]');
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                    btn.disabled = true;
+                    
+                    setTimeout(() => {
+                        window.location.href = 'ai-matching.html';
+                    }, 1000);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
