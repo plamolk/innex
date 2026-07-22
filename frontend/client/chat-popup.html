@@ -1,0 +1,198 @@
+<!-- Global Floating Chat Pop-up Component (Desktop Only) -->
+<div id="innex-global-chat-popup" class="hidden lg:block font-sans">
+    
+    <!-- Floating Trigger Button (Bottom-Right) -->
+    <button id="chat-popup-trigger" aria-label="Open Chat"
+        class="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[#4274D9] shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-300 border-0 outline-none cursor-pointer">
+        <i class="fas fa-comment-alt text-white text-xl"></i>
+        <!-- Unread Notification Dot -->
+        <span class="absolute top-0 right-0 w-3.5 h-3.5 bg-red-500 rounded-full border-2 border-white dark:border-gray-900"></span>
+    </button>
+
+    <!-- Chat Pop-up Drawer Box Container -->
+    <div id="chat-popup-drawer" 
+        class="fixed bottom-0 right-4 z-50 w-[360px] h-[500px] bg-white dark:bg-gray-800 shadow-[0_-5px_25px_rgba(0,0,0,0.15)] rounded-t-2xl flex flex-col overflow-hidden opacity-0 invisible pointer-events-none translate-y-4 origin-bottom transition-all duration-300">
+        
+        <!-- View A: Inbox List (Default) -->
+        <div id="chat-view-inbox" class="absolute inset-0 flex flex-col transition-transform duration-300 transform translate-x-0 bg-white dark:bg-gray-800">
+            
+            <!-- Inbox Header -->
+            <div class="flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 flex-shrink-0">
+                <h3 class="text-base font-bold text-[#293681] dark:text-white" data-i18n="chatPopup.inboxTitle">ข้อความ (Messages)</h3>
+                <div class="flex items-center gap-1">
+                    <a href="message.html" class="border-0 bg-transparent outline-none flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer text-gray-400 hover:text-[#4274D9]" title="Open Full Messages">
+                        <i class="fas fa-external-link-alt text-sm"></i>
+                    </a>
+                    <button class="chat-popup-close border-0 bg-transparent outline-none flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+                        <i class="fas fa-times text-gray-400 hover:text-red-500 text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Inbox Body (List of 4 users) -->
+            <div class="flex-1 overflow-y-auto">
+                <!-- Row 1 (Unread) -->
+                <div class="chat-user-row cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center px-4 py-3 border-b border-gray-100 dark:border-gray-700 transition-colors">
+                    <img src="https://ui-avatars.com/api/?name=Suda+Innovate&background=D0E7E6&color=293681" alt="Avatar" class="h-12 w-12 rounded-full object-cover border-none flex-shrink-0">
+                    <div class="ml-3 flex-1 min-w-0">
+                        <p class="text-sm font-bold text-[#293681] dark:text-gray-100 truncate">Suda Innovate</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 truncate" data-i18n="chatPopup.lastMsg1">สวัสดีครับ สนใจร่วมทีม Smart City Dashboard ไหมครับ?</p>
+                    </div>
+                    <div class="ml-2 h-2 w-2 rounded-full bg-[#4274D9] flex-shrink-0"></div>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="chat-user-row cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center px-4 py-3 border-b border-gray-100 dark:border-gray-700 transition-colors">
+                    <img src="https://ui-avatars.com/api/?name=Krit+Thanawat&background=E5E7EB&color=4B5563" alt="Avatar" class="h-12 w-12 rounded-full object-cover border-none flex-shrink-0">
+                    <div class="ml-3 flex-1 min-w-0">
+                        <p class="text-sm font-bold text-[#293681] dark:text-gray-100 truncate">Krit Thanawat</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 truncate" data-i18n="chatPopup.lastMsg2">ขอบคุณสำหรับ feedback นะครับ</p>
+                    </div>
+                </div>
+
+                <!-- Row 3 (Unread) -->
+                <div class="chat-user-row cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center px-4 py-3 border-b border-gray-100 dark:border-gray-700 transition-colors">
+                    <img src="https://ui-avatars.com/api/?name=Ploy+Nattakan&background=D0E7E6&color=293681" alt="Avatar" class="h-12 w-12 rounded-full object-cover border-none flex-shrink-0">
+                    <div class="ml-3 flex-1 min-w-0">
+                        <p class="text-sm font-bold text-[#293681] dark:text-gray-100 truncate">Ploy Nattakan</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 truncate" data-i18n="chatPopup.lastMsg3">โอเคค่ะ งั้นนัดคุยกันวันเสาร์นะคะ</p>
+                    </div>
+                    <div class="ml-2 h-2 w-2 rounded-full bg-[#4274D9] flex-shrink-0"></div>
+                </div>
+
+                <!-- Row 4 -->
+                <div class="chat-user-row cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center px-4 py-3 border-b border-gray-100 dark:border-gray-700 transition-colors">
+                    <img src="https://ui-avatars.com/api/?name=Wichai+Dev&background=E5E7EB&color=4B5563" alt="Avatar" class="h-12 w-12 rounded-full object-cover border-none flex-shrink-0">
+                    <div class="ml-3 flex-1 min-w-0">
+                        <p class="text-sm font-bold text-[#293681] dark:text-gray-100 truncate">Wichai Dev</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 truncate" data-i18n="chatPopup.lastMsg4">เจอกันที่งานพรุ่งนี้นะครับ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- View B: Active Chat Room (Hidden by default using translate-x-full) -->
+        <div id="chat-view-room" class="absolute inset-0 flex flex-col transition-transform duration-300 transform translate-x-full bg-white dark:bg-gray-800 z-10">
+            
+            <!-- Chat Room Header -->
+            <div class="flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <button class="back-to-inbox-btn border-0 bg-transparent outline-none flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+                        <i class="fas fa-arrow-left text-gray-500 dark:text-gray-400 hover:text-[#293681] dark:hover:text-white text-lg"></i>
+                    </button>
+                    <img src="https://ui-avatars.com/api/?name=Suda+Innovate&background=D0E7E6&color=293681" alt="Avatar" class="h-10 w-10 rounded-full object-cover border-none">
+                    <div class="flex flex-col">
+                        <span class="text-sm font-bold text-[#293681] dark:text-white">Suda Innovate</span>
+                        <span class="text-xs font-medium text-[#4274D9]" data-i18n="chatPopup.online">Online</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-1">
+                    <a href="message.html" class="border-0 bg-transparent outline-none flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer text-gray-400 hover:text-[#4274D9]" title="Open Full Messages">
+                        <i class="fas fa-external-link-alt text-sm"></i>
+                    </a>
+                    <button class="chat-popup-close border-0 bg-transparent outline-none flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+                        <i class="fas fa-times text-gray-400 hover:text-red-500 text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Room Body (Feed) -->
+            <div class="flex-1 overflow-y-auto p-4 flex flex-col gap-4 bg-white dark:bg-gray-800" id="chat-popup-feed">
+                <!-- Received Message -->
+                <div class="flex w-full justify-start">
+                    <div class="max-w-[75%] px-4 py-2 text-sm font-medium leading-normal break-words bg-gray-100 dark:bg-gray-700 text-[#293681] dark:text-gray-100 rounded-2xl rounded-tl-sm border-0">
+                        <span data-i18n="chatPopup.msg1">สวัสดีครับ สนใจร่วมทีม Smart City Dashboard ไหมครับ?</span>
+                    </div>
+                </div>
+
+                <!-- Sent Message -->
+                <div class="flex w-full justify-end">
+                    <div class="max-w-[75%] px-4 py-2 text-sm font-medium leading-normal break-words bg-[#4274D9] text-white rounded-2xl rounded-tr-sm border-0">
+                        <span data-i18n="chatPopup.msg2">สนใจครับ ผมถนัด React กับ Node.js</span>
+                    </div>
+                </div>
+
+                <!-- Received Image Media -->
+                <div class="flex w-full justify-start">
+                    <div class="max-w-[75%] rounded-2xl rounded-tl-sm overflow-hidden bg-gray-100 dark:bg-gray-700 border-0">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=400&auto=format&fit=crop" alt="Shared Media" class="w-full h-auto object-cover cursor-pointer hover:opacity-90 transition-opacity border-none">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Room Footer -->
+            <div class="px-4 py-3 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700 flex-shrink-0 flex items-center gap-3">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-image text-gray-400 hover:text-[#4274D9] cursor-pointer text-lg transition-colors"></i>
+                    <i class="fas fa-paperclip text-gray-400 hover:text-[#4274D9] cursor-pointer text-lg transition-colors"></i>
+                </div>
+                
+                <div class="flex-1 relative flex items-center">
+                    <input type="text" placeholder="Type a message..." data-i18n-placeholder="chatPopup.inputPlaceholder"
+                        class="bg-gray-100 dark:bg-gray-700 rounded-full px-4 py-1.5 w-full outline-none border-0 focus:outline-none focus:ring-0 text-[#293681] dark:text-white text-sm placeholder-gray-400 transition-colors">
+                    <button type="button" class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center bg-transparent border-0 outline-none cursor-pointer group">
+                        <i class="fas fa-paper-plane text-gray-400 group-hover:text-[#4274D9] transition-colors"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Toggle Script -->
+    <script>
+        (function() {
+            const trigger = document.getElementById('chat-popup-trigger');
+            const drawer = document.getElementById('chat-popup-drawer');
+            const closeBtns = document.querySelectorAll('.chat-popup-close');
+            const userRows = document.querySelectorAll('.chat-user-row');
+            const backBtn = document.querySelector('.back-to-inbox-btn');
+            
+            const viewInbox = document.getElementById('chat-view-inbox');
+            const viewRoom = document.getElementById('chat-view-room');
+
+            if (!trigger || !drawer || !viewInbox || !viewRoom) return;
+
+            // Toggle entire popup
+            function togglePopup() {
+                const isOpen = !drawer.classList.contains('opacity-0');
+                if (isOpen) {
+                    // Close popup
+                    drawer.classList.add('opacity-0', 'invisible', 'translate-y-4', 'pointer-events-none');
+                    trigger.classList.remove('opacity-0', 'invisible', 'scale-90', 'pointer-events-none');
+                } else {
+                    // Open popup
+                    drawer.classList.remove('opacity-0', 'invisible', 'translate-y-4', 'pointer-events-none');
+                    trigger.classList.add('opacity-0', 'invisible', 'scale-90', 'pointer-events-none');
+                }
+            }
+
+            // Go to Chat Room (View B)
+            function goToRoom() {
+                viewInbox.classList.add('-translate-x-full');
+                viewRoom.classList.remove('translate-x-full');
+            }
+
+            // Go to Inbox List (View A)
+            function goToInbox() {
+                viewInbox.classList.remove('-translate-x-full');
+                viewRoom.classList.add('translate-x-full');
+            }
+
+            // Event Listeners
+            trigger.addEventListener('click', togglePopup);
+            
+            closeBtns.forEach(btn => {
+                btn.addEventListener('click', togglePopup);
+            });
+
+            userRows.forEach(row => {
+                row.addEventListener('click', goToRoom);
+            });
+
+            if (backBtn) {
+                backBtn.addEventListener('click', goToInbox);
+            }
+        })();
+    </script>
+</div>

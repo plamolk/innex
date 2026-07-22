@@ -53,15 +53,40 @@
     ---------------------------------------------------------- */
     async function loadComponents(pageKey) {
         try {
-            const [navRes, sideRes] = await Promise.all([
+            const [navRes, sideRes, chatRes] = await Promise.all([
                 fetch('navbar.html'),
                 fetch('sidebar.html'),
+                fetch('chat-popup.html').catch(() => ({ ok: false }))
             ]);
 
             if (!navRes.ok || !sideRes.ok) throw new Error('Components not found');
 
             document.getElementById('navbar-placeholder').innerHTML = await navRes.text();
-            document.getElementById('sidebar-placeholder').innerHTML = await sideRes.text();
+            
+            const sidePlaceholder = document.getElementById('sidebar-placeholder');
+            if (sidePlaceholder) {
+                sidePlaceholder.innerHTML = await sideRes.text();
+            }
+
+            if (chatRes.ok) {
+                const chatPlaceholder = document.getElementById('chat-popup-placeholder');
+                if (chatPlaceholder) {
+                    chatPlaceholder.innerHTML = await chatRes.text();
+                    
+                    // CRITICAL: Evaluate embedded scripts from the injected component
+                    const scripts = chatPlaceholder.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        if (script.src) {
+                            newScript.src = script.src;
+                        } else {
+                            newScript.textContent = script.textContent;
+                        }
+                        document.body.appendChild(newScript);
+                        script.parentNode.removeChild(script);
+                    });
+                }
+            }
 
             // Init all shared UI after components are in DOM
             initThemeToggle();
