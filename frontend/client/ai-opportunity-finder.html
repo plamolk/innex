@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="aiOpportunity.pageTitle">AI Opportunity Finder - INNEX</title>
+    <meta name="description"
+        content="AI-powered opportunity and event matching for students. Discover hackathons, grants, and competitions curated to your goals on INNEX.">
+
+    <!-- Google Fonts: Outfit & Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- FOUC Prevention: Apply saved theme BEFORE paint -->
+    <script>
+        (function () {
+            try {
+                const t = localStorage.getItem('theme');
+                if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { }
+        })();
+    </script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkblue: '#293681',
+                        royalblue: '#4274D9',
+                        lightblue: '#95CCDD',
+                        accent: '#D07E66',
+                        bglight: '#f6f9fc',
+                        bgteal: '#D0E7E6',
+                    },
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                        sans: ['Outfit', 'Prompt', 'sans-serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'float-fast': 'float 4s ease-in-out infinite',
+                        'pulse-soft': 'pulse-soft 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'pulse-soft': {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.6' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body:lang(th) {
+            font-family: 'Prompt', 'Outfit', sans-serif;
+        }
+
+        /* Wavy Background Pattern */
+        .wave-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            opacity: 0.45;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='wave' x='0' y='0' width='120' height='24' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 12 Q 30 24 60 12 T 120 12' fill='none' stroke='%2395CCDD' stroke-width='1.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='url(%23wave)'/%3E%3C/svg%3E");
+        }
+
+        .dark .wave-bg {
+            opacity: 0.12;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .dark ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #95CCDD;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4274D9;
+        }
+
+        /* Loading bar animation */
+        .loading-bar {
+            animation: slide-load 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes slide-load {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(200%);
+            }
+        }
+
+        /* Progress bar fill animation */
+        .progress-fill {
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Result card stagger animation */
+        @keyframes card-rise {
+            0% {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-card-animate {
+            animation: card-rise 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* Textarea auto-height */
+        #goal-input {
+            resize: none;
+        }
+
+        /* Preset tag hover effect */
+        .preset-tag {
+            transition: all 0.2s ease;
+        }
+
+        .preset-tag:hover {
+            transform: translateY(-1px);
+        }
+
+        .preset-tag.active {
+            background-color: #4274D9 !important;
+            color: #ffffff !important;
+            border-color: #4274D9 !important;
+        }
+
+        /* Match percentage ring */
+        .match-ring {
+            background: conic-gradient(#4274D9 var(--pct), #e5e7eb var(--pct));
+        }
+
+        .dark .match-ring {
+            background: conic-gradient(#95CCDD var(--pct), #374151 var(--pct));
+        }
+    </style>
+</head>
+
+<body
+    class="relative min-h-screen flex flex-col bg-bglight text-darkblue dark:bg-gray-900 dark:text-gray-100 overflow-x-hidden selection:bg-royalblue selection:text-white transition-colors duration-300">
+
+    <!-- ========================================
+         BACKGROUND DECORATIONS (z-0)
+    ======================================== -->
+    <div class="wave-bg"></div>
+
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="hidden lg:flex absolute top-32 left-8 animate-float opacity-40">
+            <div
+                class="w-20 h-20 bg-darkblue dark:bg-royalblue rounded-[2rem] rotate-12 shadow-2xl flex items-center justify-center border-4 border-white/30">
+                <div class="w-8 h-8 rounded-full border-4 border-white/50 border-t-transparent"></div>
+            </div>
+        </div>
+        <div class="hidden lg:flex absolute bottom-24 right-16 animate-float-delayed opacity-30">
+            <div class="w-24 h-12 bg-lightblue border-4 border-white/30 rounded-full shadow-xl"></div>
+        </div>
+        <div class="hidden md:block absolute top-1/4 right-1/3 animate-float-fast opacity-20">
+            <div class="w-8 h-8 bg-accent rounded-full"></div>
+        </div>
+        <div class="hidden md:block absolute bottom-1/3 left-1/4 animate-float opacity-20">
+            <div class="w-6 h-6 bg-royalblue rounded-full"></div>
+        </div>
+        <div
+            class="absolute top-0 -left-10 w-96 h-96 bg-lightblue rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-20 animate-blob">
+        </div>
+        <div class="absolute top-1/2 -right-10 w-96 h-96 bg-accent rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-15 animate-blob"
+            style="animation-delay:2s"></div>
+        <div class="absolute -bottom-8 left-1/3 w-96 h-96 bg-royalblue rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-15 animate-blob"
+            style="animation-delay:4s"></div>
+    </div>
+
+    <!-- ===== SHARED COMPONENT PLACEHOLDERS ===== -->
+    <div id="navbar-placeholder"></div>
+    <div id="sidebar-placeholder"></div>
+    <div id="chat-popup-placeholder"></div>
+
+    <!-- ===== MAIN PAGE CONTENT ===== -->
+    <main class="relative z-10 max-w-6xl mx-auto w-full py-8 px-4 sm:px-6 lg:px-8 pt-24 pb-24 lg:pb-8 flex-1">
+
+        <!-- ============================
+             PAGE HEADER
+        ============================ -->
+        <div class="mb-8">
+            <div class="flex items-center gap-3 mb-2">
+                <div class="w-12 h-12 rounded-xl bg-white dark:bg-gray-800 shadow-sm flex items-center justify-center">
+                    <i class="fas fa-wand-magic-sparkles text-2xl text-royalblue"></i>
+                </div>
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold text-darkblue dark:text-white"
+                        data-i18n="aiOpportunity.heading">
+                        AI Opportunity Finder
+                    </h1>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm font-medium"
+                        data-i18n="aiOpportunity.subheading">
+                        AI จะวิเคราะห์เป้าหมายของคุณ เพื่อจับคู่กิจกรรม Hackathon, Grants และ Competitions ที่เหมาะสมที่สุด
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================
+             INPUT FORM CARD
+        ============================ -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-6 sm:p-8 mb-8 border border-gray-100 dark:border-gray-700/60">
+
+            <!-- Section Label -->
+            <div class="flex items-center gap-2 mb-5">
+                <div class="w-8 h-8 rounded-lg bg-royalblue/10 dark:bg-royalblue/20 flex items-center justify-center">
+                    <i class="fas fa-crosshairs text-sm text-royalblue dark:text-lightblue"></i>
+                </div>
+                <h2 class="text-base font-bold text-darkblue dark:text-white" data-i18n="aiOpportunity.inputTitle">
+                    บอกเป้าหมายของคุณให้ AI รู้
+                </h2>
+            </div>
+
+            <!-- Textarea -->
+            <div class="relative mb-4">
+                <textarea id="goal-input" rows="4"
+                    placeholder="พิมพ์อธิบายเป้าหมายของคุณ เช่น 'อยากเก็บผลงานทำพอร์ตเข้าคณะวิศวกรรมศาสตร์ สื่อสาร หรือสายการตลาด / ถนัดด้าน UX/UI และ Coding ภาษา Python / มีเวลาช่วงวันเสาร์-อาทิตย์'..."
+                    data-i18n-placeholder="aiOpportunity.inputPlaceholder"
+                    class="w-full bg-gray-50 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 rounded-xl px-4 py-3.5 text-sm font-medium text-darkblue dark:text-white focus:outline-none focus:ring-4 focus:ring-royalblue/20 focus:border-royalblue dark:focus:border-royalblue transition-all placeholder-gray-400 dark:placeholder-gray-500 leading-relaxed"></textarea>
+                <div class="absolute bottom-3 right-3 text-xs text-gray-400 dark:text-gray-500 font-medium pointer-events-none">
+                    <i class="fas fa-keyboard mr-1"></i>
+                    <span id="char-count">0</span> / 500
+                </div>
+            </div>
+
+            <!-- Quick Preset Tags -->
+            <div class="mb-6">
+                <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3"
+                    data-i18n="aiOpportunity.quickPresets">
+                    <i class="fas fa-bolt mr-1"></i> Quick Presets
+                </p>
+                <div class="flex flex-wrap gap-2" id="preset-container">
+                    <button type="button" class="preset-tag text-xs bg-gray-100 dark:bg-gray-700 text-darkblue dark:text-gray-300 px-3.5 py-2 rounded-full hover:bg-lightblue/30 dark:hover:bg-lightblue/20 cursor-pointer font-semibold border border-transparent transition-all"
+                        data-prompt="อยากเก็บผลงานทำพอร์ตยื่นเข้าวิศวะคอมพิวเตอร์ ถนัด Coding ภาษา Python และ Web Development">
+                        <i class="fas fa-graduation-cap mr-1.5 text-royalblue/70"></i> หาพอร์ตยื่นวิศวะคอมฯ
+                    </button>
+                    <button type="button" class="preset-tag text-xs bg-gray-100 dark:bg-gray-700 text-darkblue dark:text-gray-300 px-3.5 py-2 rounded-full hover:bg-lightblue/30 dark:hover:bg-lightblue/20 cursor-pointer font-semibold border border-transparent transition-all"
+                        data-prompt="สนใจด้าน Business และ Marketing อยากลองทำ Startup Pitch เพื่อเก็บประสบการณ์">
+                        <i class="fas fa-rocket mr-1.5 text-accent/70"></i> เตรียม Startup Pitch
+                    </button>
+                    <button type="button" class="preset-tag text-xs bg-gray-100 dark:bg-gray-700 text-darkblue dark:text-gray-300 px-3.5 py-2 rounded-full hover:bg-lightblue/30 dark:hover:bg-lightblue/20 cursor-pointer font-semibold border border-transparent transition-all"
+                        data-prompt="ถนัดออกแบบ UX/UI ใช้ Figma ได้คล่อง อยากหางาน Design Challenge หรือ Hackathon ที่มีสาย Design">
+                        <i class="fas fa-pen-nib mr-1.5 text-purple-500/70"></i> สาย Design / UX
+                    </button>
+                    <button type="button" class="preset-tag text-xs bg-gray-100 dark:bg-gray-700 text-darkblue dark:text-gray-300 px-3.5 py-2 rounded-full hover:bg-lightblue/30 dark:hover:bg-lightblue/20 cursor-pointer font-semibold border border-transparent transition-all"
+                        data-prompt="อยากหากิจกรรมเกี่ยวกับ AI และ Data Science เพื่อเพิ่มทักษะและเก็บผลงาน">
+                        <i class="fas fa-microchip mr-1.5 text-emerald-500/70"></i> AI / Data Science
+                    </button>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="button" id="ai-search-btn"
+                class="w-full sm:w-auto bg-royalblue hover:bg-darkblue text-white px-8 py-3.5 rounded-xl font-bold transition-all duration-300 shadow-lg shadow-royalblue/20 hover:shadow-xl hover:shadow-darkblue/30 active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2.5 text-sm">
+                <i class="fas fa-wand-magic-sparkles"></i>
+                <span data-i18n="aiOpportunity.searchBtn">AI วิเคราะห์และค้นหากิจกรรม</span>
+            </button>
+        </div>
+
+        <!-- ============================
+             AI LOADING OVERLAY
+        ============================ -->
+        <div id="ai-loading-overlay"
+            class="hidden fixed inset-0 bg-bglight/90 dark:bg-gray-900/90 backdrop-blur-sm z-50 flex items-center justify-center">
+            <div
+                class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-10 flex flex-col items-center max-w-md w-full mx-4 text-center border border-gray-100 dark:border-gray-700">
+                <div class="w-20 h-20 rounded-2xl bg-royalblue/10 dark:bg-royalblue/20 flex items-center justify-center mb-6">
+                    <i class="fas fa-brain fa-3x text-royalblue dark:text-lightblue animate-pulse"></i>
+                </div>
+                <p id="loading-text"
+                    class="text-sm font-bold text-darkblue dark:text-white mb-6 min-h-[3rem] flex items-center justify-center transition-all px-2">
+                </p>
+                <div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2 overflow-hidden mb-3">
+                    <div id="loading-progress-bar" class="progress-fill bg-royalblue h-2 rounded-full" style="width: 0%">
+                    </div>
+                </div>
+                <p class="text-xs text-gray-400 dark:text-gray-500 font-medium">
+                    <i class="fas fa-shield-halved mr-1"></i>
+                    <span data-i18n="aiOpportunity.loadingPrivacy">ข้อมูลของคุณจะไม่ถูกจัดเก็บ</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- ============================
+             RESULTS SECTION (Hidden initially)
+        ============================ -->
+        <div id="results-section" class="hidden">
+
+            <!-- Results Header -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center">
+                        <i class="fas fa-check-double text-lg text-emerald-600 dark:text-emerald-400"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-darkblue dark:text-white" data-i18n="aiOpportunity.resultsTitle">
+                            <i class="fas fa-sparkles text-royalblue mr-1"></i> กิจกรรมที่แนะนำสำหรับคุณ
+                        </h2>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 font-medium" data-i18n="aiOpportunity.resultsSubtitle">
+                            AI พบ <span id="results-found-count" class="font-bold text-darkblue dark:text-white">4</span> กิจกรรมที่ตรงกับเป้าหมายของคุณ
+                        </p>
+                    </div>
+                </div>
+                <button type="button" id="search-again-btn"
+                    class="text-xs font-bold text-royalblue dark:text-lightblue hover:text-darkblue dark:hover:text-white transition-colors px-4 py-2 bg-royalblue/10 dark:bg-royalblue/20 rounded-xl cursor-pointer border border-transparent hover:border-royalblue/30">
+                    <i class="fas fa-redo mr-1.5"></i> ค้นหาใหม่
+                </button>
+            </div>
+
+            <!-- AI Summary Insight Card -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-5 mb-6 border border-gray-100 dark:border-gray-700/60">
+                <div class="flex items-start gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-royalblue/10 dark:bg-royalblue/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <i class="fas fa-robot text-royalblue dark:text-lightblue text-sm"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-darkblue dark:text-white mb-1" data-i18n="aiOpportunity.aiSummaryTitle">
+                            AI สรุปผลการวิเคราะห์
+                        </p>
+                        <p id="ai-summary-text" class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-medium">
+                            จากเป้าหมายของคุณ AI แนะนำกิจกรรมที่เน้น Software Development และ Innovation ซึ่งเหมาะสำหรับการเก็บผลงาน Portfolio ยื่นเข้าสาขาวิศวกรรมคอมพิวเตอร์ โดยเรียงตามความเกี่ยวข้องกับทักษะ Python และ Web Development ของคุณ
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="results-grid">
+
+                <!-- Result Card 1 -->
+                <div class="result-card bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden border border-gray-100 dark:border-gray-700/60 hover:border-royalblue dark:hover:border-royalblue transition-all duration-300 hover:shadow-lg hover:shadow-royalblue/10 flex flex-col">
+
+                    <!-- Card Header with Match Score -->
+                    <div class="p-5 pb-0">
+                        <div class="flex items-start justify-between mb-3">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-full text-xs font-bold">
+                                    <i class="fas fa-check-circle mr-1"></i> 96% Match
+                                </span>
+                                <span class="bg-royalblue/10 dark:bg-royalblue/20 text-royalblue dark:text-lightblue px-2.5 py-1 rounded-full text-[0.65rem] font-bold">
+                                    Hackathon
+                                </span>
+                            </div>
+                            <span class="text-[0.65rem] text-gray-400 dark:text-gray-500 font-medium whitespace-nowrap">
+                                <i class="fas fa-clock mr-1"></i> ปิดรับ 10 ส.ค. 2026
+                            </span>
+                        </div>
+
+                        <!-- Event Title -->
+                        <h3 class="text-base font-bold text-darkblue dark:text-white mb-1 leading-snug">
+                            National Youth Hackathon 2026
+                        </h3>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 font-medium mb-3">
+                            <i class="fas fa-building mr-1"></i> National Innovation Agency (NIA)
+                            <span class="mx-1.5 text-gray-300 dark:text-gray-600">|</span>
+                            <i class="fas fa-location-dot mr-1"></i> Bangkok
+                        </p>
+                    </div>
+
+                    <!-- AI Reason Box -->
+                    <div class="px-5 mb-3">
+                        <div class="bg-sky-50/80 dark:bg-sky-900/20 rounded-xl p-3.5 border border-sky-100 dark:border-sky-800/30">
+                            <p class="text-xs text-darkblue dark:text-gray-300 leading-relaxed font-medium">
+                                <i class="fas fa-robot text-royalblue dark:text-lightblue mr-1.5"></i>
+                                <strong data-i18n="aiOpportunity.whyRecommend">ทำไม AI ถึงแนะนำ:</strong>
+                                กิจกรรมนี้ตรงกับเป้าหมายยื่นพอร์ตวิศวะคอมฯ และรองรับทักษะ Python ของคุณ ผลงานจากรายการนี้สามารถใช้เป็น Portfolio ยื่นสมัครได้โดยตรง
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Tags -->
+                    <div class="px-5 mb-4">
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="text-[0.65rem] bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-md font-semibold">Software</span>
+                            <span class="text-[0.65rem] bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-md font-semibold">Innovation</span>
+                            <span class="text-[0.65rem] bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-md font-semibold">Python</span>
+                            <span class="text-[0.65rem] bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-md font-semibold">University</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Bar -->
+                    <div class="mt-auto px-5 py-4 border-t border-gray-100 dark:border-gray-700/60 flex items-center justify-between gap-3 bg-gray-50/50 dark:bg-gray-800/50">
+                        <a href="event-detail.html"
+                            class="text-xs font-semibold text-royalblue dark:text-lightblue hover:underline transition-colors">
+                            <i class="fas fa-info-circle mr-1"></i> ดูรายละเอียด
+                        </a>
+                        <a href="findteam.html"
+                            class="text-xs bg-royalblue hover:bg-darkblue text-white px-3.5 py-2 rounded-lg transition-all font-bold shadow-sm shadow-royalblue/20">
+                            <i class="fas fa-user-plus mr-1"></i> หาเพื่อนร่วมทีมงานนี้
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Result Card 2 -->
+                <div class="result-card bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden border border-gray-100 dark:border-gray-700/60 hover:border-royalblue dark:hover:border-royalblue transition-all duration-300 hover:shadow-lg hover:shadow-royalblue/10 flex flex-col">
+
+                    <div class="p-5 pb-0">
+                        <div class="flex items-start justify-between mb-3">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-full text-xs font-bold">
+                                    <i class="fas fa-check-circle mr-1"></i> 89% Match
+                                </span>
+                                <span class="bg-accent/10 dark:bg-accent/20 text-accent px-2.5 py-1 rounded-full text-[0.65rem] font-bold">
+                                    Ideathon
+                                </span>
+                            </div>
+                            <span class="text-[0.65rem] text-gray-400 dark:text-gray-500 font-medium whitespace-nowrap">
+                                <i class="fas fa-clock mr-1"></i> ปิดรับ 25 ส.ค. 2026
+                            </span>
+                        </div>
+
+                        <h3 class="text-base font-bold text-darkblue dark:text-white mb-1 leading-snug">
+                            Creative Tech Ideathon 2026
+                        </h3>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 font-medium mb-3">
+                            <i class="fas fa-building mr-1"></i> DEPA Thailand
+                            <span class="mx-1.5 text-gray-300 dark:text-gray-600">|</span>
+                            <i class="fas fa-globe mr-1"></i> Online
+                        </p>
+                    </div>
+
+                    <div class="px-5 mb-3">
+                        <div class="bg-sky-50/80 dark:bg-sky-900/20 rounded-xl p-3.5 border border-sky-100 dark:border-sky-800/30">
+                            <p class="text-xs text-darkblue dark:text-gray-300 leading-relaxed font-medium">
+                                <i class="fas fa-robot text-royalblue dark:text-lightblue mr-1.5"></i>
+                                <strong>ทำไม AI ถึงแนะนำ:</strong>
+                                เปิดรับสมัครออนไลน์ เหมาะกับเวลาว่างวันเสาร์-อาทิตย์ของคุณ และเน้นไอเดีย Tech ที่สร้างผลงาน Portfolio ได้
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="px-5 mb-4">
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="text-[0.65rem] bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-md font-semibold">Creative Tech</span>
+                            <span class="text-[0.65rem] bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-md font-semibold">Idea Pitch</span>
+                            <span class="text-[0.65rem] bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-md font-semibold">Online</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto px-5 py-4 border-t border-gray-100 dark:border-gray-700/60 flex items-center justify-between gap-3 bg-gray-50/50 dark:bg-gray-800/50">
+                        <a href="event-detail.html"
+                            class="text-xs font-semibold text-royalblue dark:text-lightblue hover:underline transition-colors">
+                            <i class="fas fa-info-circle mr-1"></i> ดูรายละเอียด
+                        </a>
+                        <a href="findteam.html"
+                            class="text-xs bg-royalblue hover:bg-darkblue text-white px-3.5 py-2 rounded-lg transition-all font-bold shadow-sm shadow-royalblue/20">
+                            <i class="fas fa-user-plus mr-1"></i> หาเพื่อนร่วมทีมงานนี้
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Result Card 3 -->
+                <div class="result-card bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden border border-gray-100 dark:border-gray-700/60 hover:border-royalblue dark:hover:border-royalblue transition-all duration-300 hover:shadow-lg hover:shadow-royalblue/10 flex flex-col">
+
+                    <div class="p-5 pb-0">
+                        <div class="flex items-start justify-between mb-3">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="bg-yellow-50 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 px-3 py-1 rounded-full text-xs font-bold">
+                                    <i class="fas fa-check-circle mr-1"></i> 78% Match
+                                </span>
+                                <span class="bg-green-500/10 dark:bg-green-500/20 text-green-600 dark:text-green-400 px-2.5 py-1 rounded-full text-[0.65rem] font-bold">
+                                    Pitching
+                                </span>
+                            </div>
+                            <span class="text-[0.65rem] text-gray-400 dark:text-gray-500 font-medium whitespace-nowrap">
+                                <i class="fas fa-clock mr-1"></i> ปิดรับ 5 ก.ย. 2026
+                            </span>
+                        </div>
+
+                        <h3 class="text-base font-bold text-darkblue dark:text-white mb-1 leading-snug">
+                            Startup Pitch Arena 2026
+                        </h3>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 font-medium mb-3">
+                            <i class="fas fa-building mr-1"></i> Techsauce Global Summit
+                            <span class="mx-1.5 text-gray-300 dark:text-gray-600">|</span>
+                            <i class="fas fa-location-dot mr-1"></i> Bangkok
+                        </p>
+                    </div>
+
+                    <div class="px-5 mb-3">
+                        <div class="bg-sky-50/80 dark:bg-sky-900/20 rounded-xl p-3.5 border border-sky-100 dark:border-sky-800/30">
+                            <p class="text-xs text-darkblue dark:text-gray-300 leading-relaxed font-medium">
+                                <i class="fas fa-robot text-royalblue dark:text-lightblue mr-1.5"></i>
+                                <strong>ทำไม AI ถึงแนะนำ:</strong>
+                                แม้จะเน้น Business Pitch แต่ต้องการ Technical Prototype ทำให้ทักษะ Python ของคุณเป็นจุดแข็งสำคัญ ผลงานใช้ยื่นพอร์ตได้ดี
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="px-5 mb-4">
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="text-[0.65rem] bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-md font-semibold">Startup</span>
+                            <span class="text-[0.65rem] bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-md font-semibold">Pitch</span>
+                            <span class="text-[0.65rem] bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-md font-semibold">Prototype</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto px-5 py-4 border-t border-gray-100 dark:border-gray-700/60 flex items-center justify-between gap-3 bg-gray-50/50 dark:bg-gray-800/50">
+                        <a href="event-detail.html"
+                            class="text-xs font-semibold text-royalblue dark:text-lightblue hover:underline transition-colors">
+                            <i class="fas fa-info-circle mr-1"></i> ดูรายละเอียด
+                        </a>
+                        <a href="findteam.html"
+                            class="text-xs bg-royalblue hover:bg-darkblue text-white px-3.5 py-2 rounded-lg transition-all font-bold shadow-sm shadow-royalblue/20">
+                            <i class="fas fa-user-plus mr-1"></i> หาเพื่อนร่วมทีมงานนี้
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Result Card 4 -->
+                <div class="result-card bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden border border-gray-100 dark:border-gray-700/60 hover:border-royalblue dark:hover:border-royalblue transition-all duration-300 hover:shadow-lg hover:shadow-royalblue/10 flex flex-col">
+
+                    <div class="p-5 pb-0">
+                        <div class="flex items-start justify-between mb-3">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="bg-yellow-50 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 px-3 py-1 rounded-full text-xs font-bold">
+                                    <i class="fas fa-check-circle mr-1"></i> 72% Match
+                                </span>
+                                <span class="bg-purple-500/10 dark:bg-purple-500/20 text-purple-600 dark:text-purple-400 px-2.5 py-1 rounded-full text-[0.65rem] font-bold">
+                                    Bootcamp
+                                </span>
+                            </div>
+                            <span class="text-[0.65rem] text-gray-400 dark:text-gray-500 font-medium whitespace-nowrap">
+                                <i class="fas fa-clock mr-1"></i> ปิดรับ 15 ก.ย. 2026
+                            </span>
+                        </div>
+
+                        <h3 class="text-base font-bold text-darkblue dark:text-white mb-1 leading-snug">
+                            Web Dev Intensive Bootcamp
+                        </h3>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 font-medium mb-3">
+                            <i class="fas fa-building mr-1"></i> Code Academy Thailand
+                            <span class="mx-1.5 text-gray-300 dark:text-gray-600">|</span>
+                            <i class="fas fa-location-dot mr-1"></i> Central
+                        </p>
+                    </div>
+
+                    <div class="px-5 mb-3">
+                        <div class="bg-sky-50/80 dark:bg-sky-900/20 rounded-xl p-3.5 border border-sky-100 dark:border-sky-800/30">
+                            <p class="text-xs text-darkblue dark:text-gray-300 leading-relaxed font-medium">
+                                <i class="fas fa-robot text-royalblue dark:text-lightblue mr-1.5"></i>
+                                <strong>ทำไม AI ถึงแนะนำ:</strong>
+                                Bootcamp นี้จะช่วยเสริมทักษะ Web Development ให้แข็งแกร่งขึ้น ได้ใบ Certificate เป็นผลงานเพิ่มในพอร์ต
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="px-5 mb-4">
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="text-[0.65rem] bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-md font-semibold">Web Dev</span>
+                            <span class="text-[0.65rem] bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-md font-semibold">Full-Stack</span>
+                            <span class="text-[0.65rem] bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-md font-semibold">Certificate</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto px-5 py-4 border-t border-gray-100 dark:border-gray-700/60 flex items-center justify-between gap-3 bg-gray-50/50 dark:bg-gray-800/50">
+                        <a href="event-detail.html"
+                            class="text-xs font-semibold text-royalblue dark:text-lightblue hover:underline transition-colors">
+                            <i class="fas fa-info-circle mr-1"></i> ดูรายละเอียด
+                        </a>
+                        <a href="findteam.html"
+                            class="text-xs bg-royalblue hover:bg-darkblue text-white px-3.5 py-2 rounded-lg transition-all font-bold shadow-sm shadow-royalblue/20">
+                            <i class="fas fa-user-plus mr-1"></i> หาเพื่อนร่วมทีมงานนี้
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ================================================================
+         SCRIPTS
+    ================================================================ -->
+    <script src="../src/js/i18n.js"></script>
+    <script src="../src/js/ui.js"></script>
+    <script src="../src/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.INNEX && typeof window.INNEX.loadComponents === 'function') {
+                window.INNEX.loadComponents();
+            }
+
+            /* ============================================================
+               DOM REFERENCES
+            ============================================================ */
+            const goalInput = document.getElementById('goal-input');
+            const charCount = document.getElementById('char-count');
+            const searchBtn = document.getElementById('ai-search-btn');
+            const searchAgainBtn = document.getElementById('search-again-btn');
+            const loadingOverlay = document.getElementById('ai-loading-overlay');
+            const loadingText = document.getElementById('loading-text');
+            const progressBar = document.getElementById('loading-progress-bar');
+            const resultsSection = document.getElementById('results-section');
+            const presetContainer = document.getElementById('preset-container');
+
+            /* ============================================================
+               1. CHARACTER COUNTER
+            ============================================================ */
+            if (goalInput && charCount) {
+                goalInput.addEventListener('input', () => {
+                    const len = goalInput.value.length;
+                    if (len > 500) {
+                        goalInput.value = goalInput.value.substring(0, 500);
+                    }
+                    charCount.textContent = Math.min(len, 500);
+                });
+            }
+
+            /* ============================================================
+               2. QUICK PRESET TAGS
+            ============================================================ */
+            if (presetContainer && goalInput) {
+                const presetBtns = presetContainer.querySelectorAll('.preset-tag');
+                presetBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const prompt = btn.dataset.prompt || '';
+
+                        // Toggle active state
+                        const wasActive = btn.classList.contains('active');
+                        presetBtns.forEach(b => b.classList.remove('active'));
+
+                        if (wasActive) {
+                            goalInput.value = '';
+                        } else {
+                            btn.classList.add('active');
+                            goalInput.value = prompt;
+                        }
+
+                        charCount.textContent = goalInput.value.length;
+                        goalInput.focus();
+                    });
+                });
+            }
+
+            /* ============================================================
+               3. LABOR ILLUSION LOADING SEQUENCE
+            ============================================================ */
+            const loadingMessages = [
+                { text: 'กำลังวิเคราะห์เป้าหมายและความถนัดของคุณ...', pct: 30 },
+                { text: 'ค้นหาฐานข้อมูล Opportunity Hub ทั้งหมด...', pct: 65 },
+                { text: 'ประเมินความคุ้มค่าและคะแนนการยื่นพอร์ต (Portfolio Match Score)...', pct: 100 }
+            ];
+
+            function runLoadingSequence() {
+                return new Promise(resolve => {
+                    loadingOverlay.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+
+                    let step = 0;
+                    const interval = 850; // ms per step
+
+                    function showStep() {
+                        if (step >= loadingMessages.length) {
+                            // Final delay before resolve
+                            setTimeout(() => {
+                                loadingOverlay.classList.add('hidden');
+                                document.body.style.overflow = '';
+                                resolve();
+                            }, 300);
+                            return;
+                        }
+                        const msg = loadingMessages[step];
+                        loadingText.textContent = msg.text;
+                        progressBar.style.width = msg.pct + '%';
+                        step++;
+                        setTimeout(showStep, interval);
+                    }
+
+                    // Reset
+                    progressBar.style.width = '0%';
+                    loadingText.textContent = '';
+                    setTimeout(showStep, 200);
+                });
+            }
+
+            /* ============================================================
+               4. SHOW RESULTS WITH STAGGER ANIMATION
+            ============================================================ */
+            function showResults() {
+                resultsSection.classList.remove('hidden');
+                resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                const cards = resultsSection.querySelectorAll('.result-card');
+                cards.forEach((card, i) => {
+                    card.classList.remove('result-card-animate');
+                    // Force reflow
+                    void card.offsetWidth;
+                    card.style.animationDelay = (i * 120) + 'ms';
+                    card.classList.add('result-card-animate');
+                });
+            }
+
+            /* ============================================================
+               5. SEARCH BUTTON HANDLER
+            ============================================================ */
+            if (searchBtn) {
+                searchBtn.addEventListener('click', async () => {
+                    const text = (goalInput?.value || '').trim();
+                    if (!text) {
+                        // Shake the textarea to indicate it is required
+                        goalInput.classList.add('ring-4', 'ring-red-300', 'border-red-400');
+                        goalInput.focus();
+                        setTimeout(() => {
+                            goalInput.classList.remove('ring-4', 'ring-red-300', 'border-red-400');
+                        }, 1500);
+                        return;
+                    }
+
+                    // Hide existing results
+                    resultsSection.classList.add('hidden');
+
+                    // Run loading animation
+                    await runLoadingSequence();
+
+                    // Show results
+                    showResults();
+                });
+            }
+
+            /* ============================================================
+               6. SEARCH AGAIN BUTTON
+            ============================================================ */
+            if (searchAgainBtn) {
+                searchAgainBtn.addEventListener('click', () => {
+                    resultsSection.classList.add('hidden');
+
+                    // Clear active preset
+                    const presetBtns = presetContainer?.querySelectorAll('.preset-tag');
+                    presetBtns?.forEach(b => b.classList.remove('active'));
+
+                    // Focus on input
+                    goalInput?.focus();
+
+                    // Smooth scroll back to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
