@@ -142,6 +142,7 @@
     <!-- Toggle Script -->
     <script>
         (function() {
+            const STORAGE_KEY = 'innex_chat_popup_state';
             const trigger = document.getElementById('chat-popup-trigger');
             const drawer = document.getElementById('chat-popup-drawer');
             const closeBtns = document.querySelectorAll('.chat-popup-close');
@@ -153,33 +154,87 @@
 
             if (!trigger || !drawer || !viewInbox || !viewRoom) return;
 
-            // Toggle entire popup
+            /* ---------- State helpers ---------- */
+            function saveState(isOpen, view) {
+                try {
+                    sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ isOpen, view }));
+                } catch (e) { /* quota exceeded or private mode */ }
+            }
+
+            function loadState() {
+                try {
+                    const raw = sessionStorage.getItem(STORAGE_KEY);
+                    return raw ? JSON.parse(raw) : null;
+                } catch (e) { return null; }
+            }
+
+            /* ---------- Open / Close ---------- */
+            function openPopup() {
+                drawer.classList.remove('opacity-0', 'invisible', 'translate-y-4', 'pointer-events-none');
+                trigger.classList.add('opacity-0', 'invisible', 'scale-90', 'pointer-events-none');
+            }
+
+            function closePopup() {
+                drawer.classList.add('opacity-0', 'invisible', 'translate-y-4', 'pointer-events-none');
+                trigger.classList.remove('opacity-0', 'invisible', 'scale-90', 'pointer-events-none');
+            }
+
             function togglePopup() {
                 const isOpen = !drawer.classList.contains('opacity-0');
                 if (isOpen) {
-                    // Close popup
-                    drawer.classList.add('opacity-0', 'invisible', 'translate-y-4', 'pointer-events-none');
-                    trigger.classList.remove('opacity-0', 'invisible', 'scale-90', 'pointer-events-none');
+                    closePopup();
+                    saveState(false, 'inbox');
                 } else {
-                    // Open popup
-                    drawer.classList.remove('opacity-0', 'invisible', 'translate-y-4', 'pointer-events-none');
-                    trigger.classList.add('opacity-0', 'invisible', 'scale-90', 'pointer-events-none');
+                    openPopup();
+                    saveState(true, getCurrentView());
                 }
             }
 
-            // Go to Chat Room (View B)
+            /* ---------- View switching ---------- */
+            function getCurrentView() {
+                return viewRoom.classList.contains('translate-x-full') ? 'inbox' : 'room';
+            }
+
             function goToRoom() {
                 viewInbox.classList.add('-translate-x-full');
                 viewRoom.classList.remove('translate-x-full');
+                saveState(true, 'room');
             }
 
-            // Go to Inbox List (View A)
             function goToInbox() {
                 viewInbox.classList.remove('-translate-x-full');
                 viewRoom.classList.add('translate-x-full');
+                saveState(true, 'inbox');
             }
 
-            // Event Listeners
+            /* ---------- Restore state on load ---------- */
+            const saved = loadState();
+            if (saved && saved.isOpen) {
+                // Temporarily disable transition to avoid flicker on restore
+                drawer.style.transition = 'none';
+                trigger.style.transition = 'none';
+                viewInbox.style.transition = 'none';
+                viewRoom.style.transition = 'none';
+
+                openPopup();
+
+                if (saved.view === 'room') {
+                    viewInbox.classList.add('-translate-x-full');
+                    viewRoom.classList.remove('translate-x-full');
+                }
+
+                // Re-enable transitions after a frame
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        drawer.style.transition = '';
+                        trigger.style.transition = '';
+                        viewInbox.style.transition = '';
+                        viewRoom.style.transition = '';
+                    });
+                });
+            }
+
+            /* ---------- Event Listeners ---------- */
             trigger.addEventListener('click', togglePopup);
             
             closeBtns.forEach(btn => {

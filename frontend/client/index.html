@@ -529,8 +529,8 @@
                 </button>
             </div>
 
-            <!-- Results count -->
-            <div class="flex items-center mt-3">
+            <!-- Results count & Desktop Filter Toggle -->
+            <div class="flex items-center justify-between mt-3 w-full">
                 <p class="text-xs sm:text-sm text-gray-400 dark:text-gray-500 font-medium">
                     <span>Showing</span>
                     <span id="results-count" class="font-bold text-darkblue dark:text-white">6</span>
@@ -541,6 +541,9 @@
                     <button onclick="window.INNEX.resetAllFilters()"
                         class="text-royalblue dark:text-lightblue hover:underline font-bold">Reset Filters</button>
                 </p>
+                <button id="desktop-filter-toggle" class="hidden xl:flex items-center gap-2 text-sm font-bold text-gray-500 dark:text-gray-400 hover:text-royalblue dark:hover:text-lightblue transition-colors">
+                    <i class="fa-solid fa-sliders"></i> <span id="desktop-filter-text">Hide Filters</span>
+                </button>
             </div>
         </div>
 
@@ -552,7 +555,7 @@
             <!-- ============================
                  DESKTOP LEFT SIDEBAR PLACEHOLDER
             ============================ -->
-            <aside class="hidden xl:block w-72 flex-shrink-0" data-aos="fade-right" data-aos-duration="600"
+            <aside id="desktop-sidebar" class="hidden xl:block w-72 flex-shrink-0 transition-all duration-300" data-aos="fade-right" data-aos-duration="600"
     data-aos-delay="100">
     <div
         class="sticky top-[96px] bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl border border-gray-200/60 dark:border-gray-700/60 shadow-xl shadow-darkblue/5 dark:shadow-black/20 p-6 sidebar-scroll max-h-[calc(100vh-7.5rem)] overflow-y-auto">
@@ -1383,6 +1386,35 @@
                9. INIT
             ============================================================ */
             filterEvents();
+            
+            /* ============================================================
+               10. DESKTOP FILTER TOGGLE & CARD CLICK
+            ============================================================ */
+            const desktopFilterToggle = document.getElementById('desktop-filter-toggle');
+            const desktopSidebar = document.getElementById('desktop-sidebar');
+            const desktopFilterText = document.getElementById('desktop-filter-text');
+            if (desktopFilterToggle && desktopSidebar) {
+                desktopFilterToggle.addEventListener('click', () => {
+                    const isHidden = desktopSidebar.style.display === 'none';
+                    if (isHidden) {
+                        desktopSidebar.style.display = '';
+                        desktopFilterText.textContent = 'Hide Filters';
+                    } else {
+                        desktopSidebar.style.display = 'none';
+                        desktopFilterText.textContent = 'Show Filters';
+                    }
+                });
+            }
+
+            const eventCards = document.querySelectorAll('.event-card');
+            eventCards.forEach(card => {
+                card.classList.add('cursor-pointer');
+                card.addEventListener('click', (e) => {
+                    // Prevent redirect if clicking on a button inside the card
+                    if (e.target.tagName === 'BUTTON') return;
+                    window.location.href = 'event-detail.html';
+                });
+            });
 
         });
     </script>

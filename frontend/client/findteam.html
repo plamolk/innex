@@ -1602,11 +1602,9 @@
         /* ==============================================================
            SECTION 9: CREATE POST BUTTON (stub)
         ============================================================== */
-        function handleCreatePost() {
-            alert('ฟีเจอร์สร้างโพสต์กำลังจะมา — Coming Soon!');
-        }
-
-        document.getElementById('create-post-btn')?.addEventListener('click', handleCreatePost);
+        document.getElementById('create-post-btn').addEventListener('click', () => {
+            window.location.replace('create.html');
+        });
 
     </script>
 
