@@ -128,7 +128,9 @@
     "viewDetails": "View Details",
     "currentMembers": "Current Members",
     "neededRoles": "Needed Roles",
-    "description": "Description"
+    "description": "Description",
+    "statusGlobal": "Global Mode - Posts from every school",
+    "statusCampus": "Campus Mode - Triam Udom Suksa only"
   },
   "create": {
     "title": "Create Post",

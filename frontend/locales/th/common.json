@@ -128,7 +128,9 @@
     "viewDetails": "ดูรายละเอียด",
     "currentMembers": "สมาชิกปัจจุบัน",
     "neededRoles": "ตำแหน่งที่ต้องการ",
-    "description": "รายละเอียด"
+    "description": "รายละเอียด",
+    "statusGlobal": "โหมดโลก (Global Mode) - โพสต์จากทุกสถาบัน",
+    "statusCampus": "โหมดโรงเรียน (Campus Mode) - เฉพาะโรงเรียนเตรียมอุดมศึกษา"
   },
   "create": {
     "title": "สร้างโพสต์ (Create Post)",
